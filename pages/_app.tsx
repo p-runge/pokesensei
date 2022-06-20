@@ -1,12 +1,12 @@
-import type { AppProps } from 'next/app'
-import Head from 'next/head'
-import { createTheme, CssBaseline, ThemeProvider } from '@mui/material';
+import type { AppProps } from "next/app";
+import Head from "next/head";
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 
 const theme = createTheme({});
 
-function App({ Component, pageProps }: AppProps) {
-  const title = 'PokéSensei'
-  const metaDescription = 'Improve your Pokémon knowledge'
+const App = ({ Component, pageProps }: AppProps) => {
+  const title = "PokéSensei";
+  const metaDescription = "Improve your Pokémon knowledge";
 
   return (
     <ThemeProvider theme={theme}>
@@ -20,11 +20,11 @@ function App({ Component, pageProps }: AppProps) {
           as="font"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         />
-        </Head>
+      </Head>
       <CssBaseline />
       <Component {...pageProps} />
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
