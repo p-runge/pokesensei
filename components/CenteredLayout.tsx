@@ -4,14 +4,18 @@ export default ({ children }: any) => {
   return (
     <Container
       component="main"
-      style={{ height: "100vh", textAlign: "center" }}
+      style={{
+        height: "calc(100vh - 128px)",
+        textAlign: "center",
+        padding: "1rem",
+      }}
     >
       <Box
         display="flex"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
-        minHeight="100vh"
+        height="100%"
       >
         {children}
       </Box>

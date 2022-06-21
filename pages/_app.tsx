@@ -1,8 +1,10 @@
+import "@/styles/global.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { CssBaseline, ThemeProvider } from "@mui/material";
+import { Box, CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/theme";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const title = "PokéSensei";
@@ -22,19 +24,26 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
       <CssBaseline />
+
       <Navbar
         navItems={[
-          {
-            label: "Home",
-            route: "/",
-          },
           {
             label: "Quiz",
             route: "/quiz",
           },
         ]}
       />
-      <Component {...pageProps} />
+
+      {/* fixed navbar + footer spacer */}
+      <Box
+        style={{
+          padding: "64px 0",
+        }}
+      >
+        <Component {...pageProps} />
+      </Box>
+
+      <Footer navItems={[{ label: "Credits", route: "/credits" }]} />
     </ThemeProvider>
   );
 };

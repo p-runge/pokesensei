@@ -36,6 +36,7 @@ const Quiz: NextPage = () => {
         >
           {answers.map((answer) => (
             <Button
+              key={answer}
               variant="contained"
               style={{ padding: "1rem", textTransform: "initial" }}
             >

@@ -10,13 +10,13 @@ const Home: NextPage = () => {
     "Here you can test your Pokémon knowledge and see if you're a true Pokémon master!";
 
   return (
-    <CenteredLayout>
+    <CenteredLayout style={{ textAlign: "left" }}>
       <Typography variant="h1" style={{ fontSize: "1rem" }}>
         <Image
-          src="/logo.png"
-          width={476}
-          height={128}
-          alt={`${title}_logo`}
+          src="/logo-150h.png"
+          width={594}
+          height={150}
+          alt={`${title}`}
           priority
         />
       </Typography>
