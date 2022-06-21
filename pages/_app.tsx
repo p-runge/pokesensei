@@ -1,8 +1,7 @@
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
-
-const theme = createTheme({});
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import theme from "@/theme";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const title = "PokéSensei";
@@ -13,7 +12,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>{title}</title>
         <meta name="description" content={metaDescription} />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           rel="preload"
