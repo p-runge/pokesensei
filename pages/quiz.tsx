@@ -1,4 +1,4 @@
-import CenteredLayout from "@/components/CenteredLayout";
+import FullLayout from "@/components/FullLayout";
 import { Box, Button, Paper, Typography } from "@mui/material";
 import type { NextPage } from "next";
 
@@ -7,7 +7,7 @@ const Quiz: NextPage = () => {
   const answers = ["Steel", "Fire", "Electric", "Water"];
 
   return (
-    <CenteredLayout>
+    <FullLayout>
       <Box
         display="flex"
         flexDirection="column"
@@ -47,7 +47,7 @@ const Quiz: NextPage = () => {
           ))}
         </Box>
       </Box>
-    </CenteredLayout>
+    </FullLayout>
   );
 };
 export default Quiz;

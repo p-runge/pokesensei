@@ -1,4 +1,4 @@
-import CenteredLayout from "@/components/CenteredLayout";
+import FullLayout from "@/components/FullLayout";
 import { Box, Link, Typography } from "@mui/material";
 
 interface Credit {
@@ -17,7 +17,7 @@ export default () => {
   ];
 
   return (
-    <CenteredLayout>
+    <FullLayout>
       <Typography variant="h2">Credits</Typography>
       <Typography paragraph>
         Special thanks to the following sources:
@@ -33,6 +33,6 @@ export default () => {
           </p>
         ))}
       </Box>
-    </CenteredLayout>
+    </FullLayout>
   );
 };
