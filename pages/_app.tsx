@@ -2,6 +2,7 @@ import type { AppProps } from "next/app";
 import Head from "next/head";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "@/theme";
+import Navbar from "@/components/Navbar";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const title = "PokéSensei";
@@ -21,6 +22,18 @@ const App = ({ Component, pageProps }: AppProps) => {
         />
       </Head>
       <CssBaseline />
+      <Navbar
+        navItems={[
+          {
+            label: "Home",
+            route: "/",
+          },
+          {
+            label: "Quiz",
+            route: "/quiz",
+          },
+        ]}
+      />
       <Component {...pageProps} />
     </ThemeProvider>
   );
