@@ -2,7 +2,11 @@ import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { PokemonClient } from "pokenode-ts";
 
-const api = new PokemonClient();
+const ONE_DAY = 1000 * 60 * 60 * 24;
+
+const api = new PokemonClient({
+  cacheOptions: { maxAge: ONE_DAY, exclude: { query: false } },
+});
 
 export const appRouter = trpc
   .router()
