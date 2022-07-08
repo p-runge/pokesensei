@@ -1,15 +1,13 @@
-import { Box } from "@mui/material";
+type Props = {
+  children?: React.ReactNode;
+};
 
-export default ({ children }: any) => {
+const CenteredLayout: React.FC<Props> = ({ children }) => {
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      justifyContent="center"
-      alignItems="center"
-      height="100%"
-    >
+    <div className="flex flex-col justify-center items-center h-full">
       {children}
-    </Box>
+    </div>
   );
 };
+
+export default CenteredLayout;

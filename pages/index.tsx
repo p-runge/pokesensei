@@ -1,5 +1,4 @@
 import CenteredLayout from "@/components/CenteredLayout";
-import { Button, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,8 +9,8 @@ const Home: NextPage = () => {
     "Here you can test your Pokémon knowledge and see if you're a true Pokémon master!";
 
   return (
-    <CenteredLayout style={{ textAlign: "left" }}>
-      <Typography variant="h1" style={{ fontSize: "1rem" }}>
+    <CenteredLayout>
+      <h1>
         <Image
           src="/logo-150h.png"
           width={594}
@@ -19,12 +18,15 @@ const Home: NextPage = () => {
           alt={`${title}`}
           priority
         />
-      </Typography>
-      <Typography paragraph>{copy}</Typography>
+      </h1>
+      <p className="mt-3">{copy}</p>
       <Link href="/quiz">
-        <Button variant="contained" size="large">
+        <button
+          type="button"
+          className="bg-primary text-white font-bold text-2xl py-2 px-4 rounded mt-6"
+        >
           Start
-        </Button>
+        </button>
       </Link>
     </CenteredLayout>
   );

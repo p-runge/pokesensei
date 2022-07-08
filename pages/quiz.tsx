@@ -6,7 +6,6 @@ import {
   getRandomPokemonTypeIds,
 } from "@/utils/random";
 import { trpc } from "@/utils/trpc";
-import { Box, Button, capitalize, Paper, Typography } from "@mui/material";
 import type { NextPage } from "next";
 import { useMemo, useState } from "react";
 
@@ -17,9 +16,7 @@ const Quiz: NextPage = () => {
 
   // setup question
   const question = useMemo(
-    () =>
-      pokemonQuery.data &&
-      `Which is a type of ${capitalize(pokemonQuery.data.name)}?`,
+    () => pokemonQuery.data && `Which is a type of ${pokemonQuery.data.name}?`,
     [pokemonQuery.data]
   );
 
@@ -50,57 +47,36 @@ const Quiz: NextPage = () => {
 
   // setup answers
   const answers = useMemo(
-    () =>
-      typesQuery.data &&
-      shuffle(typesQuery.data.map((t) => capitalize(t.name))),
+    () => typesQuery.data && shuffle(typesQuery.data.map((t) => t.name)),
     [typesQuery.data]
   );
 
-  if (!answers) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <FullLayout>
-      <Box
-        display="flex"
-        flexDirection="column"
-        style={{
-          width: "100%",
-          height: "300px",
-        }}
-      >
-        <Paper
-          elevation={24}
-          style={{ padding: "2rem 1rem", marginBottom: "1rem" }}
-        >
-          <Typography variant="h5" component="span">
-            {question}
-          </Typography>
-        </Paper>
-        <Box
-          display="grid"
-          gridTemplateColumns="calc(50% - .5rem) auto"
-          gridRow="auto"
-          style={{
-            gridColumnGap: "1rem",
-            gridRowGap: "1rem",
-            marginBottom: "1rem",
-          }}
-        >
-          {answers.map((answer) => (
-            <Button
-              key={answer}
-              variant="contained"
-              style={{ padding: "1rem", textTransform: "initial" }}
-            >
-              <Typography variant="h5" component="span">
-                {answer}
-              </Typography>
-            </Button>
-          ))}
-        </Box>
-      </Box>
+      {!answers ? (
+        <div>Loading...</div>
+      ) : (
+        // wrapper
+        <div className="flex flex-col w-[1200px] m-auto max-w-full">
+          {/* question */}
+          <div className="p-4 w-full bg-gray-700 rounded-lg">
+            <span className="capitalize">{question}</span>
+          </div>
+
+          {/* answers */}
+          <div className="grid grid-cols-2 mt-4 gap-4">
+            {answers.map((answer) => (
+              <button
+                key={answer}
+                type="button"
+                className="p-4 w-full bg-primary rounded-lg"
+              >
+                <span className="capitalize">{answer}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </FullLayout>
   );
 };

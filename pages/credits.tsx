@@ -1,5 +1,4 @@
 import FullLayout from "@/components/FullLayout";
-import { Box, Link, Typography } from "@mui/material";
 
 interface Credit {
   component: string;
@@ -18,21 +17,19 @@ export default () => {
 
   return (
     <FullLayout>
-      <Typography variant="h2">Credits</Typography>
-      <Typography paragraph>
-        Special thanks to the following sources:
-      </Typography>
-      <Box display="flex" flexDirection="column">
+      <h2 className="text-6xl mb-6">Credits</h2>
+      <p className="mb-3">Special thanks to the following sources:</p>
+      <div className="flex flex-col">
         {credits.map(({ component, source, url }) => (
           <p key={`credit-${source}-${component}`}>
             {component}
             {": "}
-            <Link target="_blank" href={url} rel="noreferrer">
+            <a target="_blank" href={url} rel="noreferrer">
               {source}
-            </Link>
+            </a>
           </p>
         ))}
-      </Box>
+      </div>
     </FullLayout>
   );
 };

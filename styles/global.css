@@ -1,7 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply text-white bg-gray-800;
+}
+
 #__next {
   height: 100vh
 }
 
 a > span {
   vertical-align: bottom
+}
+
+a {
+  @apply text-primary hover:underline
 }
