@@ -4,6 +4,7 @@ import type { NextPage } from "next";
 import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import Skeleton from "@/components/Skeleton";
 
 export enum QuestionType {
   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
@@ -12,7 +13,7 @@ export enum QuestionType {
 const Quiz: NextPage = () => {
   const { t } = useTranslation("common");
 
-  const [{ data }] = useState(
+  const [{ data, isLoading }] = useState(
     trpc.useQuery([
       "get-question-by-type",
       {
@@ -30,7 +31,9 @@ const Quiz: NextPage = () => {
         <div className="flex flex-col w-[1200px] m-auto max-w-full">
           {/* question */}
           <div className="p-4 w-full bg-gray-700 rounded-lg">
-            <span>{t(data.question.string, data.question.params)}</span>
+            <Skeleton isLoading={isLoading} width="w-6/12">
+              <span>{t(data.question.string, data.question.params)}</span>
+            </Skeleton>
           </div>
 
           {/* answers */}
@@ -41,7 +44,9 @@ const Quiz: NextPage = () => {
                 type="button"
                 className="p-4 w-full bg-primary rounded-lg"
               >
-                <span>{answer}</span>
+                <Skeleton isLoading={isLoading} width="w-6/12">
+                  <span>{answer}</span>
+                </Skeleton>
               </button>
             ))}
           </div>
