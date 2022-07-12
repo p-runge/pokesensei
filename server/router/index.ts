@@ -1,29 +1,7 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
-import { Pokemon, PokemonClient } from "pokenode-ts";
-import {
-  getRandomElement,
-  getRandomPokemonId,
-  getRandomPokemonTypeIds,
-} from "@/server/utils/random";
-import {
-  capitalize,
-  getIdOfNamedRes,
-  shuffle,
-  sleep,
-} from "@/server/utils/common";
 import { QuestionType } from "@/pages/quiz";
-
-const ONE_DAY = 1000 * 60 * 60 * 24;
-
-const api = new PokemonClient({
-  cacheOptions: { maxAge: ONE_DAY, exclude: { query: false } },
-});
-
-interface I18nString {
-  string: string;
-  params: Record<string, string | number | boolean>;
-}
+import { getTypeOfPokemon } from "@/server/utils/question";
 
 export const appRouter = trpc
   .router()
@@ -32,45 +10,14 @@ export const appRouter = trpc
     input: z.object({
       type: z.nativeEnum(QuestionType),
     }),
-    async resolve({ input: { type } }) {
-      const question: I18nString = {
-        string: "",
-        params: {},
-      };
-      const answers: string[] = [];
-      const amountAnswers = 4;
-      if (type === QuestionType.TYPE_OF_POKEMON) {
-        // question
-        const id = getRandomPokemonId();
-        const pokemon: Pokemon = await api.getPokemonById(id);
-        question.string = "question_type_of_pokemon";
-        question.params = {
-          name: capitalize(pokemon.name),
-        };
+    resolve({ input: { type } }) {
+      switch (type) {
+        case QuestionType.TYPE_OF_POKEMON:
+          return getTypeOfPokemon();
 
-        // answers
-        const typeId = getIdOfNamedRes(getRandomElement(pokemon.types).type);
-        const typeIdNots =
-          pokemon.types
-            .map((t) => getIdOfNamedRes(t.type))
-            .filter((t) => t !== typeId) ?? [];
-        const typeIds = [
-          typeId,
-          ...getRandomPokemonTypeIds(amountAnswers - 1, [
-            typeId,
-            ...typeIdNots,
-          ]),
-        ];
-        const types = await Promise.all(
-          typeIds.map((tId) => api.getTypeById(tId))
-        );
-        shuffle(types).forEach((t) => answers.push(capitalize(t.name)));
+        default:
+          throw new Error(`Invalid question type requested: ${type}`);
       }
-
-      return {
-        question,
-        answers,
-      };
     },
   });
 

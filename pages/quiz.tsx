@@ -8,6 +8,7 @@ import Skeleton from "@/components/Skeleton";
 
 export enum QuestionType {
   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
+  SOMETHING_ELSE = "SOMETHING_ELSE",
 }
 
 const Quiz: NextPage = () => {
