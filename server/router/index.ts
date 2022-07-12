@@ -1,6 +1,12 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
-import { PokemonClient } from "pokenode-ts";
+import { Pokemon, PokemonClient } from "pokenode-ts";
+import {
+  getRandomElement,
+  getRandomPokemonId,
+  getRandomPokemonTypeIds,
+} from "@/server/utils/random";
+import { getIdOfNamedRes, shuffle } from "@/server/utils/common";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -8,33 +14,50 @@ const api = new PokemonClient({
   cacheOptions: { maxAge: ONE_DAY, exclude: { query: false } },
 });
 
+export enum QuestionType {
+  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
+}
+
 export const appRouter = trpc
   .router()
 
-  .query("get-pokemon-by-id", {
+  .query("get-question-by-type", {
     input: z.object({
-      id: z.number(),
+      type: z.nativeEnum(QuestionType),
     }),
-    resolve({ input: { id } }) {
-      return api.getPokemonById(id);
-    },
-  })
+    async resolve({ input: { type } }) {
+      let question = "";
+      const answers: string[] = [];
+      const amountAnswers = 4;
+      if (type === QuestionType.TYPE_OF_POKEMON) {
+        // question
+        const id = getRandomPokemonId();
+        const pokemon: Pokemon = await api.getPokemonById(id);
+        question = `Select a type of ${pokemon.name}`;
 
-  .query("get-pokemon-type-by-id", {
-    input: z.object({
-      id: z.number(),
-    }),
-    resolve({ input: { id } }) {
-      return api.getTypeById(id);
-    },
-  })
+        // answers
+        const typeId = getIdOfNamedRes(getRandomElement(pokemon.types).type);
+        const typeIdNots =
+          pokemon.types
+            .map((t) => getIdOfNamedRes(t.type))
+            .filter((t) => t !== typeId) ?? [];
+        const typeIds = [
+          typeId,
+          ...getRandomPokemonTypeIds(amountAnswers - 1, [
+            typeId,
+            ...typeIdNots,
+          ]),
+        ];
+        const types = await Promise.all(
+          typeIds.map((tId) => api.getTypeById(tId))
+        );
+        shuffle(types).forEach((t) => answers.push(t.name));
+      }
 
-  .query("get-pokemon-types-by-ids", {
-    input: z.object({
-      ids: z.array(z.number()),
-    }),
-    resolve({ input: { ids } }) {
-      return Promise.all(ids.map((id) => api.getTypeById(id)));
+      return {
+        question,
+        answers,
+      };
     },
   });
 

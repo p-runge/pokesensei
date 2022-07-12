@@ -7,7 +7,7 @@ export const getIdOfNamedRes: (res: NamedAPIResource) => number = (res) => {
 };
 
 // impure!
-export const shuffle = (a: any[]): any[] => {
+export const shuffle = <T>(a: T[]): T[] => {
   let j;
   let x;
   // eslint-disable-next-line no-plusplus
