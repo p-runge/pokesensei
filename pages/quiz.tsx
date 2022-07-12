@@ -1,15 +1,22 @@
 import FullLayout from "@/components/FullLayout";
-import { QuestionType } from "@/server/router";
 import { trpc } from "@/utils/trpc";
 import type { NextPage } from "next";
+import { useState } from "react";
+
+export enum QuestionType {
+  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
+}
 
 const Quiz: NextPage = () => {
-  const { data } = trpc.useQuery([
-    "get-question-by-type",
-    {
-      type: "TYPE_OF_POKEMON" as QuestionType,
-    },
-  ]);
+  const [query] = useState(
+    trpc.useQuery([
+      "get-question-by-type",
+      {
+        type: QuestionType.TYPE_OF_POKEMON,
+      },
+    ])
+  );
+  const { data } = query;
 
   return (
     <FullLayout>

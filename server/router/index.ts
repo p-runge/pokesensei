@@ -7,6 +7,7 @@ import {
   getRandomPokemonTypeIds,
 } from "@/server/utils/random";
 import { getIdOfNamedRes, shuffle } from "@/server/utils/common";
+import { QuestionType } from "@/pages/quiz";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
@@ -14,9 +15,9 @@ const api = new PokemonClient({
   cacheOptions: { maxAge: ONE_DAY, exclude: { query: false } },
 });
 
-export enum QuestionType {
-  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
-}
+// export enum QuestionType {
+//   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
+// }
 
 export const appRouter = trpc
   .router()
