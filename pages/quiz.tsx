@@ -5,7 +5,7 @@ import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Skeleton from "@/components/Skeleton";
-import Image from "next/image";
+import Image from "next/future/image";
 
 export enum QuestionType {
   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
@@ -38,9 +38,10 @@ const Quiz: NextPage = () => {
               {data.question.imgSrc && (
                 <Image
                   src={data.question.imgSrc}
-                  width="192px"
-                  height="192px"
+                  width="192"
+                  height="192"
                   className="rendering-pixelated"
+                  priority
                 />
               )}
             </Skeleton>

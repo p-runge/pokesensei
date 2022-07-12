@@ -36,9 +36,18 @@ export default withTRPC<AppRouter>({
      * @link https://trpc.io/docs/ssr
      */
     const apiPath = "/api/trpc";
-    const url = process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}/${apiPath}`
-      : "http://localhost:3000/api/trpc";
+
+    if (typeof window !== "undefined") {
+      return {
+        url: apiPath,
+      };
+    }
+
+    const url = `${
+      process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : "http://localhost:3000"
+    }${apiPath}`;
 
     return {
       url,
