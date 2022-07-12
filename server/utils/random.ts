@@ -1,5 +1,8 @@
 import { Types } from "pokenode-ts";
 
+// export const POKEMON_AMOUNT = 898;
+export const POKEMON_AMOUNT = 151;
+
 export const getRandomInt = (max: number, min = 0): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -12,9 +15,12 @@ export const getRandomElement: <T = unknown>(array: T[]) => T = (array) => {
   return array[getRandomInt(array.length - 1)];
 };
 
-export const getRandomPokemonId = (): number => {
-  return getRandomInt(151, 1);
-  // return getRandomInt(898, 1);
+export const getRandomPokemonId = (not: number[] = []): number => {
+  const id = getRandomInt(POKEMON_AMOUNT, 1);
+  if (not.includes(id)) {
+    return getRandomPokemonId(not);
+  }
+  return id;
 };
 
 export const getRandomPokemonTypeId = (not: number[] = []): number => {

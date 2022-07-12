@@ -1,7 +1,10 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
 import { QuestionType } from "@/pages/quiz";
-import { getTypeOfPokemon } from "@/server/utils/question";
+import {
+  getNameOfPokemonByImage,
+  getTypeOfPokemon,
+} from "@/server/utils/question";
 
 export const appRouter = trpc
   .router()
@@ -14,6 +17,8 @@ export const appRouter = trpc
       switch (type) {
         case QuestionType.TYPE_OF_POKEMON:
           return getTypeOfPokemon();
+        case QuestionType.NAME_OF_POKEMON_BY_IMAGE:
+          return getNameOfPokemonByImage();
 
         default:
           throw new Error(`Invalid question type requested: ${type}`);

@@ -5,10 +5,11 @@ import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Skeleton from "@/components/Skeleton";
+import Image from "next/image";
 
 export enum QuestionType {
   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
-  SOMETHING_ELSE = "SOMETHING_ELSE",
+  NAME_OF_POKEMON_BY_IMAGE = "NAME_OF_POKEMON_BY_IMAGE",
 }
 
 const Quiz: NextPage = () => {
@@ -18,7 +19,7 @@ const Quiz: NextPage = () => {
     trpc.useQuery([
       "get-question-by-type",
       {
-        type: QuestionType.TYPE_OF_POKEMON,
+        type: QuestionType.NAME_OF_POKEMON_BY_IMAGE,
       },
     ])
   );
@@ -31,9 +32,17 @@ const Quiz: NextPage = () => {
         // wrapper
         <div className="flex flex-col w-[1200px] m-auto max-w-full">
           {/* question */}
-          <div className="p-4 w-full bg-gray-700 rounded-lg">
+          <div className="flex flex-col justify-center items-center p-4 w-full bg-gray-700 rounded-lg">
             <Skeleton isLoading={isLoading} width="w-6/12">
               <span>{t(data.question.string, data.question.params)}</span>
+              {data.question.imgSrc && (
+                <Image
+                  src={data.question.imgSrc}
+                  width="192px"
+                  height="192px"
+                  className="rendering-pixelated"
+                />
+              )}
             </Skeleton>
           </div>
 

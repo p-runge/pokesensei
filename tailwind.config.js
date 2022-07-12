@@ -19,4 +19,8 @@ module.exports = {
       padding: sizes,
     },
   },
+  plugins: [
+    // eslint-disable-next-line import/no-extraneous-dependencies, global-require, @typescript-eslint/no-var-requires
+    require("tailwindcss-image-rendering")(), // no options to configure
+  ],
 };
