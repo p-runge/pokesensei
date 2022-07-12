@@ -6,7 +6,7 @@ import {
   getRandomPokemonId,
   getRandomPokemonTypeIds,
 } from "@/server/utils/random";
-import { getIdOfNamedRes, shuffle } from "@/server/utils/common";
+import { capitalize, getIdOfNamedRes, shuffle } from "@/server/utils/common";
 import { QuestionType } from "@/pages/quiz";
 
 const ONE_DAY = 1000 * 60 * 60 * 24;
@@ -19,6 +19,11 @@ const api = new PokemonClient({
 //   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
 // }
 
+interface I18nString {
+  string: string;
+  params: Record<string, string | number | boolean>;
+}
+
 export const appRouter = trpc
   .router()
 
@@ -27,14 +32,20 @@ export const appRouter = trpc
       type: z.nativeEnum(QuestionType),
     }),
     async resolve({ input: { type } }) {
-      let question = "";
+      const question: I18nString = {
+        string: "",
+        params: {},
+      };
       const answers: string[] = [];
       const amountAnswers = 4;
       if (type === QuestionType.TYPE_OF_POKEMON) {
         // question
         const id = getRandomPokemonId();
         const pokemon: Pokemon = await api.getPokemonById(id);
-        question = `Select a type of ${pokemon.name}`;
+        question.string = "question_type_of_pokemon";
+        question.params = {
+          name: capitalize(pokemon.name),
+        };
 
         // answers
         const typeId = getIdOfNamedRes(getRandomElement(pokemon.types).type);
@@ -52,7 +63,7 @@ export const appRouter = trpc
         const types = await Promise.all(
           typeIds.map((tId) => api.getTypeById(tId))
         );
-        shuffle(types).forEach((t) => answers.push(t.name));
+        shuffle(types).forEach((t) => answers.push(capitalize(t.name)));
       }
 
       return {

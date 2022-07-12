@@ -2,13 +2,17 @@ import FullLayout from "@/components/FullLayout";
 import { trpc } from "@/utils/trpc";
 import type { NextPage } from "next";
 import { useState } from "react";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
 
 export enum QuestionType {
   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
 }
 
 const Quiz: NextPage = () => {
-  const [query] = useState(
+  const { t } = useTranslation("common");
+
+  const [{ data }] = useState(
     trpc.useQuery([
       "get-question-by-type",
       {
@@ -16,7 +20,6 @@ const Quiz: NextPage = () => {
       },
     ])
   );
-  const { data } = query;
 
   return (
     <FullLayout>
@@ -27,7 +30,7 @@ const Quiz: NextPage = () => {
         <div className="flex flex-col w-[1200px] m-auto max-w-full">
           {/* question */}
           <div className="p-4 w-full bg-gray-700 rounded-lg">
-            <span className="capitalize">{data.question}</span>
+            <span>{t(data.question.string, data.question.params)}</span>
           </div>
 
           {/* answers */}
@@ -38,7 +41,7 @@ const Quiz: NextPage = () => {
                 type="button"
                 className="p-4 w-full bg-primary rounded-lg"
               >
-                <span className="capitalize">{answer}</span>
+                <span>{answer}</span>
               </button>
             ))}
           </div>
@@ -47,5 +50,15 @@ const Quiz: NextPage = () => {
     </FullLayout>
   );
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getStaticProps({ locale }: any) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+      // Will be passed to the page component as props
+    },
+  };
+}
 
 export default Quiz;

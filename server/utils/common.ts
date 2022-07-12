@@ -22,3 +22,10 @@ export const shuffle = <T>(a: T[]): T[] => {
 
   return a;
 };
+
+export const capitalize = (string: string): string => {
+  return string
+    .split("")
+    .map((v, i) => (i === 0 ? v.toUpperCase() : v))
+    .join("");
+};

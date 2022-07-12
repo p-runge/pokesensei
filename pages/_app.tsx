@@ -3,6 +3,7 @@ import "@/styles/global.css";
 import type { AppProps } from "next/app";
 import Head from "next/head";
 import { withTRPC } from "@trpc/next";
+import { appWithTranslation } from "next-i18next";
 import type { AppRouter } from "@/server/router";
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -51,4 +52,4 @@ export default withTRPC<AppRouter>({
    * @link https://trpc.io/docs/ssr
    */
   ssr: true,
-})(App);
+})(appWithTranslation(App));
