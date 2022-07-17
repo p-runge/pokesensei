@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/future/image";
 import Link from "next/link";
 
 interface Props {
@@ -13,7 +13,7 @@ const Navbar: React.FC<Props> = ({ navItems }) => {
       <div className="flex justify-between items-center w-full px-6">
         <Link href="/">
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a>
+          <a className="relative">
             <Image
               src="/logo-50h.png"
               width={189}
@@ -21,6 +21,9 @@ const Navbar: React.FC<Props> = ({ navItems }) => {
               alt={`${title}_logo`}
               priority
             />
+            <div className="absolute bottom-0 right-0 -rotate-12 text-sm px-2 border-2 rounded-full border-red-500 text-red-500 bg-gray-800">
+              Beta
+            </div>
           </a>
         </Link>
         <div className="none sm:block">
