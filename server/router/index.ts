@@ -1,10 +1,11 @@
 import * as trpc from "@trpc/server";
 import { z } from "zod";
-import { QuestionType } from "@/pages/quiz";
 import {
   getNameOfPokemonByImage,
   getTypeOfPokemon,
+  QuestionWithAnswers,
 } from "@/server/utils/question";
+import { QuestionType } from "@/components/Question";
 
 export const appRouter = trpc
   .router()
@@ -13,7 +14,7 @@ export const appRouter = trpc
     input: z.object({
       type: z.nativeEnum(QuestionType),
     }),
-    resolve({ input: { type } }) {
+    resolve({ input: { type } }): Promise<QuestionWithAnswers> {
       switch (type) {
         case QuestionType.TYPE_OF_POKEMON:
           return getTypeOfPokemon();

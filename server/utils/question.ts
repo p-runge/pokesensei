@@ -13,7 +13,7 @@ interface I18nString {
   imgSrc?: string;
 }
 
-interface QuestionWithAnswers {
+export interface QuestionWithAnswers {
   question: I18nString;
   answers: string[];
 }
