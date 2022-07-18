@@ -8,7 +8,7 @@ const Skeleton: React.FC<{
     <span
       className={`block m-auto h-4${width ? ` ${width}` : ""}${
         height ? ` ${height}` : ""
-      } rounded-full bg-slate-300 animate-pulse`}
+      } rounded-lg bg-slate-300 animate-pulse`}
     />
   ) : (
     // eslint-disable-next-line react/jsx-no-useless-fragment

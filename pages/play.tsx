@@ -1,19 +1,32 @@
 import FullLayout from "@/components/FullLayout";
-import { generateQuiz } from "@/utils/trpc";
+import { trpc } from "@/utils/trpc";
 import type { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Quiz from "@/components/Quiz";
-import Skeleton from "@/components/Skeleton";
+import Loader from "@/components/Loader";
+import { useState } from "react";
 
 const Play: NextPage = () => {
-  const { data } = generateQuiz(5);
+  const [data, updateData] = useState(undefined);
+
+  trpc.useQuery(
+    [
+      "get-quiz",
+      {
+        amount: 5,
+      },
+    ],
+    {
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      onSuccess: updateData,
+    }
+  );
 
   return (
     <FullLayout>
       <h2 className="text-6xl mb-6">Play</h2>
-      <Skeleton isLoading={!data} width="w-full" height="h-10">
-        {data && <Quiz data={data} />}
-      </Skeleton>
+      <Loader isLoading={!data}>{data && <Quiz data={data} />}</Loader>
     </FullLayout>
   );
 };
