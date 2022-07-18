@@ -2,11 +2,12 @@ const Skeleton: React.FC<{
   isLoading: boolean;
   children: React.ReactNode;
   width?: string;
-}> = ({ isLoading, children, width }) => {
+  height?: string;
+}> = ({ isLoading, children, width, height }) => {
   return isLoading ? (
     <span
-      className={`block m-auto h-4${
-        width ? ` ${width}` : ""
+      className={`block m-auto h-4${width ? ` ${width}` : ""}${
+        height ? ` ${height}` : ""
       } rounded-full bg-slate-300 animate-pulse`}
     />
   ) : (

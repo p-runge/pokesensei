@@ -12,18 +12,12 @@ interface I18nString {
   params?: Record<string, string | number | boolean>;
 }
 
-export enum QuestionType {
-  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
-  NAME_OF_POKEMON_BY_IMAGE = "NAME_OF_POKEMON_BY_IMAGE",
-}
-
 interface QuestionWrapper {
   // used for validation
   type: QuestionType;
   additionalData: {
     id: number;
   };
-
   // used for output
   label: I18nString;
   imgSrc?: string;
@@ -132,6 +126,11 @@ export const getNameOfPokemonByImage =
       answers,
     };
   };
+
+export enum QuestionType {
+  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
+  NAME_OF_POKEMON_BY_IMAGE = "NAME_OF_POKEMON_BY_IMAGE",
+}
 
 export const questionTypeToDataMap: Record<
   QuestionType,

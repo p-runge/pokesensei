@@ -2,21 +2,18 @@ import FullLayout from "@/components/FullLayout";
 import { generateQuiz } from "@/utils/trpc";
 import type { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Question from "@/components/Question";
-import objectHash from "object-hash";
+import Quiz from "@/components/Quiz";
+import Skeleton from "@/components/Skeleton";
 
-const Quiz: NextPage = () => {
-  const { data } = generateQuiz(3);
+const Play: NextPage = () => {
+  const { data } = generateQuiz(5);
 
   return (
     <FullLayout>
-      {data &&
-        data.map((questionData) => (
-          <Question
-            key={`question-${objectHash(questionData)}`}
-            data={questionData}
-          />
-        ))}
+      <h2 className="text-6xl mb-6">Play</h2>
+      <Skeleton isLoading={!data} width="w-full" height="h-10">
+        {data && <Quiz data={data} />}
+      </Skeleton>
     </FullLayout>
   );
 };
@@ -30,4 +27,4 @@ export const getStaticProps = async ({ locale }: any) => {
   };
 };
 
-export default Quiz;
+export default Play;

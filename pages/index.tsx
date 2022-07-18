@@ -24,7 +24,7 @@ const Home: NextPage = () => {
       </h1>
       <p className="mt-3">{copy}</p>
       <div className="pb-6" />
-      <Link href="/quiz" passHref>
+      <Link href="/play" passHref>
         <a className="btn-primary text-2xl">Start</a>
       </Link>
     </CenteredLayout>

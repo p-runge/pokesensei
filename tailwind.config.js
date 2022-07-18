@@ -18,6 +18,8 @@ module.exports = {
         secondary: "#f7cb46",
         "secondary-light": "#f8d56a",
         "secondary-dark": "#c5a238",
+        success: "#16a34a",
+        error: "#dc2626",
       },
       height: sizes,
       padding: sizes,

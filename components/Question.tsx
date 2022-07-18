@@ -6,54 +6,40 @@ import { useState } from "react";
 import Button from "./Button";
 import Skeleton from "./Skeleton";
 
-const skeletonData: QuestionWithAnswers = {
-  question: {
-    type: Object.values(QuestionType)[0],
-    additionalData: {
-      id: 0,
-    },
-    label: {
-      string: "",
-    },
-  },
-  answers: [
-    {
-      value: "",
-      label: "",
-    },
-    {
-      value: "",
-      label: "",
-    },
-    {
-      value: "",
-      label: "",
-    },
-    {
-      value: "",
-      label: "",
-    },
-  ],
+const initialState = {
+  selectedAnswer: undefined,
+  answerData: undefined,
 };
 
 const Question: React.FC<{
   data: QuestionWithAnswers | undefined;
-}> = ({ data }) => {
+  selectedTime?: number;
+  validatedTime?: number;
+  onAnswer: (answer: string, isCorrect: boolean) => void;
+}> = ({ data, onAnswer, selectedTime = 0, validatedTime = 0 }) => {
   const { t } = useTranslation("common");
 
-  const {
-    data: answerData,
-    isLoading: answerIsLoading,
-    mutate: mutateAnswer,
-  } = trpc.useMutation(["answer-question"]);
-
   const [selectedAnswer, changeSelectedAnswer] = useState(
-    undefined as string | undefined
+    initialState.selectedAnswer as string | undefined
+  );
+  const [answerData, updateAnswerData] = useState(
+    initialState.answerData as boolean | undefined
   );
 
-  const validationTime = 500;
+  const { mutate: mutateAnswer } = trpc.useMutation(["answer-question"], {
+    onSuccess: (isCorrect) => {
+      updateAnswerData(isCorrect);
+      if (selectedAnswer) {
+        setTimeout(() => {
+          onAnswer(selectedAnswer, isCorrect);
+          changeSelectedAnswer(initialState.selectedAnswer);
+          updateAnswerData(initialState.answerData);
+        }, validatedTime);
+      }
+    },
+  });
 
-  const selectAnswer = (answer: string) => {
+  const onAnswerClicked = (answer: string) => {
     changeSelectedAnswer(answer);
 
     if (data) {
@@ -63,12 +49,12 @@ const Question: React.FC<{
           additionalData: data.question.additionalData,
           answer,
         });
-      }, validationTime);
+      }, selectedTime);
     }
   };
 
   return (
-    <div className="grid gap-4 w-[1200px] m-auto max-w-full mb-12">
+    <div className="grid gap-4 m-auto max-w-full mb-12">
       {/* question */}
       <div className="flex flex-col justify-center items-center p-4 bg-gray-700 rounded-lg">
         <Skeleton isLoading={!data} width="w-6/12">
@@ -100,14 +86,13 @@ const Question: React.FC<{
             disabled={!!(selectedAnswer && selectedAnswer !== answer.value)}
             className={`px-4 py-4 w-full rounded-lg ${
               (selectedAnswer === answer.value &&
-                ((!answerIsLoading &&
-                  answerData === undefined &&
+                ((answerData === undefined &&
                   "bg-secondary hover:bg-secondary-dark") ||
-                  (answerData === true && "bg-green-600 hover:bg-green-600") ||
-                  "bg-red-600 hover:bg-red-600")) ||
+                  (answerData === true && "bg-success hover:bg-success") ||
+                  "bg-error hover:bg-error")) ||
               "bg-primary"
             }`}
-            onClick={() => selectAnswer(answer.value)}
+            onClick={() => onAnswerClicked(answer.value)}
           >
             <Skeleton isLoading={!data} width="w-6/12">
               <span>{answer.label}</span>
@@ -120,3 +105,33 @@ const Question: React.FC<{
 };
 
 export default Question;
+
+const skeletonData: QuestionWithAnswers = {
+  question: {
+    type: Object.values(QuestionType)[0],
+    additionalData: {
+      id: 0,
+    },
+    label: {
+      string: "",
+    },
+  },
+  answers: [
+    {
+      value: "",
+      label: "",
+    },
+    {
+      value: "",
+      label: "",
+    },
+    {
+      value: "",
+      label: "",
+    },
+    {
+      value: "",
+      label: "",
+    },
+  ],
+};
