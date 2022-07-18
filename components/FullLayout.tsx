@@ -17,7 +17,7 @@ const FullLayout: React.FC<{
 
       {/* fixed navbar + footer spacer */}
       <div className="min-h-full pt-header pb-footer">
-        <main className="h-full w-[1200px] m-auto text-center p-6">
+        <main className="h-full max-w-[1200px] m-auto text-center p-6">
           {children}
         </main>
       </div>
