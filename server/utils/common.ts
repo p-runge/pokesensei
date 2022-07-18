@@ -10,7 +10,6 @@ export const getIdOfNamedRes: (res: NamedAPIResource) => number = (res) => {
 export const shuffle = <T>(a: T[]): T[] => {
   let j;
   let x;
-  // eslint-disable-next-line no-plusplus
   for (let i = a.length - 1; i > 0; i--) {
     j = Math.floor(Math.random() * (i + 1));
     x = a[i];

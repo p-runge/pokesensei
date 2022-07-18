@@ -23,13 +23,9 @@ const Home: NextPage = () => {
         </div>
       </h1>
       <p className="mt-3">{copy}</p>
-      <Link href="/quiz">
-        <button
-          type="button"
-          className="bg-primary text-white font-bold text-2xl py-2 px-4 rounded mt-6"
-        >
-          Start
-        </button>
+      <div className="pb-6" />
+      <Link href="/quiz" passHref>
+        <a className="btn-primary text-2xl">Start</a>
       </Link>
     </CenteredLayout>
   );

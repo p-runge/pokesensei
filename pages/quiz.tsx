@@ -1,15 +1,22 @@
 import FullLayout from "@/components/FullLayout";
-import { generateQuestion } from "@/utils/trpc";
+import { generateQuiz } from "@/utils/trpc";
 import type { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import Question, { QuestionType } from "@/components/Question";
+import Question from "@/components/Question";
+import objectHash from "object-hash";
 
 const Quiz: NextPage = () => {
-  const { data } = generateQuestion(QuestionType.NAME_OF_POKEMON_BY_IMAGE);
+  const { data } = generateQuiz(3);
 
   return (
     <FullLayout>
-      <Question data={data} />
+      {data &&
+        data.map((questionData) => (
+          <Question
+            key={`question-${objectHash(questionData)}`}
+            data={questionData}
+          />
+        ))}
     </FullLayout>
   );
 };

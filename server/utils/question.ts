@@ -10,34 +10,57 @@ import {
 interface I18nString {
   string: string;
   params?: Record<string, string | number | boolean>;
+}
+
+export enum QuestionType {
+  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
+  NAME_OF_POKEMON_BY_IMAGE = "NAME_OF_POKEMON_BY_IMAGE",
+}
+
+interface QuestionWrapper {
+  // used for validation
+  type: QuestionType;
+  additionalData: {
+    id: number;
+  };
+
+  // used for output
+  label: I18nString;
   imgSrc?: string;
 }
 
+interface AnswerWrapper {
+  value: string;
+  label: string;
+}
+
 export interface QuestionWithAnswers {
-  question: I18nString;
-  answers: string[];
+  question: QuestionWrapper;
+  answers: AnswerWrapper[];
 }
 
 const ONE_YEAR = 1000 * 60 * 60 * 24 * 365;
 const AMOUNT_OF_ANSWERS = 4;
 
-const api = new PokemonClient({
+export const pokeApi = new PokemonClient({
   cacheOptions: { maxAge: ONE_YEAR, exclude: { query: false } },
 });
 
 export const getTypeOfPokemon = async (): Promise<QuestionWithAnswers> => {
-  const question: I18nString = {
-    string: "",
-    params: {},
-  };
-  const answers: string[] = [];
-
   // question
   const id = getRandomPokemonId();
-  const pokemon = await api.getPokemonById(id);
-  question.string = "question_type_of_pokemon";
-  question.params = {
-    name: capitalize(pokemon.name),
+  const pokemon = await pokeApi.getPokemonById(id);
+  const question: QuestionWrapper = {
+    type: QuestionType.TYPE_OF_POKEMON,
+    additionalData: {
+      id,
+    },
+    label: {
+      string: "question_type_of_pokemon",
+      params: {
+        name: capitalize(pokemon.name),
+      },
+    },
   };
 
   // answers
@@ -50,8 +73,13 @@ export const getTypeOfPokemon = async (): Promise<QuestionWithAnswers> => {
     typeId,
     ...getRandomPokemonTypeIds(AMOUNT_OF_ANSWERS - 1, [typeId, ...typeIdNots]),
   ];
-  const types = await Promise.all(typeIds.map((tId) => api.getTypeById(tId)));
-  shuffle(types).forEach((t) => answers.push(capitalize(t.name)));
+  const types = await Promise.all(
+    typeIds.map((tId) => pokeApi.getTypeById(tId))
+  );
+  const answers: AnswerWrapper[] = shuffle(types).map((t) => ({
+    value: t.name,
+    label: capitalize(t.name),
+  }));
 
   return {
     question,
@@ -62,7 +90,7 @@ export const getTypeOfPokemon = async (): Promise<QuestionWithAnswers> => {
 export const getNameOfPokemonByImage =
   async (): Promise<QuestionWithAnswers> => {
     const pokemonId = getRandomPokemonId();
-    const pokemon = await api.getPokemonById(pokemonId);
+    const pokemon = await pokeApi.getPokemonById(pokemonId);
 
     const {
       name,
@@ -72,8 +100,14 @@ export const getNameOfPokemonByImage =
     if (!sprite) {
       throw new Error(`Sprite not found for pokemon: ${pokemon}`);
     }
-    const question: I18nString = {
-      string: "question_name_of_pokemon",
+    const question: QuestionWrapper = {
+      type: QuestionType.NAME_OF_POKEMON_BY_IMAGE,
+      additionalData: {
+        id: pokemonId,
+      },
+      label: {
+        string: "question_name_of_pokemon",
+      },
       imgSrc: sprite || undefined,
     };
 
@@ -84,13 +118,25 @@ export const getNameOfPokemonByImage =
 
     const names = await Promise.all(
       pokemonIds.map(async (id) => {
-        const { name: pokemonName } = await api.getPokemonById(id);
-        return capitalize(pokemonName);
+        const { name: pokemonName } = await pokeApi.getPokemonById(id);
+        return pokemonName;
       })
     );
+    const answers: AnswerWrapper[] = shuffle([name, ...names]).map((n) => ({
+      value: n,
+      label: capitalize(n),
+    }));
 
     return {
       question,
-      answers: shuffle([capitalize(name), ...names]),
+      answers,
     };
   };
+
+export const questionTypeToDataMap: Record<
+  QuestionType,
+  () => Promise<QuestionWithAnswers>
+> = {
+  [QuestionType.TYPE_OF_POKEMON]: getTypeOfPokemon,
+  [QuestionType.NAME_OF_POKEMON_BY_IMAGE]: getNameOfPokemonByImage,
+};

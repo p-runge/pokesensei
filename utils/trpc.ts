@@ -1,8 +1,7 @@
 import { createReactQueryHooks } from "@trpc/react";
 import type { AppRouter } from "@/server/router";
-import { QuestionType } from "@/components/Question";
 import { UseQueryResult } from "react-query";
-import { QuestionWithAnswers } from "@/server/utils/question";
+import { QuestionWithAnswers, QuestionType } from "@/server/utils/question";
 
 // eslint-disable-next-line import/prefer-default-export
 export const trpc = createReactQueryHooks<AppRouter>();
@@ -18,7 +17,25 @@ export const generateQuestion = (
       },
     ],
     {
-      refetchInterval: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+export const generateQuiz = (
+  amount: number,
+  filters?: Record<"type", QuestionType>
+) => {
+  return trpc.useQuery(
+    [
+      "get-quiz",
+      {
+        amount,
+        filters,
+      },
+    ],
+    {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
     }

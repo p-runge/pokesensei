@@ -1,11 +1,9 @@
 import Image from "next/future/image";
 import Link from "next/link";
 
-interface Props {
+const Navbar: React.FC<{
   navItems: { label: string; route: string }[];
-}
-
-const Navbar: React.FC<Props> = ({ navItems }) => {
+}> = ({ navItems }) => {
   const title = "PokéSensei";
 
   return (
@@ -27,15 +25,11 @@ const Navbar: React.FC<Props> = ({ navItems }) => {
           </a>
         </Link>
         <div className="none sm:block">
-          {/* <div sx={{ display: { xs: "none", sm: "block" } }}> */}
           {navItems.map(({ label, route }) => (
-            <Link key={route} href={route}>
-              <button
-                type="button"
-                className="text-white hover:bg-gray-600 rounded px-6 py-3"
-              >
+            <Link key={route} href={route} passHref>
+              <a className="btn text-white hover:bg-gray-600 px-6 py-3">
                 {label}
-              </button>
+              </a>
             </Link>
           ))}
         </div>

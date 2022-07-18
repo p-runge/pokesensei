@@ -1,11 +1,9 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
-interface Props {
+const FullLayout: React.FC<{
   children?: React.ReactNode;
-}
-
-const FullLayout: React.FC<Props> = ({ children }) => {
+}> = ({ children }) => {
   return (
     <>
       <Navbar

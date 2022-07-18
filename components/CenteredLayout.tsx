@@ -1,8 +1,6 @@
-type Props = {
+const CenteredLayout: React.FC<{
   children?: React.ReactNode;
-};
-
-const CenteredLayout: React.FC<Props> = ({ children }) => {
+}> = ({ children }) => {
   return (
     <div className="flex flex-col justify-center items-center h-full">
       {children}

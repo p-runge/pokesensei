@@ -11,9 +11,19 @@ body {
 }
 
 a > span {
-  vertical-align: bottom
+  @apply align-bottom
 }
 
 a {
   @apply text-primary hover:underline
+}
+
+@layer components {
+  .btn {
+    @apply transition py-2 px-4 rounded hover:no-underline;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary hover:bg-primary-dark disabled:bg-primary-light text-white
+  }
 }

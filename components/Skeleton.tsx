@@ -1,10 +1,8 @@
-interface Props {
+const Skeleton: React.FC<{
   isLoading: boolean;
   children: React.ReactNode;
   width?: string;
-}
-
-const Skeleton: React.FC<Props> = ({ isLoading, children, width }) => {
+}> = ({ isLoading, children, width }) => {
   return isLoading ? (
     <span
       className={`block m-auto h-4${
