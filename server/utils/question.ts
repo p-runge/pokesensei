@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { PokemonClient } from "pokenode-ts";
-import { capitalize, getIdOfNamedRes, shuffle } from "./common";
+import { getIdOfNamedRes, getLocalizedName, shuffle } from "./common";
 import {
   getRandomElement,
   getRandomPokemonId,
@@ -40,10 +40,15 @@ export const pokeApi = new PokemonClient({
   cacheOptions: { maxAge: ONE_YEAR, exclude: { query: false } },
 });
 
-export const getTypeOfPokemon = async (): Promise<QuestionWithAnswers> => {
+export const getTypeOfPokemon = async (
+  lang: string
+): Promise<QuestionWithAnswers> => {
   // question
   const id = getRandomPokemonId();
-  const pokemon = await pokeApi.getPokemonById(id);
+  const [pokemon, pokemonSpecies] = await Promise.all([
+    pokeApi.getPokemonById(id),
+    pokeApi.getPokemonSpeciesById(id),
+  ]);
   const question: QuestionWrapper = {
     type: QuestionType.TYPE_OF_POKEMON,
     additionalData: {
@@ -52,7 +57,7 @@ export const getTypeOfPokemon = async (): Promise<QuestionWithAnswers> => {
     label: {
       string: "question_type_of_pokemon",
       params: {
-        name: capitalize(pokemon.name),
+        name: getLocalizedName(pokemonSpecies, lang),
       },
     },
   };
@@ -72,7 +77,7 @@ export const getTypeOfPokemon = async (): Promise<QuestionWithAnswers> => {
   );
   const answers: AnswerWrapper[] = shuffle(types).map((t) => ({
     value: t.name,
-    label: capitalize(t.name),
+    label: getLocalizedName(t, lang),
   }));
 
   return {
@@ -81,51 +86,56 @@ export const getTypeOfPokemon = async (): Promise<QuestionWithAnswers> => {
   };
 };
 
-export const getNameOfPokemonByImage =
-  async (): Promise<QuestionWithAnswers> => {
-    const pokemonId = getRandomPokemonId();
-    const pokemon = await pokeApi.getPokemonById(pokemonId);
+export const getNameOfPokemonByImage = async (
+  lang: string
+): Promise<QuestionWithAnswers> => {
+  const pokemonId = getRandomPokemonId();
+  const [pokemon, pokemonSpecies] = await Promise.all([
+    pokeApi.getPokemonById(pokemonId),
+    pokeApi.getPokemonSpeciesById(pokemonId),
+  ]);
 
-    const {
-      name,
-      sprites: { front_default: sprite },
-    } = pokemon;
+  const {
+    sprites: { front_default: sprite },
+  } = pokemon;
 
-    if (!sprite) {
-      throw new Error(`Sprite not found for pokemon: ${pokemon}`);
-    }
-    const question: QuestionWrapper = {
-      type: QuestionType.NAME_OF_POKEMON_BY_IMAGE,
-      additionalData: {
-        id: pokemonId,
-      },
-      label: {
-        string: "question_name_of_pokemon",
-      },
-      imgSrc: sprite || undefined,
-    };
-
-    const pokemonIds: number[] = [];
-    [...Array(AMOUNT_OF_ANSWERS - 1)].forEach(() => {
-      pokemonIds.push(getRandomPokemonId([pokemonId, ...pokemonIds]));
-    });
-
-    const names = await Promise.all(
-      pokemonIds.map(async (id) => {
-        const { name: pokemonName } = await pokeApi.getPokemonById(id);
-        return pokemonName;
-      })
-    );
-    const answers: AnswerWrapper[] = shuffle([name, ...names]).map((n) => ({
-      value: n,
-      label: capitalize(n),
-    }));
-
-    return {
-      question,
-      answers,
-    };
+  if (!sprite) {
+    throw new Error(`Sprite not found for pokemon: ${pokemon}`);
+  }
+  const question: QuestionWrapper = {
+    type: QuestionType.NAME_OF_POKEMON_BY_IMAGE,
+    additionalData: {
+      id: pokemonId,
+    },
+    label: {
+      string: "question_name_of_pokemon",
+    },
+    imgSrc: sprite || undefined,
   };
+
+  const pokemonIds: number[] = [];
+  [...Array(AMOUNT_OF_ANSWERS - 1)].forEach(() => {
+    pokemonIds.push(getRandomPokemonId([pokemonId, ...pokemonIds]));
+  });
+
+  const speciesList = await Promise.all(
+    pokemonIds.map(async (id) => {
+      return pokeApi.getPokemonSpeciesById(id);
+    })
+  );
+  const answers: AnswerWrapper[] = shuffle([
+    pokemonSpecies,
+    ...speciesList,
+  ]).map((s) => ({
+    value: s.name,
+    label: getLocalizedName(s, lang),
+  }));
+
+  return {
+    question,
+    answers,
+  };
+};
 
 export enum QuestionType {
   TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
@@ -134,7 +144,7 @@ export enum QuestionType {
 
 export const questionTypeToDataMap: Record<
   QuestionType,
-  () => Promise<QuestionWithAnswers>
+  (lang: string) => Promise<QuestionWithAnswers>
 > = {
   [QuestionType.TYPE_OF_POKEMON]: getTypeOfPokemon,
   [QuestionType.NAME_OF_POKEMON_BY_IMAGE]: getNameOfPokemonByImage,

@@ -46,7 +46,7 @@ const Quiz: React.FC<{ data: QuestionWithAnswers[] }> = ({ data }) => {
           } questions correctly.`}</p>
           <p>{`That's an accuracy of ${Math.round(
             (100 / data.length) * history.filter((item) => item).length
-          )}%`}</p>
+          )}%.`}</p>
 
           <div className="pb-6" />
 

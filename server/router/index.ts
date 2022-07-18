@@ -18,14 +18,15 @@ export const appRouter = trpc
 
   .query("get-question-by-type", {
     input: z.object({
+      lang: z.string(),
       type: z.nativeEnum(QuestionType),
     }),
-    resolve({ input: { type } }): Promise<QuestionWithAnswers> {
+    resolve({ input: { type, lang } }): Promise<QuestionWithAnswers> {
       switch (type) {
         case QuestionType.TYPE_OF_POKEMON:
-          return getTypeOfPokemon();
+          return getTypeOfPokemon(lang);
         case QuestionType.NAME_OF_POKEMON_BY_IMAGE:
-          return getNameOfPokemonByImage();
+          return getNameOfPokemonByImage(lang);
 
         default:
           throw new Error(`Invalid question type requested: ${type}`);
@@ -57,6 +58,7 @@ export const appRouter = trpc
 
   .query("get-quiz", {
     input: z.object({
+      lang: z.string(),
       amount: z.number().min(1).max(10),
       filters: z
         .object({
@@ -65,12 +67,12 @@ export const appRouter = trpc
         })
         .default({}),
     }),
-    resolve({ input: { amount } }) {
+    resolve({ input: { amount, lang } }) {
       const pAll: Promise<QuestionWithAnswers>[] = [];
       for (let i = 0; i < amount; i++) {
         // TODO: consider filters
         const questionType = getRandomElement(Object.values(QuestionType));
-        const p = questionTypeToDataMap[questionType]();
+        const p = questionTypeToDataMap[questionType](lang);
         pAll.push(p);
       }
 

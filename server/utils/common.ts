@@ -1,4 +1,4 @@
-import { NamedAPIResource } from "pokenode-ts";
+import { Name, NamedAPIResource } from "pokenode-ts";
 
 export const getIdOfNamedRes: (res: NamedAPIResource) => number = (res) => {
   const arr = res.url.split("/");
@@ -22,15 +22,24 @@ export const shuffle = <T>(a: T[]): T[] => {
   return a;
 };
 
-export const capitalize = (string: string): string => {
-  return string
-    .split("")
-    .map((v, i) => (i === 0 ? v.toUpperCase() : v))
-    .join("");
-};
-
 export const sleep = async (duration: number): Promise<void> => {
   return new Promise((resolve) => {
     setTimeout(resolve, duration);
   });
+};
+
+// pass any resource having names and name
+export const getLocalizedName = (
+  {
+    names,
+    name,
+  }: {
+    names: Name[];
+    name: string;
+  },
+  lang: string
+) => {
+  // TODO: use selected locale instead
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return names.find((n) => n.language.name === lang)?.name || name;
 };

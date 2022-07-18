@@ -1,5 +1,7 @@
 import CenteredLayout from "@/components/CenteredLayout";
+import { LOCALE } from "@/utils/i18n";
 import type { NextPage } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Image from "next/future/image";
 import Link from "next/link";
 
@@ -32,3 +34,11 @@ const Home: NextPage = () => {
 };
 
 export default Home;
+
+export const getStaticProps = async () => {
+  return {
+    props: {
+      ...(await serverSideTranslations(LOCALE, ["common"])),
+    },
+  };
+};

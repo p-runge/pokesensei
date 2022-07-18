@@ -1,10 +1,11 @@
 import FullLayout from "@/components/FullLayout";
 import { trpc } from "@/utils/trpc";
 import type { NextPage } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Quiz from "@/components/Quiz";
 import Loader from "@/components/Loader";
 import { useState } from "react";
+import { LOCALE } from "@/utils/i18n";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Play: NextPage = () => {
   const [data, updateData] = useState(undefined);
@@ -13,6 +14,7 @@ const Play: NextPage = () => {
     [
       "get-quiz",
       {
+        lang: LOCALE,
         amount: 5,
       },
     ],
@@ -31,13 +33,12 @@ const Play: NextPage = () => {
   );
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getStaticProps = async ({ locale }: any) => {
+export default Play;
+
+export const getServerSideProps = async () => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(LOCALE, ["common"])),
     },
   };
 };
-
-export default Play;
