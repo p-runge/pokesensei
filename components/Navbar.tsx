@@ -1,16 +1,18 @@
+import UserContext from "@/context/user";
+import { Locale } from "@/utils/i18n";
 import Image from "next/future/image";
 import Link from "next/link";
+import { useContext } from "react";
 
-const Navbar: React.FC<{
-  navItems: { label: string; route: string }[];
-}> = ({ navItems }) => {
+const Navbar = () => {
   const title = "PokéSensei";
+
+  const { locale, setLocale } = useContext(UserContext);
 
   return (
     <nav className="fixed w-full flex items-center h-header bg-gray-700 shadow-lg">
       <div className="flex justify-between items-center w-full px-6">
         <Link href="/">
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
           <a className="relative">
             <Image
               src="/logo-50h.png"
@@ -24,13 +26,18 @@ const Navbar: React.FC<{
             </div>
           </a>
         </Link>
-        <div className="none sm:block">
-          {navItems.map(({ label, route }) => (
-            <Link key={route} href={route} passHref>
-              <a className="btn text-white hover:bg-gray-600 px-6 py-3">
-                {label}
-              </a>
-            </Link>
+        <div className="grid grid-rows-1 grid-flow-col gap-2">
+          {Object.values(Locale).map((l) => (
+            <button
+              key={`locale-${l}`}
+              type="button"
+              className={`border-2 ${
+                l === locale ? "border-white" : "border-transparent"
+              }`}
+              onClick={() => setLocale(l)}
+            >
+              <Image src={`/flags/${l}.svg`} width={30} height={20} />
+            </button>
           ))}
         </div>
       </div>

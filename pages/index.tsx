@@ -1,5 +1,4 @@
 import CenteredLayout from "@/components/CenteredLayout";
-import { LOCALE } from "@/utils/i18n";
 import type { NextPage } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Image from "next/future/image";
@@ -35,10 +34,11 @@ const Home: NextPage = () => {
 
 export default Home;
 
-export const getStaticProps = async () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getStaticProps = async ({ locale }: any) => {
   return {
     props: {
-      ...(await serverSideTranslations(LOCALE, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
     },
   };
 };

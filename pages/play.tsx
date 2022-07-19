@@ -3,18 +3,20 @@ import { trpc } from "@/utils/trpc";
 import type { NextPage } from "next";
 import Quiz from "@/components/Quiz";
 import Loader from "@/components/Loader";
-import { useState } from "react";
-import { LOCALE } from "@/utils/i18n";
+import { useContext, useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import UserContext from "@/context/user";
 
 const Play: NextPage = () => {
   const [data, updateData] = useState(undefined);
+
+  const { locale } = useContext(UserContext);
 
   trpc.useQuery(
     [
       "get-quiz",
       {
-        lang: LOCALE,
+        lang: locale,
         amount: 5,
       },
     ],
@@ -35,10 +37,11 @@ const Play: NextPage = () => {
 
 export default Play;
 
-export const getServerSideProps = async () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getStaticProps = async ({ locale }: any) => {
   return {
     props: {
-      ...(await serverSideTranslations(LOCALE, ["common"])),
+      ...(await serverSideTranslations(locale, ["common"])),
     },
   };
 };

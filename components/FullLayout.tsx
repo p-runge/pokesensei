@@ -6,14 +6,7 @@ const FullLayout: React.FC<{
 }> = ({ children }) => {
   return (
     <>
-      <Navbar
-        navItems={[
-          {
-            label: "Play",
-            route: "/play",
-          },
-        ]}
-      />
+      <Navbar />
 
       {/* fixed navbar + footer spacer */}
       <div className="min-h-full pt-header pb-footer">
