@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "tailwindcss/tailwind.css";
 import "@/styles/global.css";
 import type { AppProps } from "next/app";
@@ -6,42 +6,13 @@ import Head from "next/head";
 import { withTRPC } from "@trpc/next";
 import { appWithTranslation } from "next-i18next";
 import type { AppRouter } from "@/server/router";
-import UserContext, { UserState } from "@/context/user";
-import { Locale } from "@/utils/i18n";
-import getUserLocale from "get-user-locale";
-import * as ls from "local-storage";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const title = "PokéSensei";
   const metaDescription = "Improve your Pokémon knowledge";
 
-  const [locale, setLocale] = useState(Locale.en);
-  const userState: UserState = { locale, setLocale };
-
-  // initial client server synching of locale
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (!ls.get("locale")) {
-        ls.set(
-          "locale",
-          Object.values(Locale).find(
-            (l) => l === getUserLocale().substring(0, 2)
-          ) || Locale.en
-        );
-      }
-      setLocale(ls.get("locale"));
-    }
-  }, []);
-
-  // update ls on locale change
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      ls.set("locale", locale);
-    }
-  }, [locale]);
-
   return (
-    <UserContext.Provider value={userState}>
+    <>
       <Head>
         <title>{title}</title>
         <meta name="description" content={metaDescription} />
@@ -55,7 +26,7 @@ const App = ({ Component, pageProps }: AppProps) => {
       </Head>
 
       <Component {...pageProps} />
-    </UserContext.Provider>
+    </>
   );
 };
 

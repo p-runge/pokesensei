@@ -1,13 +1,12 @@
-import UserContext from "@/context/user";
 import { Locale } from "@/utils/i18n";
 import Image from "next/future/image";
 import Link from "next/link";
-import { useContext } from "react";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const title = "PokéSensei";
 
-  const { locale, setLocale } = useContext(UserContext);
+  const { locale } = useRouter();
 
   return (
     <nav className="fixed w-full flex items-center h-header bg-gray-700 shadow-lg">
@@ -28,16 +27,15 @@ const Navbar = () => {
         </Link>
         <div className="grid grid-rows-1 grid-flow-col gap-2">
           {Object.values(Locale).map((l) => (
-            <button
-              key={`locale-${l}`}
-              type="button"
-              className={`border-2 ${
-                l === locale ? "border-white" : "border-transparent"
-              }`}
-              onClick={() => setLocale(l)}
-            >
-              <Image src={`/flags/${l}.svg`} width={30} height={20} />
-            </button>
+            <Link key={`locale-${l}`} href="" passHref locale={l}>
+              <a
+                className={`border-2 ${
+                  l === locale ? "border-white" : "border-transparent"
+                }`}
+              >
+                <Image src={`/flags/${l}.svg`} width={30} height={20} />
+              </a>
+            </Link>
           ))}
         </div>
       </div>

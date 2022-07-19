@@ -3,20 +3,21 @@ import { trpc } from "@/utils/trpc";
 import type { NextPage } from "next";
 import Quiz from "@/components/Quiz";
 import Loader from "@/components/Loader";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import UserContext from "@/context/user";
+import { useRouter } from "next/router";
+import { Locale } from "@/utils/i18n";
 
 const Play: NextPage = () => {
   const [data, updateData] = useState(undefined);
 
-  const { locale } = useContext(UserContext);
+  const { locale } = useRouter();
 
   trpc.useQuery(
     [
       "get-quiz",
       {
-        lang: locale,
+        lang: locale || Locale.en,
         amount: 5,
       },
     ],
