@@ -9,6 +9,7 @@ import type { AppRouter } from "@/server/router";
 import UserContext, { UserState } from "@/context/user";
 import { Locale } from "@/utils/i18n";
 import getUserLocale from "get-user-locale";
+import * as ls from "local-storage";
 
 const App = ({ Component, pageProps }: AppProps) => {
   const title = "PokéSensei";
@@ -17,15 +18,27 @@ const App = ({ Component, pageProps }: AppProps) => {
   const [locale, setLocale] = useState(Locale.en);
   const userState: UserState = { locale, setLocale };
 
+  // initial client server synching of locale
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setLocale(
-        Object.values(Locale).find(
-          (l) => l === getUserLocale().substring(0, 2)
-        ) || Locale.en
-      );
+      if (!ls.get("locale")) {
+        ls.set(
+          "locale",
+          Object.values(Locale).find(
+            (l) => l === getUserLocale().substring(0, 2)
+          ) || Locale.en
+        );
+      }
+      setLocale(ls.get("locale"));
     }
   }, []);
+
+  // update ls on locale change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      ls.set("locale", locale);
+    }
+  }, [locale]);
 
   return (
     <UserContext.Provider value={userState}>
