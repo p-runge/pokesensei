@@ -30,7 +30,6 @@ const Play: NextPage = () => {
 
   return (
     <FullLayout>
-      <h2 className="text-6xl mb-6">Play</h2>
       <Loader isLoading={!data}>{data && <Quiz data={data} />}</Loader>
     </FullLayout>
   );

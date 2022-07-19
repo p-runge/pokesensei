@@ -1,4 +1,12 @@
 {
+  "page_home_copy": "Test your Pokémon knowledge and see if you're a true Pokémon master!",
+  "page_home_start_button": "Play!",
+  "page_credits_copy": "Special thanks to the following sources",
+  "quiz_question_counter": "Question {{current}} / {{max}}",
+  "quiz_finished": "Finished!",
+  "quiz_evaluation_absolute": "You answered {{correct}} out of {{max}} questions correctly.",
+  "quiz_evaluation_percentage": "That's an accuracy of {{percentage}}%.",
+  "quiz_home_button": "Home",
   "question_type_of_pokemon": "Select a type of {{name}}",
   "question_name_of_pokemon": "Who's that Pokémon?"
 }

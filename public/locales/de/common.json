@@ -1,4 +1,12 @@
 {
+  "page_home_copy": "Teste dein Pokémon-Wissen und finde heraus, ob du ein wahrer Pokémon-Meister bist!",
+  "page_home_start_button": "Los!",
+  "page_credits_copy": "Vielen Dank an die folgenden Quellen",
+  "quiz_question_counter": "Frage {{current}} / {{max}}",
+  "quiz_finished": "Fertig!",
+  "quiz_evaluation_absolute": "Du hast {{correct}} von {{max}} Fragen korrekt beantwortet.",
+  "quiz_evaluation_percentage": "Das ist eine Genauigkeit von {{percentage}}%.",
+  "quiz_home_button": "Startseite",
   "question_type_of_pokemon": "Welchen dieser Typen hat {{name}}",
   "question_name_of_pokemon": "Wie heißt dieses Pokémon?"
 }

@@ -1,13 +1,12 @@
 import CenteredLayout from "@/components/CenteredLayout";
 import type { NextPage } from "next";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Image from "next/future/image";
 import Link from "next/link";
 
 const Home: NextPage = () => {
-  const title = "PokéSensei";
-  const copy =
-    "Test your Pokémon knowledge and see if you're a true Pokémon master!";
+  const { t } = useTranslation("common");
 
   return (
     <CenteredLayout>
@@ -16,17 +15,17 @@ const Home: NextPage = () => {
           src="/logo-150h.png"
           width={594}
           height={150}
-          alt={`${title}`}
+          alt="PokéSensei"
           priority
         />
         <div className="absolute bottom-0 right-0 -rotate-12 text-3xl px-2 border-2 rounded-full border-red-500 text-red-500 bg-gray-800">
           Beta
         </div>
       </h1>
-      <p className="mt-3">{copy}</p>
+      <p className="mt-3">{t("page_home_copy")}</p>
       <div className="pb-6" />
       <Link href="/play" passHref>
-        <a className="btn-primary text-2xl">Start</a>
+        <a className="btn-primary text-2xl">{t("page_home_start_button")}</a>
       </Link>
     </CenteredLayout>
   );
