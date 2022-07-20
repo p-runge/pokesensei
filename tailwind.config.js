@@ -1,8 +1,11 @@
 /** @type {import('tailwindcss').Config} */
 
-const sizes = {
+const heights = {
   header: "64px",
   footer: "48px",
+};
+const widths = {
+  boxed: "1200px",
 };
 
 module.exports = {
@@ -23,8 +26,12 @@ module.exports = {
         success: "#16a34a",
         error: "#dc2626",
       },
-      height: sizes,
-      padding: sizes,
+      height: heights,
+      width: widths,
+      padding: {
+        ...heights,
+        ...widths,
+      },
     },
   },
   plugins: [

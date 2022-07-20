@@ -6,7 +6,7 @@ import Image from "next/future/image";
 import Link from "next/link";
 
 const Home: NextPage = () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   return (
     <CenteredLayout>
@@ -25,7 +25,13 @@ const Home: NextPage = () => {
       <p className="mt-3">{t("page_home_copy")}</p>
       <div className="pb-6" />
       <Link href="/play" passHref>
-        <a className="btn-primary text-2xl">{t("page_home_start_button")}</a>
+        <a className="btn-primary text-2xl">
+          {t("page_home_quick_start_button")}
+        </a>
+      </Link>
+      <div className="pb-6" />
+      <Link href="/setup" passHref>
+        <a className="text-lg">{t("page_home_custom_game_button")}</a>
       </Link>
     </CenteredLayout>
   );

@@ -5,7 +5,7 @@ import { useState } from "react";
 import Question from "./Question";
 
 const Quiz: React.FC<{ data: QuestionWithAnswers[] }> = ({ data }) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   const [activeQuestion, updateActiveQuestion] = useState(0);
   const [history, updateHistory] = useState([] as (boolean | undefined)[]);

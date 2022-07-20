@@ -1,10 +1,15 @@
 const CenteredLayout: React.FC<{
   children?: React.ReactNode;
-}> = ({ children }) => {
+  noVerticalCenter?: boolean;
+}> = ({ children, noVerticalCenter = false }) => {
   return (
-    <div className="flex flex-col justify-center items-center text-center h-full p-4">
+    <main
+      className={`h-full w-boxed max-w-full m-auto flex flex-col ${
+        noVerticalCenter ? "" : "justify-center"
+      } items-center text-center p-4`}
+    >
       {children}
-    </div>
+    </main>
   );
 };
 

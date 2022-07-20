@@ -20,10 +20,15 @@ a {
 
 @layer components {
   .btn {
-    @apply inline-block transition py-2 px-4 rounded hover:no-underline;
+    @apply cursor-pointer inline-block transition py-2 px-4 rounded hover:no-underline break-words;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
   }
 
   .btn-primary {
     @apply btn bg-primary hover:bg-primary-dark disabled:bg-primary-light text-white
+  }
+
+  .btn-primary.selected {
+    @apply bg-secondary hover:bg-secondary-dark;
   }
 }

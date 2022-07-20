@@ -1,3 +1,4 @@
+import CenteredLayout from "./CenteredLayout";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
@@ -9,10 +10,8 @@ const FullLayout: React.FC<{
       <Navbar />
 
       {/* fixed navbar + footer spacer */}
-      <div className="min-h-full pt-header pb-footer">
-        <main className="h-full max-w-[1200px] m-auto text-center p-6">
-          {children}
-        </main>
+      <div className="h-full pt-header pb-footer">
+        <CenteredLayout noVerticalCenter>{children}</CenteredLayout>
       </div>
 
       <Footer navItems={[{ label: "Credits", route: "/credits" }]} />

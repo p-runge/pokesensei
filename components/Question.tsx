@@ -17,7 +17,7 @@ const Question: React.FC<{
   validatedTime?: number;
   onAnswer: (answer: string, isCorrect: boolean) => void;
 }> = ({ data, onAnswer, selectedTime = 0, validatedTime = 0 }) => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   const [selectedAnswer, changeSelectedAnswer] = useState(
     initialState.selectedAnswer as string | undefined
@@ -56,7 +56,7 @@ const Question: React.FC<{
   return (
     <div className="grid gap-4 m-auto max-w-full mb-12">
       {/* question */}
-      <div className="flex flex-col justify-center items-center p-4 bg-gray-700 rounded-lg">
+      <div className="h-[248px] flex flex-col justify-center items-center p-4 bg-gray-700 rounded-lg">
         <Skeleton isLoading={!data} width="w-6/12">
           {data && (
             <>
@@ -84,7 +84,7 @@ const Question: React.FC<{
             // eslint-disable-next-line react/no-array-index-key
             key={`${answer}${i}`}
             disabled={!!(selectedAnswer && selectedAnswer !== answer.value)}
-            className={`px-4 py-4 w-full rounded-lg ${
+            className={`px-4 py-4 rounded-lg ${
               (selectedAnswer === answer.value &&
                 ((answerData === undefined &&
                   "bg-secondary hover:bg-secondary-dark") ||

@@ -1,4 +1,4 @@
-import FullLayout from "@/components/FullLayout";
+import CenteredLayout from "@/components/CenteredLayout";
 import { trpc } from "@/utils/trpc";
 import type { NextPage } from "next";
 import Quiz from "@/components/Quiz";
@@ -7,8 +7,12 @@ import { useState } from "react";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useRouter } from "next/router";
 import { Locale } from "@/utils/i18n";
+import Link from "next/link";
+import { useTranslation } from "next-i18next";
 
 const Play: NextPage = () => {
+  const { t } = useTranslation();
+
   const [data, updateData] = useState(undefined);
 
   const { locale } = useRouter();
@@ -29,9 +33,16 @@ const Play: NextPage = () => {
   );
 
   return (
-    <FullLayout>
-      <Loader isLoading={!data}>{data && <Quiz data={data} />}</Loader>
-    </FullLayout>
+    <CenteredLayout>
+      <div className="w-boxed max-w-full">
+        <Loader isLoading={!data}>{data && <Quiz data={data} />}</Loader>
+      </div>
+      <Link href="/" passHref>
+        <a className="fixed bottom-0 text-error opacity-25 hover:opacity-100">
+          {t("page_play_cancel")}
+        </a>
+      </Link>
+    </CenteredLayout>
   );
 };
 

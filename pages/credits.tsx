@@ -1,4 +1,5 @@
 import FullLayout from "@/components/FullLayout";
+import Headline from "@/components/Headline";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
@@ -16,11 +17,11 @@ const credits: Credit[] = [
 ];
 
 export default () => {
-  const { t } = useTranslation("common");
+  const { t } = useTranslation();
 
   return (
     <FullLayout>
-      <h2 className="text-6xl mb-6">Credits</h2>
+      <Headline>Credits</Headline>
       <p className="mb-3">{t("page_credits_copy")}:</p>
       <div className="flex flex-col">
         {credits.map(({ component, source, url }) => (
