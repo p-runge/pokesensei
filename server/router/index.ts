@@ -63,15 +63,23 @@ export const appRouter = trpc
       filters: z
         .object({
           // TODO: add multiple filters here later on
-          type: z.nativeEnum(QuestionType).optional(),
+          questionTypes: z.array(z.nativeEnum(QuestionType)).optional(),
         })
         .default({}),
     }),
-    resolve({ input: { amount, lang } }) {
+    resolve({
+      input: {
+        amount,
+        lang,
+        filters: { questionTypes },
+      },
+    }) {
       const pAll: Promise<QuestionWithAnswers>[] = [];
       for (let i = 0; i < amount; i++) {
         // TODO: consider filters
-        const questionType = getRandomElement(Object.values(QuestionType));
+        const questionType = getRandomElement(
+          questionTypes || Object.values(QuestionType)
+        );
         const p = questionTypeToDataMap[questionType](lang);
         pAll.push(p);
       }

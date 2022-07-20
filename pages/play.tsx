@@ -9,13 +9,21 @@ import { useRouter } from "next/router";
 import { Locale } from "@/utils/i18n";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import qs from "query-string";
+import { QuestionWithAnswers } from "@/server/utils/question";
+import { QuizFilter } from "./setup";
 
 const Play: NextPage = () => {
   const { t } = useTranslation();
 
-  const [data, updateData] = useState(undefined);
+  const [data, updateData] = useState(
+    undefined as QuestionWithAnswers[] | undefined
+  );
 
-  const { locale } = useRouter();
+  const { locale, asPath } = useRouter();
+  const filters = qs.parse(asPath.split("?")[1], {
+    arrayFormat: "index",
+  }) as unknown as QuizFilter;
 
   trpc.useQuery(
     [
@@ -23,6 +31,7 @@ const Play: NextPage = () => {
       {
         lang: locale || Locale.en,
         amount: 5,
+        filters,
       },
     ],
     {

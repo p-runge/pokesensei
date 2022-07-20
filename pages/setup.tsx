@@ -9,24 +9,24 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import qs from "query-string";
 
-export interface SetupData {
-  questionTypes: string[];
+export interface QuizFilter {
+  questionTypes: QuestionType[];
 }
 
 const Setup: NextPage = () => {
   const { t } = useTranslation();
 
-  const [questionTypes, changeQuestionTypes] = useState([""]);
+  const [questionTypes, changeQuestionTypes] = useState([] as QuestionType[]);
 
-  const [setupData, changeSetupData] = useState({
+  const [setupData, changeQuizFilter] = useState({
     questionTypes,
-  } as SetupData);
+  } as QuizFilter);
 
   useEffect(() => {
-    changeSetupData({
+    changeQuizFilter({
       questionTypes,
     });
-  }, [changeSetupData, questionTypes]);
+  }, [changeQuizFilter, questionTypes]);
 
   return (
     <FullLayout>
@@ -41,13 +41,15 @@ const Setup: NextPage = () => {
           value: questionType,
           label: t(`question_type_${questionType.toLowerCase()}`),
         }))}
-        onSelect={changeQuestionTypes}
+        onSelect={(value) => changeQuestionTypes(value as QuestionType[])}
       />
       <div className="pb-12" />
       <Link
         href={{
           pathname: "/play",
-          query: qs.stringify(setupData || {}),
+          query: qs.stringify(setupData || {}, {
+            arrayFormat: "index",
+          }),
         }}
         passHref
       >

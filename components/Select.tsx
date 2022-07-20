@@ -22,6 +22,10 @@ const Select: React.FC<{
   multi = false,
   onSelect = () => undefined,
 }) => {
+  if (hasAllOption && !multi) {
+    throw new Error("When there is an all option, 'multi' needs to be true");
+  }
+
   if (!multi && defaultValues.length > 1) {
     throw new Error(
       "More than 1 default value was passed, but 'multi' is not true"
@@ -54,29 +58,18 @@ const Select: React.FC<{
     throw new Error("At least one default value does not overlap with options");
   }
 
-  const [selectedValues, changeSelectedValues] = useState(defaultValues);
+  const [selectedValues, changeSelectedValues] = useState(
+    defaultValues === [allOption.value] ? [] : defaultValues
+  );
 
   const onOptionClick = (value: string) => {
     let newValues: string[] = selectedValues;
     if (multi) {
       if (value === allOption.value) {
-        // all option is clicked
-        if (newValues.includes(allOption.value)) {
-          // unselect all option
-          newValues = [];
-        } else {
-          // single select all option
-          newValues = [value];
-        }
+        // single select all option
+        newValues = [];
       } else {
         // a single option is clicked
-        const allIndex = newValues.indexOf(allOption.value);
-        if (allIndex !== -1) {
-          // unselect all option
-          newValues = newValues
-            .slice(0, allIndex)
-            .concat(newValues.slice(allIndex + 1));
-        }
         const index = newValues.indexOf(value);
         if (index !== -1) {
           // unselect single option
@@ -88,7 +81,11 @@ const Select: React.FC<{
           newValues = newValues.concat(value);
         }
       }
+    } else if (newValues.includes(value)) {
+      // unselect single option
+      newValues = [];
     } else {
+      // select single option
       newValues = [value];
     }
 
@@ -109,7 +106,10 @@ const Select: React.FC<{
             key={`select-${title}-option-${value}`}
             type="button"
             className={`btn-primary m-2 ${
-              selectedValues.includes(value) ? "selected" : ""
+              selectedValues.includes(value) ||
+              (!selectedValues.length && value === allOption.value)
+                ? "selected"
+                : ""
             }`}
             onClick={() => onOptionClick(value)}
           >
