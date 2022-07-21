@@ -7,6 +7,7 @@
   "page_setup_select_title_question_type": "Question Type",
   "page_setup_start_button": "Start Game",
   "page_play_cancel": "Cancel",
+  "page_play_evaluation_title": "Evaluation",
   "page_credits_copy": "Special thanks to the following sources",
   "select_all_option": "All",
   "question_type_type_of_pokemon": "Type of Pokémon",
@@ -15,7 +16,9 @@
   "quiz_finished": "Finished!",
   "quiz_evaluation_absolute": "You answered {{correct}} out of {{max}} questions correctly.",
   "quiz_evaluation_percentage": "That's an accuracy of {{percentage}}%.",
-  "quiz_home_button": "Home",
+  "quiz_change_setup_button": "Change Setup",
+  "quiz_replay_button": "Replay",
+  "evaluation_question_title": "Question {{id}}",
   "question_type_of_pokemon": "Select a type of {{name}}",
   "question_name_of_pokemon": "Who's that Pokémon?"
 }

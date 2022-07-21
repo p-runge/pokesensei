@@ -12,12 +12,14 @@ interface I18nString {
   params?: Record<string, string | number | boolean>;
 }
 
+export interface QuestionParams {
+  id: number;
+}
+
 interface QuestionWrapper {
   // used for validation
   type: QuestionType;
-  additionalData: {
-    id: number;
-  };
+  params: QuestionParams;
   // used for output
   label: I18nString;
   imgSrc?: string;
@@ -40,6 +42,13 @@ export const pokeApi = new PokemonClient({
   cacheOptions: { maxAge: ONE_YEAR, exclude: { query: false } },
 });
 
+export const getQuestionByType = async (
+  questionType: QuestionType,
+  lang: string
+): Promise<QuestionWithAnswers> => {
+  return questionTypeToDataMap[questionType](lang);
+};
+
 export const getTypeOfPokemon = async (
   lang: string
 ): Promise<QuestionWithAnswers> => {
@@ -51,7 +60,7 @@ export const getTypeOfPokemon = async (
   ]);
   const question: QuestionWrapper = {
     type: QuestionType.TYPE_OF_POKEMON,
-    additionalData: {
+    params: {
       id,
     },
     label: {
@@ -104,7 +113,7 @@ export const getNameOfPokemonByImage = async (
   }
   const question: QuestionWrapper = {
     type: QuestionType.NAME_OF_POKEMON_BY_IMAGE,
-    additionalData: {
+    params: {
       id: pokemonId,
     },
     label: {
@@ -142,7 +151,7 @@ export enum QuestionType {
   NAME_OF_POKEMON_BY_IMAGE = "NAME_OF_POKEMON_BY_IMAGE",
 }
 
-export const questionTypeToDataMap: Record<
+const questionTypeToDataMap: Record<
   QuestionType,
   (lang: string) => Promise<QuestionWithAnswers>
 > = {

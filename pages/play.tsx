@@ -11,6 +11,10 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import qs from "query-string";
 import { QuestionWithAnswers } from "@/server/utils/question";
+import Evaluation from "@/components/Evaluation";
+import FullLayout from "@/components/FullLayout";
+import { EvaluatedQuestionData } from "@/components/EvaluatedQuestion";
+import Headline from "@/components/Headline";
 import { QuizFilter } from "./setup";
 
 const Play: NextPage = () => {
@@ -19,6 +23,10 @@ const Play: NextPage = () => {
   const [data, updateData] = useState(
     undefined as QuestionWithAnswers[] | undefined
   );
+  const [evaluatedData, updateEvaluatedData] = useState(
+    undefined as EvaluatedQuestionData[] | undefined
+  );
+  const [isFinished, updateIsFinished] = useState(false);
 
   const { locale, asPath } = useRouter();
   const filters = qs.parse(asPath.split("?")[1], {
@@ -27,7 +35,7 @@ const Play: NextPage = () => {
 
   trpc.useQuery(
     [
-      "get-quiz",
+      "get-questions",
       {
         lang: locale || Locale.en,
         amount: 5,
@@ -41,10 +49,17 @@ const Play: NextPage = () => {
     }
   );
 
-  return (
+  const onFinishQuiz = (evaluatedQuestions: EvaluatedQuestionData[]) => {
+    updateEvaluatedData(evaluatedQuestions);
+    updateIsFinished(true);
+  };
+
+  return !isFinished ? (
     <CenteredLayout>
-      <div className="w-boxed max-w-full">
-        <Loader isLoading={!data}>{data && <Quiz data={data} />}</Loader>
+      <div className="w-full max-w-full">
+        <Loader isLoading={!data}>
+          {data && <Quiz data={data} onFinish={onFinishQuiz} />}
+        </Loader>
       </div>
       <Link href="/" passHref>
         <a className="fixed bottom-0 text-error opacity-25 hover:opacity-100">
@@ -52,6 +67,15 @@ const Play: NextPage = () => {
         </a>
       </Link>
     </CenteredLayout>
+  ) : (
+    <FullLayout>
+      <Headline>{t("page_play_evaluation_title")}</Headline>
+      <Loader isLoading={!evaluatedData}>
+        {evaluatedData && <Evaluation data={evaluatedData} />}
+        {/* TODO: improve layout heights to prevent this ugly hack */}
+        <div className="pb-footer text-transparent">.</div>
+      </Loader>
+    </FullLayout>
   );
 };
 

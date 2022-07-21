@@ -7,6 +7,7 @@
   "page_setup_select_title_question_type": "Fragetyp",
   "page_setup_start_button": "Spiel Starten",
   "page_play_cancel": "Abbrechen",
+  "page_play_evaluation_title": "Auswertung",
   "page_credits_copy": "Vielen Dank an die folgenden Quellen",
   "select_all_option": "Alle",
   "question_type_type_of_pokemon": "Typ eines Pokémon",
@@ -15,7 +16,9 @@
   "quiz_finished": "Fertig!",
   "quiz_evaluation_absolute": "Du hast {{correct}} von {{max}} Fragen korrekt beantwortet.",
   "quiz_evaluation_percentage": "Das ist eine Genauigkeit von {{percentage}}%.",
-  "quiz_home_button": "Startseite",
+  "quiz_change_setup_button": "Einstellungen Anpassen",
+  "quiz_replay_button": "Nochmal Spielen",
+  "evaluation_question_title": "Frage {{id}}",
   "question_type_of_pokemon": "Welchen dieser Typen hat {{name}}",
   "question_name_of_pokemon": "Wie heißt dieses Pokémon?"
 }
