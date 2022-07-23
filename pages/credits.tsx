@@ -8,16 +8,22 @@ interface Credit {
   source: string;
   url: string;
 }
-const credits: Credit[] = [
-  {
-    component: "Logos",
-    source: "Font Meme",
-    url: "https://fontmeme.com/",
-  },
-];
 
 export default () => {
   const { t } = useTranslation();
+
+  const credits: Credit[] = [
+    {
+      component: t("page_credits_credits_data"),
+      source: "PokeApi",
+      url: "https://pokeapi.co/",
+    },
+    {
+      component: t("page_credits_credits_logos"),
+      source: "Font Meme",
+      url: "https://fontmeme.com/pokemon-font/",
+    },
+  ];
 
   return (
     <FullLayout>
