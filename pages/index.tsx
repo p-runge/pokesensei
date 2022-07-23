@@ -1,4 +1,5 @@
 import CenteredLayout from "@/components/CenteredLayout";
+import LocaleSelect from "@/components/LocaleSelect";
 import type { NextPage } from "next";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -30,6 +31,8 @@ const Home: NextPage = () => {
       <Link href="/setup" passHref>
         <a className="text-lg">{t("page_home_custom_game_button")}</a>
       </Link>
+      <div className="pb-6" />
+      <LocaleSelect />
     </CenteredLayout>
   );
 };
