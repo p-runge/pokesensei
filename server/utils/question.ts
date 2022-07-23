@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable import/prefer-default-export */
 import { PokemonClient } from "pokenode-ts";
 import { getIdOfNamedRes, getLocalizedName, shuffle } from "./common";
 import {
   getRandomElement,
+  getRandomNatureId,
+  getRandomNatureIds,
   getRandomPokemonId,
   getRandomPokemonTypeIds,
 } from "./random";
@@ -12,9 +15,8 @@ interface I18nString {
   params?: Record<string, string | number | boolean>;
 }
 
-export interface QuestionParams {
-  id: number;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type QuestionParams = Record<string, any>;
 
 interface QuestionWrapper {
   // used for validation
@@ -47,52 +49,6 @@ export const getQuestionByType = async (
   lang: string
 ): Promise<QuestionWithAnswers> => {
   return questionTypeToDataMap[questionType](lang);
-};
-
-export const getTypeOfPokemon = async (
-  lang: string
-): Promise<QuestionWithAnswers> => {
-  // question
-  const id = getRandomPokemonId();
-  const [pokemon, pokemonSpecies] = await Promise.all([
-    pokeApi.getPokemonById(id),
-    pokeApi.getPokemonSpeciesById(id),
-  ]);
-  const question: QuestionWrapper = {
-    type: QuestionType.TYPE_OF_POKEMON,
-    params: {
-      id,
-    },
-    label: {
-      string: "question_type_of_pokemon",
-      params: {
-        name: getLocalizedName(pokemonSpecies, lang),
-      },
-    },
-  };
-
-  // answers
-  const typeId = getIdOfNamedRes(getRandomElement(pokemon.types).type);
-  const typeIdNots =
-    pokemon.types
-      .map((t) => getIdOfNamedRes(t.type))
-      .filter((t) => t !== typeId) ?? [];
-  const typeIds = [
-    typeId,
-    ...getRandomPokemonTypeIds(AMOUNT_OF_ANSWERS - 1, [typeId, ...typeIdNots]),
-  ];
-  const types = await Promise.all(
-    typeIds.map((tId) => pokeApi.getTypeById(tId))
-  );
-  const answers: AnswerWrapper[] = shuffle(types).map((t) => ({
-    value: t.name,
-    label: getLocalizedName(t, lang),
-  }));
-
-  return {
-    question,
-    answers,
-  };
 };
 
 export const getNameOfPokemonByImage = async (
@@ -146,15 +102,112 @@ export const getNameOfPokemonByImage = async (
   };
 };
 
+export const getTypeOfPokemon = async (
+  lang: string
+): Promise<QuestionWithAnswers> => {
+  // question
+  const id = getRandomPokemonId();
+  const [pokemon, pokemonSpecies] = await Promise.all([
+    pokeApi.getPokemonById(id),
+    pokeApi.getPokemonSpeciesById(id),
+  ]);
+  const question: QuestionWrapper = {
+    type: QuestionType.TYPE_OF_POKEMON,
+    params: {
+      id,
+    },
+    label: {
+      string: "question_type_of_pokemon",
+      params: {
+        name: getLocalizedName(pokemonSpecies, lang),
+      },
+    },
+  };
+
+  // answers
+  const typeId = getIdOfNamedRes(getRandomElement(pokemon.types).type);
+  const typeIdNots =
+    pokemon.types
+      .map((t) => getIdOfNamedRes(t.type))
+      .filter((t) => t !== typeId) ?? [];
+  const typeIds = [
+    typeId,
+    ...getRandomPokemonTypeIds(AMOUNT_OF_ANSWERS - 1, [typeId, ...typeIdNots]),
+  ];
+  const types = await Promise.all(
+    typeIds.map((tId) => pokeApi.getTypeById(tId))
+  );
+  const answers: AnswerWrapper[] = shuffle(types).map((t) => ({
+    value: t.name,
+    label: getLocalizedName(t, lang),
+  }));
+
+  return {
+    question,
+    answers,
+  };
+};
+
+export const getNatureByStats = async (
+  lang: string
+): Promise<QuestionWithAnswers> => {
+  // question
+  const correctId = getRandomNatureId(true);
+  const nature = await pokeApi.getNatureById(correctId);
+
+  const [increasedStat, decreasedStat] = await Promise.all(
+    [nature.increased_stat!.name, nature.decreased_stat!.name].map((name) =>
+      pokeApi.getStatByName(name)
+    )
+  );
+
+  const question: QuestionWrapper = {
+    type: QuestionType.NATURE_BY_STATS,
+    params: {
+      increasedStat: increasedStat.name,
+      decreasedStat: decreasedStat.name,
+    },
+    label: {
+      string: "question_nature_by_stats",
+      params: {
+        increasedStat: getLocalizedName(increasedStat, lang),
+        decreasedStat: getLocalizedName(decreasedStat, lang),
+      },
+    },
+  };
+
+  // answers
+  const wrongIds = [
+    ...getRandomNatureIds(AMOUNT_OF_ANSWERS - 1, true, [correctId]),
+  ];
+  const natures = [
+    nature,
+    ...(await Promise.all(wrongIds.map((id) => pokeApi.getNatureById(id)))),
+  ];
+  const answers = shuffle(
+    natures.map((n) => ({
+      value: n.name,
+      label: getLocalizedName(n, lang),
+    }))
+  );
+
+  return {
+    question,
+    answers,
+  };
+};
+
 export enum QuestionType {
-  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
   NAME_OF_POKEMON_BY_IMAGE = "NAME_OF_POKEMON_BY_IMAGE",
+  TYPE_OF_POKEMON = "TYPE_OF_POKEMON",
+  NATURE_BY_STATS = "NATURE_BY_STATS",
 }
 
 const questionTypeToDataMap: Record<
   QuestionType,
   (lang: string) => Promise<QuestionWithAnswers>
 > = {
-  [QuestionType.TYPE_OF_POKEMON]: getTypeOfPokemon,
   [QuestionType.NAME_OF_POKEMON_BY_IMAGE]: getNameOfPokemonByImage,
+  [QuestionType.TYPE_OF_POKEMON]: getTypeOfPokemon,
+  [QuestionType.NATURE_BY_STATS]: getNatureByStats,
 };

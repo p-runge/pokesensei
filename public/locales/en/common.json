@@ -12,8 +12,9 @@
   "page_credits_credits_data": "Data",
   "page_credits_credits_logos": "Logos",
   "select_all_option": "All",
-  "question_type_type_of_pokemon": "Type of Pokémon",
   "question_type_name_of_pokemon_by_image": "Name of Pokémon by Image",
+  "question_type_type_of_pokemon": "Type of Pokémon",
+  "question_type_nature_by_stats": "Nature by Stats",
   "quiz_question_counter": "Question {{current}} / {{max}}",
   "quiz_finished": "Finished!",
   "quiz_evaluation_absolute": "You answered {{correct}} out of {{max}} questions correctly.",
@@ -21,6 +22,7 @@
   "quiz_change_setup_button": "Change Setup",
   "quiz_replay_button": "Replay",
   "evaluation_question_title": "Question {{id}}",
+  "question_name_of_pokemon": "Who's that Pokémon?",
   "question_type_of_pokemon": "Select a type of {{name}}",
-  "question_name_of_pokemon": "Who's that Pokémon?"
+  "question_nature_by_stats": "What nature affects the stats as follows: +{{increasedStat}}, -{{decreasedStat}}?"
 }

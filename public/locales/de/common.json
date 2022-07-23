@@ -12,8 +12,9 @@
   "page_credits_credits_data": "Daten",
   "page_credits_credits_logos": "Logos",
   "select_all_option": "Alle",
-  "question_type_type_of_pokemon": "Typ eines Pokémon",
   "question_type_name_of_pokemon_by_image": "Name eines Pokémon durch Bild",
+  "question_type_type_of_pokemon": "Typ eines Pokémon",
+  "question_type_nature_by_stats": "Wesen durch Statuswerte",
   "quiz_question_counter": "Frage {{current}} / {{max}}",
   "quiz_finished": "Fertig!",
   "quiz_evaluation_absolute": "Du hast {{correct}} von {{max}} Fragen korrekt beantwortet.",
@@ -21,6 +22,7 @@
   "quiz_change_setup_button": "Einstellungen Anpassen",
   "quiz_replay_button": "Nochmal Spielen",
   "evaluation_question_title": "Frage {{id}}",
+  "question_name_of_pokemon": "Wie heißt dieses Pokémon?",
   "question_type_of_pokemon": "Welchen dieser Typen hat {{name}}",
-  "question_name_of_pokemon": "Wie heißt dieses Pokémon?"
+  "question_nature_by_stats": "Welches Wesen beeinflusst die Statuswerte wie folgt: +{{increasedStat}}, -{{decreasedStat}}?"
 }

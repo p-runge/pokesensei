@@ -46,9 +46,7 @@ export const appRouter = trpc
   .mutation("answer-question", {
     input: z.object({
       type: z.nativeEnum(QuestionType),
-      params: z.object({
-        id: z.number(),
-      }),
+      params: z.any(),
     }),
     resolve({ input: { type, params } }): Promise<string[]> {
       return solveQuestionByType(type, params);

@@ -50,3 +50,38 @@ export const getRandomPokemonTypeIds = (
 
   return ids;
 };
+
+export const getRandomNatureId = (
+  hasStatInfluence = false,
+  not: number[] = []
+): number => {
+  let id: number;
+  if (hasStatInfluence) {
+    // every first nature in a group of 6 has no stat influence, that's a fix order by pokeapi
+    const idsOfNaturesWithStatInfluece = [...Array(25)]
+      .map((_, i) => i + 1)
+      .filter((n) => n % 6 !== 1);
+
+    id = getRandomElement(idsOfNaturesWithStatInfluece);
+  } else {
+    id = getRandomInt(25, 1);
+  }
+
+  if (not.includes(id)) {
+    return getRandomNatureId(hasStatInfluence, not);
+  }
+  return id;
+};
+
+export const getRandomNatureIds = (
+  amount: number,
+  hasStatInfluence = false,
+  not: number[] = []
+): number[] => {
+  const ids: number[] = [];
+  [...Array(amount)].forEach(() => {
+    ids.push(getRandomNatureId(hasStatInfluence, [...ids, ...not]));
+  });
+
+  return ids;
+};
