@@ -47,17 +47,6 @@ const Select: React.FC<{
 
   const allOptions = (hasAllOption ? [allOption] : []).concat(options);
 
-  if (
-    defaultValues.length &&
-    defaultValues.find((v) => {
-      return !allOptions.find((o) => {
-        return o.value === v;
-      });
-    })
-  ) {
-    throw new Error("At least one default value does not overlap with options");
-  }
-
   const [selectedValues, changeSelectedValues] = useState(
     defaultValues === [allOption.value] ? [] : defaultValues
   );

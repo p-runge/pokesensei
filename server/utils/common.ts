@@ -43,3 +43,7 @@ export const getLocalizedName = (
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   return names.find((n) => n.language.name === lang)?.name || name;
 };
+
+export const fillArrayWithNumbers = (number: number): number[] => {
+  return [...Array(number)].map((_, i) => i + 1);
+};

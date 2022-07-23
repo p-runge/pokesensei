@@ -5,6 +5,7 @@
   "page_setup_title": "Setup",
   "page_setup_instruction": "Here you can define what kind of questions you'd like to be asked",
   "page_setup_select_title_question_type": "Question Type",
+  "page_setup_select_title_generation": "Generation",
   "page_setup_start_button": "Start Game",
   "page_play_cancel": "Cancel",
   "page_play_evaluation_title": "Evaluation",

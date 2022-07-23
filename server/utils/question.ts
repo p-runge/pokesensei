@@ -37,6 +37,10 @@ export interface QuestionWithAnswers {
   answers: AnswerWrapper[];
 }
 
+export interface Filters {
+  generations?: number[];
+}
+
 const ONE_YEAR = 1000 * 60 * 60 * 24 * 365;
 const AMOUNT_OF_ANSWERS = 4;
 
@@ -46,15 +50,17 @@ export const pokeApi = new PokemonClient({
 
 export const getQuestionByType = async (
   questionType: QuestionType,
-  lang: string
+  lang: string,
+  filters: Filters
 ): Promise<QuestionWithAnswers> => {
-  return questionTypeToDataMap[questionType](lang);
+  return questionTypeToDataMap[questionType](lang, filters);
 };
 
 export const getNameOfPokemonByImage = async (
-  lang: string
+  lang: string,
+  filters: Filters
 ): Promise<QuestionWithAnswers> => {
-  const pokemonId = getRandomPokemonId();
+  const pokemonId = getRandomPokemonId(filters, []);
   const [pokemon, pokemonSpecies] = await Promise.all([
     pokeApi.getPokemonById(pokemonId),
     pokeApi.getPokemonSpeciesById(pokemonId),
@@ -80,7 +86,7 @@ export const getNameOfPokemonByImage = async (
 
   const pokemonIds: number[] = [];
   [...Array(AMOUNT_OF_ANSWERS - 1)].forEach(() => {
-    pokemonIds.push(getRandomPokemonId([pokemonId, ...pokemonIds]));
+    pokemonIds.push(getRandomPokemonId(filters, [pokemonId, ...pokemonIds]));
   });
 
   const speciesList = await Promise.all(
@@ -103,10 +109,11 @@ export const getNameOfPokemonByImage = async (
 };
 
 export const getTypeOfPokemon = async (
-  lang: string
+  lang: string,
+  filters: Filters
 ): Promise<QuestionWithAnswers> => {
   // question
-  const id = getRandomPokemonId();
+  const id = getRandomPokemonId(filters);
   const [pokemon, pokemonSpecies] = await Promise.all([
     pokeApi.getPokemonById(id),
     pokeApi.getPokemonSpeciesById(id),
@@ -132,7 +139,10 @@ export const getTypeOfPokemon = async (
       .filter((t) => t !== typeId) ?? [];
   const typeIds = [
     typeId,
-    ...getRandomPokemonTypeIds(AMOUNT_OF_ANSWERS - 1, [typeId, ...typeIdNots]),
+    ...getRandomPokemonTypeIds(AMOUNT_OF_ANSWERS - 1, filters, [
+      typeId,
+      ...typeIdNots,
+    ]),
   ];
   const types = await Promise.all(
     typeIds.map((tId) => pokeApi.getTypeById(tId))
@@ -149,10 +159,11 @@ export const getTypeOfPokemon = async (
 };
 
 export const getNatureByStats = async (
-  lang: string
+  lang: string,
+  filters: Filters
 ): Promise<QuestionWithAnswers> => {
   // question
-  const correctId = getRandomNatureId(true);
+  const correctId = getRandomNatureId(filters, true);
   const nature = await pokeApi.getNatureById(correctId);
 
   const [increasedStat, decreasedStat] = await Promise.all(
@@ -178,7 +189,7 @@ export const getNatureByStats = async (
 
   // answers
   const wrongIds = [
-    ...getRandomNatureIds(AMOUNT_OF_ANSWERS - 1, true, [correctId]),
+    ...getRandomNatureIds(AMOUNT_OF_ANSWERS - 1, filters, true, [correctId]),
   ];
   const natures = [
     nature,
@@ -205,7 +216,7 @@ export enum QuestionType {
 
 const questionTypeToDataMap: Record<
   QuestionType,
-  (lang: string) => Promise<QuestionWithAnswers>
+  (lang: string, filters: Filters) => Promise<QuestionWithAnswers>
 > = {
   [QuestionType.NAME_OF_POKEMON_BY_IMAGE]: getNameOfPokemonByImage,
   [QuestionType.TYPE_OF_POKEMON]: getTypeOfPokemon,

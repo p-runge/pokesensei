@@ -8,25 +8,30 @@ import { QuestionType } from "@/server/utils/question";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import qs from "query-string";
+import { POKEMON_BY_GEN } from "@/server/utils/random";
 
 export interface QuizFilter {
   questionTypes: QuestionType[];
+  generations: number[];
 }
 
 const Setup: NextPage = () => {
   const { t } = useTranslation();
 
   const [questionTypes, changeQuestionTypes] = useState([] as QuestionType[]);
+  const [generations, changeGenerations] = useState([] as number[]);
 
-  const [setupData, changeQuizFilter] = useState({
+  const [quizFilters, changeQuizFilters] = useState({
     questionTypes,
+    generations,
   } as QuizFilter);
 
   useEffect(() => {
-    changeQuizFilter({
+    changeQuizFilters({
       questionTypes,
+      generations,
     });
-  }, [changeQuizFilter, questionTypes]);
+  }, [changeQuizFilters, questionTypes, generations]);
 
   return (
     <FullLayout>
@@ -41,13 +46,26 @@ const Setup: NextPage = () => {
           value: questionType,
           label: t(`question_type_${questionType.toLowerCase()}`),
         }))}
-        onSelect={(value) => changeQuestionTypes(value as QuestionType[])}
+        onSelect={(values) => changeQuestionTypes(values as QuestionType[])}
+      />
+      <Select
+        title={t("page_setup_select_title_generation")}
+        hasAllOption
+        multi
+        defaultValues={questionTypes}
+        options={POKEMON_BY_GEN.map((_, i) => ({
+          value: `${i + 1}`,
+          label: `${i + 1}`,
+        }))}
+        onSelect={(values) =>
+          changeGenerations(values.map((value) => parseInt(value)))
+        }
       />
       <div className="pb-12" />
       <Link
         href={{
           pathname: "/play",
-          query: qs.stringify(setupData || {}, {
+          query: qs.stringify(quizFilters || {}, {
             arrayFormat: "index",
           }),
         }}

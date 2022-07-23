@@ -1,7 +1,6 @@
 import { Types } from "pokenode-ts";
-
-// export const POKEMON_AMOUNT = 898;
-export const POKEMON_AMOUNT = 151;
+import { fillArrayWithNumbers } from "./common";
+import { Filters } from "./question";
 
 export const getRandomInt = (max: number, min = 0): number => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -15,43 +14,95 @@ export const getRandomElement: <T = unknown>(array: T[]) => T = (array) => {
   return array[getRandomInt(array.length - 1)];
 };
 
-export const getRandomPokemonId = (not: number[] = []): number => {
-  const id = getRandomInt(POKEMON_AMOUNT, 1);
+const lastPokemonByGen = [151, 251, 386, 493, 649, 721, 809, 905];
+
+export const POKEMON_BY_GEN = lastPokemonByGen.map((lastPokemonInGen, i) => ({
+  first: i === 0 ? 1 : lastPokemonByGen[i - 1] + 1,
+  last: lastPokemonInGen,
+}));
+
+export const getRandomPokemonId = (
+  filters: Filters,
+  not: number[] = []
+): number => {
+  const { generations = fillArrayWithNumbers(8) } = filters;
+
+  const validPokemon = POKEMON_BY_GEN.filter((_, i) =>
+    generations.includes(i + 1)
+  )
+    .map(({ first, last }) =>
+      [...Array(last - first + 1)].map((_, i) => i + first)
+    )
+    .flat();
+
+  const id = getRandomElement(validPokemon);
   if (not.includes(id)) {
-    return getRandomPokemonId(not);
+    return getRandomPokemonId(filters, not);
   }
   return id;
 };
 
-export const getRandomPokemonTypeId = (not: number[] = []): number => {
-  return getRandomElement<number>(
-    Object.values(Types)
-      .filter((value) => typeof value === "string")
-      .map((value) => (Types as any)[value])
-      .filter(
-        // ignore special types
-        (id) => id !== Types.UNKNOWN && id !== Types.SHADOW
-      )
-      .filter(
-        // remove types from 'not'
-        (id) => !not.includes(id)
-      )
+export const POKEMON_TYPES_BY_GEN = [
+  [
+    Types.NORMAL,
+    Types.FIGHTING,
+    Types.FLYING,
+    Types.POISON,
+    Types.GROUND,
+    Types.ROCK,
+    Types.BUG,
+    Types.GHOST,
+    Types.FIRE,
+    Types.WATER,
+    Types.GRASS,
+    Types.ELECTRIC,
+    Types.PSYCHIC,
+    Types.ICE,
+    Types.DRAGON,
+  ],
+  [Types.STEEL, Types.DARK],
+  [],
+  [],
+  [],
+  [Types.FAIRY],
+  [],
+  [],
+];
+
+export const getRandomPokemonTypeId = (
+  filters: Filters,
+  not: number[] = []
+): number => {
+  const { generations = fillArrayWithNumbers(8) } = filters;
+  const highestGen = generations.reduce((a, b) => Math.max(a, b));
+
+  const validTypes = POKEMON_TYPES_BY_GEN.filter(
+    (_, i) => i + 1 <= highestGen
+  ).flat();
+
+  return getRandomElement(
+    validTypes.filter(
+      // remove types from 'not'
+      (id) => !not.includes(id)
+    )
   );
 };
 
 export const getRandomPokemonTypeIds = (
   amount: number,
+  filters: Filters,
   not: number[] = []
 ): number[] => {
   const ids: number[] = [];
   [...Array(amount)].forEach(() => {
-    ids.push(getRandomPokemonTypeId([...ids, ...not]));
+    ids.push(getRandomPokemonTypeId(filters, [...ids, ...not]));
   });
 
   return ids;
 };
 
 export const getRandomNatureId = (
+  filters: Filters,
   hasStatInfluence = false,
   not: number[] = []
 ): number => {
@@ -68,19 +119,20 @@ export const getRandomNatureId = (
   }
 
   if (not.includes(id)) {
-    return getRandomNatureId(hasStatInfluence, not);
+    return getRandomNatureId(filters, hasStatInfluence, not);
   }
   return id;
 };
 
 export const getRandomNatureIds = (
   amount: number,
+  filters: Filters,
   hasStatInfluence = false,
   not: number[] = []
 ): number[] => {
   const ids: number[] = [];
   [...Array(amount)].forEach(() => {
-    ids.push(getRandomNatureId(hasStatInfluence, [...ids, ...not]));
+    ids.push(getRandomNatureId(filters, hasStatInfluence, [...ids, ...not]));
   });
 
   return ids;

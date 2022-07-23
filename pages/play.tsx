@@ -29,9 +29,15 @@ const Play: NextPage = () => {
   const [isFinished, updateIsFinished] = useState(false);
 
   const { locale, asPath } = useRouter();
-  const filters = qs.parse(asPath.split("?")[1], {
+  const rawFilters = qs.parse(asPath.split("?")[1], {
     arrayFormat: "index",
-  }) as unknown as QuizFilter;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  }) as any;
+  // raw filter interpretes every primitive datatype as string, so parsing is necessary
+  const filters: QuizFilter = {
+    ...rawFilters,
+    generations: rawFilters.generations?.map((g: string) => parseInt(g)),
+  };
 
   trpc.useQuery(
     [

@@ -5,6 +5,7 @@
   "page_setup_title": "Einrichtung",
   "page_setup_instruction": "Hier kannst du einstellen, welche Fragen dir gestellt werden sollen",
   "page_setup_select_title_question_type": "Fragetyp",
+  "page_setup_select_title_generation": "Generation",
   "page_setup_start_button": "Spiel Starten",
   "page_play_cancel": "Abbrechen",
   "page_play_evaluation_title": "Auswertung",
