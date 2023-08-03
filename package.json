@@ -1,7 +1,7 @@
 {
   "name": "pokesensei",
   "description": "An app to test and improve your Pokémon knowledge",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",

@@ -9,7 +9,7 @@ const Navbar = () => {
     <nav className="fixed w-full flex items-center h-header bg-gray-700 shadow-lg">
       <div className="flex justify-between items-center w-full px-6">
         <Link href="/">
-          <a>
+          <a className="relative">
             <Image
               src="/logo-50h.png"
               width={189}
@@ -17,6 +17,9 @@ const Navbar = () => {
               alt={`${title}_logo`}
               priority
             />
+            <div className="absolute bottom-0 right-0 -rotate-12 text-sm px-2 border-2 rounded-full border-red-500 text-red-500 bg-gray-800">
+              Beta
+            </div>
           </a>
         </Link>
         <LocaleSelect />
