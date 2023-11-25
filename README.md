@@ -1,22 +1,28 @@
-# PokéSensei
+# Create T3 App
 
-With this app you can test and improve your knowledge about Pokémon.
+This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
-## Contribution
+## What's next? How do I make an app with this?
 
-I'm always happy to see contribution in any way. This shall not be my project alone.
+We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
 
-Have an idea on how to improve PokéSensei? New questions, better UI / UX, any other feature idea? Open up an issue. (And search existing ones for your idea first to prevent dupes of course.)
+If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
 
-Can develop yourself? Open up a pull request. I'm putting high value in good architecture though, so be warned :)
+- [Next.js](https://nextjs.org)
+- [NextAuth.js](https://next-auth.js.org)
+- [Prisma](https://prisma.io)
+- [Tailwind CSS](https://tailwindcss.com)
+- [tRPC](https://trpc.io)
 
-Also I'm pretty picky about what actually goes into the project, so your best chances to get an approved PR is probably to check out the issues page and look for an approved feature that is not yet built. Also be sure not to commit any console or lint errors, console.logs, etc.
+## Learn More
 
-## Getting Started
+To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
 
-```bash
-npm i
-npm run dev
-```
+- [Documentation](https://create.t3.gg/)
+- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+
+## How do I deploy this?
+
+Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
