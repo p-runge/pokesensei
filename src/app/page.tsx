@@ -3,9 +3,12 @@ import Link from "next/link";
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
+import Code from "./_components/code";
 
 export default async function Home() {
-  const hello = await api.post.hello.query({ text: "from tRPC" });
+  const questions = await api.quiz.getQuestions.query({
+    amount: 5,
+  });
   const session = await getServerAuthSession();
 
   return (
@@ -39,9 +42,7 @@ export default async function Home() {
           </Link>
         </div>
         <div className="flex flex-col items-center gap-2">
-          <p className="text-2xl text-white">
-            {hello ? hello.greeting : "Loading tRPC query..."}
-          </p>
+          <Code>{questions}</Code>
 
           <div className="flex flex-col items-center justify-center gap-4">
             <p className="text-center text-2xl text-white">

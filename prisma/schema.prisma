@@ -14,6 +14,20 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+enum QuestionType {
+    NAME_OF_POKEMON_BY_IMAGE
+    TYPE_OF_POKEMON
+    NATURE_BY_STATS
+}
+
+model Question {
+    id        Int          @id @default(autoincrement())
+    name      String
+    createdAt DateTime     @default(now())
+    updatedAt DateTime     @updatedAt
+    type      QuestionType
+}
+
 model Post {
     id        Int      @id @default(autoincrement())
     name      String
