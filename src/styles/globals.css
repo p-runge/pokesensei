@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  button.selected {
+    @apply bg-secondary hover:bg-secondary-dark;
+  }
+}

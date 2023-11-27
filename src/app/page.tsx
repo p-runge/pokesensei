@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
-import Code from "./_components/code";
+import Code from "~/components/code";
 
 export default async function Home() {
   const questions = await api.quiz.getQuestions.query({

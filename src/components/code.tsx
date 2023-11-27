@@ -6,6 +6,8 @@ export default function Code({
   children: object | null | undefined;
 }) {
   return (
-    <pre className="bg-gray overflow-auto p-4">{formatData(children)}</pre>
+    <pre className="bg-gray flex w-full overflow-x-auto whitespace-pre-wrap p-4">
+      {formatData(children)}
+    </pre>
   );
 }

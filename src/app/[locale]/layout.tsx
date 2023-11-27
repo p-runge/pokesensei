@@ -2,8 +2,10 @@ import "~/styles/globals.css";
 
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 import { TRPCReactProvider } from "~/trpc/react";
+import { LOCALES } from "~/i18n";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,14 +20,19 @@ export const metadata = {
 
 export default function RootLayout({
   children,
+  params: { locale },
 }: {
   children: React.ReactNode;
+  params: { locale: (typeof LOCALES)[number] };
 }) {
+  if (!LOCALES.includes(locale)) notFound();
   return (
-    <html lang="en">
-      <body className={`font-sans ${inter.variable}`}>
+    <html lang={locale}>
+      <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
         <TRPCReactProvider cookies={cookies().toString()}>
-          {children}
+          <main className="w-boxed m-auto flex h-full max-w-full flex-col items-center p-4">
+            {children}
+          </main>
         </TRPCReactProvider>
       </body>
     </html>
