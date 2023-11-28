@@ -32,20 +32,7 @@ const Question: React.FC<{
       {/* question */}
       <div className="flex h-64 flex-col items-center justify-center rounded-lg bg-gray-700 p-4">
         <span>
-          {
-            {
-              NAME_OF_POKEMON_BY_IMAGE: t("question_name_of_pokemon"),
-              TYPE_OF_POKEMON: t(
-                "question_type_of_pokemon",
-                question.question.params,
-              ),
-              NATURE_BY_STATS: t(
-                "question_nature_by_stats",
-                question.question.params,
-              ),
-            }[question.question.type]
-          }
-          {/* {t(question.question.label.string, question.question.label.params)} */}
+          {t(question.question.label.string, question.question.label.params)}
         </span>
         {question.question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
           <Image
