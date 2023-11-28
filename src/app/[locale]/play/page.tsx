@@ -8,7 +8,7 @@ export default async function Page() {
   const locale = useLocale();
 
   const questions = await api.quiz.getQuestions.query({
-    amount: 1,
+    amount: 5,
     language: locale as LanguageIso,
   });
 

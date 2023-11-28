@@ -3,9 +3,9 @@
 import type { QuestionWithAnswers } from "~/server/utils/question";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import clsx from "clsx";
 import Question from "./question";
 import { useRouter } from "next/navigation";
+import { cn } from "~/server/utils/cn";
 
 const Quiz: React.FC<{
   questions: QuestionWithAnswers[];
@@ -14,9 +14,6 @@ const Quiz: React.FC<{
   const router = useRouter();
 
   const [activeQuestionId, updateActiveQuestionId] = useState(0);
-  const [history, updateHistory] = useState([
-    ...Array<void>(questions.length).map(() => false),
-  ]);
 
   useEffect(() => {
     if (activeQuestionId >= questions.length) {
@@ -40,12 +37,16 @@ const Quiz: React.FC<{
       </p>
       <div className="flex h-4 rounded-lg">
         {/* segment */}
-        {history.map((item, i) => (
+        {[...Array<void>(questions.length)].map((_, i) => (
           <div
             key={i}
-            className={clsx(
+            className={cn(
               "flex-grow border-r-2 border-gray-800 first:rounded-l-lg last:rounded-r-lg last:border-r-0",
-              item ? "bg-secondary" : "bg-gray-400",
+              i === activeQuestionId
+                ? "bg-secondary"
+                : i < activeQuestionId
+                  ? "bg-primary"
+                  : "bg-gray-400",
             )}
           />
         ))}
@@ -56,9 +57,6 @@ const Quiz: React.FC<{
       <Question
         question={activeQuestion}
         onAnswer={() => {
-          const newHistory = history;
-          newHistory[activeQuestionId] = true;
-          updateHistory(newHistory);
           updateActiveQuestionId(activeQuestionId + 1);
         }}
       />

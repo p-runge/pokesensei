@@ -20,7 +20,7 @@ export default function Home() {
         </span>
       </h1>
       <p className="mt-3">{t("page_home_copy")}</p>
-      <Link href="/play" variant="primary">
+      <Link href="/play" variant="primary" className="text-2xl">
         {t("page_home_quick_start_button")}
       </Link>
       <Link href="/setup">{t("page_home_custom_game_button")}</Link>

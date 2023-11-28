@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 import Button from "~/components/button";
+import { cn } from "~/server/utils/cn";
 import type { QuestionWithAnswers } from "~/server/utils/question";
 
 const initialState = {
@@ -31,7 +32,7 @@ const Question: React.FC<{
     <div className="mb-12 grid gap-4">
       {/* question */}
       <div className="flex h-64 flex-col items-center justify-center rounded-lg bg-gray-700 p-4">
-        <span>
+        <span className="text-lg">
           {t(question.question.label.string, question.question.label.params)}
         </span>
         {question.question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
@@ -51,12 +52,8 @@ const Question: React.FC<{
         {question.answers.map((answer, i) => (
           <Button
             key={`${answer.value}-${i}`}
-            disabled={!!(givenAnswer && givenAnswer !== answer.value)}
-            className={`rounded-lg px-4 py-4 ${
-              givenAnswer === answer.value
-                ? "bg-secondary hover:bg-secondary-dark"
-                : "bg-primary"
-            }`}
+            disabled={!!givenAnswer}
+            className="rounded-lg bg-primary px-4 py-4 text-2xl"
             onClick={() => onAnswerClicked(answer.value)}
           >
             {answer.label}
