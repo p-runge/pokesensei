@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import type { PluginCreator } from "tailwindcss/types/config";
 
 const heights = {
   header: "64px",
@@ -6,6 +7,22 @@ const heights = {
 };
 const widths = {
   boxed: "1200px",
+};
+
+const customImageRenderingPlugin: PluginCreator = ({ addUtilities, theme }) => {
+  const imageRenderings: Record<string, { imageRendering: string }> = theme(
+    "imageRendering",
+    {},
+  );
+  const newUtilities: Record<string, { imageRendering: string }> = {};
+
+  Object.keys(imageRenderings).forEach((key) => {
+    newUtilities[`.rendering-${key}`] = {
+      imageRendering: imageRenderings[key]!.imageRendering,
+    };
+  });
+
+  addUtilities(newUtilities);
 };
 
 export default {
@@ -33,10 +50,15 @@ export default {
         ...heights,
         ...widths,
       },
+
+      // Extend with custom utilities for image rendering
+      imageRendering: {
+        pixelated: { imageRendering: "pixelated" },
+        auto: { imageRendering: "auto" },
+        "crisp-edges": { imageRendering: "crisp-edges" },
+        smooth: { imageRendering: "smooth" }, // custom utility for smooth rendering
+      },
     },
   },
-  plugins: [
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-var-requires
-    // require("tailwindcss-image-rendering")(), // no options to configure
-  ],
+  plugins: [customImageRenderingPlugin],
 } satisfies Config;
