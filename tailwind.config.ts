@@ -12,10 +12,6 @@ export default {
   mode: "jit",
   content: ["./src/{app,components}/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    dropShadow: {
-      DEFAULT:
-        "-1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black",
-    },
     extend: {
       colors: {
         primary: {

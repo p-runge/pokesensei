@@ -11,9 +11,9 @@ export default function Button({
       {...props}
       type="button"
       className={clsx(
-        "inline-block cursor-pointer break-words rounded px-4 py-2 drop-shadow transition hover:no-underline",
+        "text-shadow inline-block cursor-pointer break-words rounded px-4 py-2 transition hover:no-underline",
         variant === "primary" &&
-          "bg-primary hover:bg-primary-dark disabled:bg-primary-light text-white",
+          "bg-primary text-white hover:bg-primary-dark disabled:bg-primary-light",
       )}
     ></button>
   );

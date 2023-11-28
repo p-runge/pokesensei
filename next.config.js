@@ -9,6 +9,10 @@ const withNextIntl = NextIntlPlugin();
 await import("./src/env.js");
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+  images: {
+    domains: ["raw.githubusercontent.com"],
+  },
+};
 
 export default withNextIntl(config);

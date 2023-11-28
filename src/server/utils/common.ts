@@ -3,6 +3,21 @@ import SuperJSON from "superjson";
 
 export type ValueOf<T> = T[keyof T];
 
+// UnionToTuple
+type UnionToIntersection<U> = (
+  U extends unknown ? (k: U) => void : never
+) extends (k: infer I) => void
+  ? I
+  : never;
+type LastOfUnion<U> = UnionToIntersection<
+  U extends unknown ? () => U : never
+> extends () => infer L
+  ? L
+  : never;
+export type UnionToTuple<U, T extends unknown[] = []> = [U] extends [never]
+  ? T
+  : UnionToTuple<Exclude<U, LastOfUnion<U>>, [LastOfUnion<U>, ...T]>;
+
 type Key = string | number | symbol;
 type UnionMap<T extends Key> = {
   [K in T]: K;
