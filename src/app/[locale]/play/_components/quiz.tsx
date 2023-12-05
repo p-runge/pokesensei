@@ -4,7 +4,7 @@ import type { QuestionWithAnswers } from "~/server/utils/question";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import Question from "./question";
-import { useRouter } from "next/navigation";
+import { useRouter } from "~/navigation";
 import { cn } from "~/server/utils/cn";
 
 const Quiz: React.FC<{
