@@ -55,6 +55,7 @@ const Quiz: React.FC<{
       <div className="pb-6" />
 
       <Question
+        key={activeQuestionId}
         question={activeQuestion}
         onAnswer={() => {
           updateActiveQuestionId(activeQuestionId + 1);
