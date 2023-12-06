@@ -24,7 +24,7 @@ export default function EvaluatedQuestion({
         </span>
         {question.question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
           <Image
-            src={question.question.imgSrc}
+            src={question.question.params.imgSrc}
             alt=""
             width="192"
             height="192"

@@ -1,15 +1,17 @@
 "use client";
 
-import type { QuestionWithAnswers } from "~/server/utils/question";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import Question from "./question";
 import { useRouter } from "~/navigation";
 import { cn } from "~/server/utils/cn";
+import type { api } from "~/trpc/server";
 
-const Quiz: React.FC<{
-  questions: QuestionWithAnswers[];
-}> = ({ questions }) => {
+export default function Quiz({
+  questions,
+}: {
+  questions: Awaited<ReturnType<typeof api.quiz.getQuestions.query>>;
+}) {
   const t = useTranslations();
   const router = useRouter();
 
@@ -64,5 +66,3 @@ const Quiz: React.FC<{
     </>
   );
 };
-
-export default Quiz;

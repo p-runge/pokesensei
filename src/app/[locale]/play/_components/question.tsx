@@ -4,18 +4,20 @@ import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useState } from "react";
 import Button from "~/components/button";
-import { cn } from "~/server/utils/cn";
-import type { QuestionWithAnswers } from "~/server/utils/question";
+import type { api } from "~/trpc/server";
 
 const initialState = {
   givenAnswer: undefined,
   correctAnswers: undefined,
 };
 
-const Question: React.FC<{
-  question: QuestionWithAnswers;
+export default function Question({
+  question,
+  onAnswer,
+}: {
+  question: Awaited<ReturnType<typeof api.quiz.getQuestions.query>>[number];
   onAnswer: (answer: string) => void;
-}> = ({ question, onAnswer }) => {
+}) {
   const t = useTranslations();
 
   const [givenAnswer, updateGivenAnswer] = useState(
@@ -33,11 +35,11 @@ const Question: React.FC<{
       {/* question */}
       <div className="flex h-64 flex-col items-center justify-center rounded-lg bg-gray-700 p-4">
         <span className="text-lg">
-          {t(question.question.label.string, question.question.label.params)}
+          {t(question.label.string, question.label.params)}
         </span>
-        {question.question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
+        {question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
           <Image
-            src={question.question.imgSrc}
+            src={question.params.imgSrc}
             alt="Pokémon Image"
             width="192"
             height="192"
@@ -63,5 +65,3 @@ const Question: React.FC<{
     </div>
   );
 };
-
-export default Question;

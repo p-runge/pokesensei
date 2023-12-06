@@ -6,6 +6,7 @@ import { getRandomElement } from "~/server/utils/random";
 import { getQuestionByType } from "~/server/utils/question";
 import { LANGUAGES_ISO } from "~/server/utils/api";
 import { withDefaultedProps } from "~/server/utils/zod";
+import { db } from "~/server/db";
 
 const quizRouter = createTRPCRouter({
   getQuestions: publicProcedure
@@ -42,14 +43,35 @@ const quizRouter = createTRPCRouter({
           filters: { questionTypes, ...filters },
         },
       }) => {
-        return await Promise.all(
-          [...Array<void>(amount)].map(() => {
+        const questions = await Promise.all(
+          // for whatever amount of times...
+          [...Array<void>(amount)].map(async () => {
+            // ...get a random question type...
             const questionType: QuestionType = getRandomElement<QuestionType>(
               questionTypes,
             ) as QuestionType;
-            return getQuestionByType(questionType, language, filters);
+            // ...generate a question of that type by requesting data from PokeAPI...
+            const question = await getQuestionByType(
+              questionType,
+              language,
+              filters,
+            );
+
+            // ...save it to the database...
+            const savedQuestion = await db.question.create({
+              data: question.question,
+            });
+
+            // ...and return the question with the saved ID
+            return {
+              ...savedQuestion,
+              ...question.question,
+              answers: question.answers,
+            };
           }),
         );
+
+        return questions;
       },
     ),
 });

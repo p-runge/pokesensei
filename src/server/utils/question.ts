@@ -32,9 +32,9 @@ type QuestionWrapperTypeNameOfPokemonByImage = {
   type: Include<QuestionType, "NAME_OF_POKEMON_BY_IMAGE">;
   params: {
     id: number;
+    imgSrc: string;
   };
   label: I18nString;
-  imgSrc: string;
 };
 
 type QuestionWrapperTypeOfPokemon = {
@@ -90,11 +90,11 @@ export const getNameOfPokemonByImage = async (
     type: QuestionType.NAME_OF_POKEMON_BY_IMAGE,
     params: {
       id: pokemonId,
+      imgSrc: sprite,
     },
     label: {
       string: "question_name_of_pokemon",
     },
-    imgSrc: sprite,
   };
 
   const pokemonIds: number[] = [];
