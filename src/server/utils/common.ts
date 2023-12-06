@@ -18,6 +18,10 @@ export type UnionToTuple<U, T extends unknown[] = []> = [U] extends [never]
   ? T
   : UnionToTuple<Exclude<U, LastOfUnion<U>>, [LastOfUnion<U>, ...T]>;
 
+/**
+  * Include is a helper type to give auto-complete on accessing single
+  * types from a union type. This is pretty much only for improved DX.
+  */
 type Key = string | number | symbol;
 type UnionMap<T extends Key> = {
   [K in T]: K;

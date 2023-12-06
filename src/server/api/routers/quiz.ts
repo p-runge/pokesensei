@@ -7,6 +7,7 @@ import { getQuestionByType } from "~/server/utils/question";
 import { LANGUAGES_ISO } from "~/server/utils/api";
 import { withDefaultedProps } from "~/server/utils/zod";
 import { db } from "~/server/db";
+import { type QuestionParams, solveQuestion } from "~/server/utils/evaluate";
 
 const quizRouter = createTRPCRouter({
   getQuestions: publicProcedure
@@ -74,6 +75,36 @@ const quizRouter = createTRPCRouter({
         return questions;
       },
     ),
+
+  answerQuestion: publicProcedure
+    .input(
+      z.object({
+        id: z.string().uuid(),
+        answer: z.string(),
+      }),
+    )
+    .mutation(async ({ input: { id, answer } }) => {
+      const question = await db.question.findUniqueOrThrow({
+        where: { id },
+      });
+
+      const correctAnswers = await solveQuestion(
+        question.type,
+        question.params as QuestionParams<typeof question.type>,
+      );
+
+      const isCorrect = correctAnswers.includes(answer);
+
+      await db.answer.create({
+        data: {
+          label: answer,
+          isCorrect,
+          questionId: id,
+        },
+      });
+
+      return isCorrect;
+    }),
 });
 
 export default quizRouter;

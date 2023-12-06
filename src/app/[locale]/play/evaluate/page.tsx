@@ -9,14 +9,14 @@ export default function Evaluate() {
   const t = useTranslations();
 
   // TODO: fetch data from api
-  const data = [] as any[];
+  const data = [] as unknown[];
 
   return (
     <div className="w-full">
       <p>
         {t("quiz_evaluation_absolute", {
           // TODO: calculate based no correct answers
-          correct: true,
+          correct: 1,
           max: data.length,
         })}
       </p>

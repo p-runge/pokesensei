@@ -2,14 +2,9 @@
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useState } from "react";
 import Button from "~/components/button";
-import type { api } from "~/trpc/server";
-
-const initialState = {
-  givenAnswer: undefined,
-  correctAnswers: undefined,
-};
+import { type api } from "~/trpc/server";
+import { api as clientApi } from "~/trpc/react";
 
 export default function Question({
   question,
@@ -20,12 +15,14 @@ export default function Question({
 }) {
   const t = useTranslations();
 
-  const [givenAnswer, updateGivenAnswer] = useState(
-    initialState.givenAnswer as string | undefined,
-  );
+  const { mutateAsync: answerQuestion } =
+    clientApi.quiz.answerQuestion.useMutation();
 
   async function onAnswerClicked(answer: string) {
-    updateGivenAnswer(answer);
+    void answerQuestion({
+      id: question.id,
+      answer,
+    });
 
     onAnswer(answer);
   }
@@ -54,7 +51,6 @@ export default function Question({
         {question.answers.map((answer, i) => (
           <Button
             key={`${answer.value}-${i}`}
-            disabled={!!givenAnswer}
             className="rounded-lg bg-primary px-4 py-4 text-2xl"
             onClick={() => onAnswerClicked(answer.value)}
           >
@@ -64,4 +60,4 @@ export default function Question({
       </div>
     </div>
   );
-};
+}

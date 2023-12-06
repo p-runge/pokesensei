@@ -37,8 +37,8 @@ model Answer {
     updatedAt  DateTime @updatedAt
     question   Question @relation(fields: [questionId], references: [id])
     questionId String   @unique
-    answer     String
-    correct    Boolean
+    label      String
+    isCorrect  Boolean
 }
 
 model Post {

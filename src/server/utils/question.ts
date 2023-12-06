@@ -54,7 +54,7 @@ type QuestionWrapperNatureByStats = {
   label: I18nString;
 };
 
-type QuestionWrapper =
+export type QuestionWrapper =
   | QuestionWrapperTypeNameOfPokemonByImage
   | QuestionWrapperTypeOfPokemon
   | QuestionWrapperNatureByStats;
