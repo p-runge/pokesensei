@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "../trpc";
 import { GENERATIONS } from "pokenode-ts";
 import { QuestionType } from "@prisma/client";
 import { getRandomElement } from "~/server/utils/random";
@@ -7,14 +6,14 @@ import { getQuestionByType } from "~/server/utils/question";
 import { LANGUAGES_ISO } from "~/server/utils/api";
 import { withDefaultedProps } from "~/server/utils/zod";
 import { db } from "~/server/db";
-import { type QuestionParams, solveQuestion } from "~/server/utils/evaluate";
+import { createTRPCRouter, publicProcedure } from "../trpc";
 
 const quizRouter = createTRPCRouter({
-  getQuestions: publicProcedure
+  create: publicProcedure
     .input(
       z.object({
         language: z.nativeEnum(LANGUAGES_ISO).default(LANGUAGES_ISO.en),
-        amount: z.number().min(1),
+        questions: z.number().min(1),
         test: withDefaultedProps(
           z.object({
             foo: z.string().default("bar"),
@@ -39,14 +38,14 @@ const quizRouter = createTRPCRouter({
     .query(
       async ({
         input: {
-          amount,
+          questions: questionAmount,
           language,
           filters: { questionTypes, ...filters },
         },
       }) => {
         const questions = await Promise.all(
           // for whatever amount of times...
-          [...Array<void>(amount)].map(async () => {
+          [...Array<void>(questionAmount)].map(async () => {
             // ...get a random question type...
             const questionType: QuestionType = getRandomElement<QuestionType>(
               questionTypes,
@@ -75,36 +74,6 @@ const quizRouter = createTRPCRouter({
         return questions;
       },
     ),
-
-  answerQuestion: publicProcedure
-    .input(
-      z.object({
-        id: z.string().uuid(),
-        answer: z.string(),
-      }),
-    )
-    .mutation(async ({ input: { id, answer } }) => {
-      const question = await db.question.findUniqueOrThrow({
-        where: { id },
-      });
-
-      const correctAnswers = await solveQuestion(
-        question.type,
-        question.params as QuestionParams<typeof question.type>,
-      );
-
-      const isCorrect = correctAnswers.includes(answer);
-
-      await db.answer.create({
-        data: {
-          label: answer,
-          isCorrect,
-          questionId: id,
-        },
-      });
-
-      return isCorrect;
-    }),
 });
 
 export default quizRouter;

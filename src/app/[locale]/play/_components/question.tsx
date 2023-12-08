@@ -10,13 +10,13 @@ export default function Question({
   question,
   onAnswer,
 }: {
-  question: Awaited<ReturnType<typeof api.quiz.getQuestions.query>>[number];
+  question: Awaited<ReturnType<typeof api.quiz.create.query>>[number];
   onAnswer: (answer: string) => void;
 }) {
   const t = useTranslations();
 
   const { mutateAsync: answerQuestion } =
-    clientApi.quiz.answerQuestion.useMutation();
+    clientApi.question.answer.useMutation();
 
   async function onAnswerClicked(answer: string) {
     void answerQuestion({

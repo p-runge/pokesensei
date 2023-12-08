@@ -7,8 +7,8 @@ import type { LanguageIso } from "~/server/utils/api";
 export default async function Page() {
   const locale = useLocale();
 
-  const questions = await api.quiz.getQuestions.query({
-    amount: 5,
+  const questions = await api.quiz.create.query({
+    questions: 5,
     language: locale as LanguageIso,
   });
 
