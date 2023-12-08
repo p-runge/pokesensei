@@ -31,7 +31,7 @@ model Question {
     id        String       @id @default(uuid())
     createdAt DateTime     @default(now())
     updatedAt DateTime     @updatedAt
-    Quiz      Quiz         @relation(fields: [quizId], references: [id])
+    Quiz      Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
     quizId    String
     type      QuestionType
     params    Json
@@ -44,7 +44,7 @@ model Answer {
     id         String   @id @default(uuid())
     createdAt  DateTime @default(now())
     updatedAt  DateTime @updatedAt
-    question   Question @relation(fields: [questionId], references: [id])
+    question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
     questionId String   @unique
     label      String
     isCorrect  Boolean
