@@ -14,6 +14,13 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model Quiz {
+    id        String     @id @default(uuid())
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
+    questions Question[]
+}
+
 enum QuestionType {
     NAME_OF_POKEMON_BY_IMAGE
     TYPE_OF_POKEMON
@@ -24,6 +31,8 @@ model Question {
     id        String       @id @default(uuid())
     createdAt DateTime     @default(now())
     updatedAt DateTime     @updatedAt
+    Quiz      Quiz         @relation(fields: [quizId], references: [id])
+    quizId    String
     type      QuestionType
     params    Json
     label     Json

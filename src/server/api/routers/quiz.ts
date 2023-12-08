@@ -14,11 +14,6 @@ const quizRouter = createTRPCRouter({
       z.object({
         language: z.nativeEnum(LANGUAGES_ISO).default(LANGUAGES_ISO.en),
         questions: z.number().min(1),
-        test: withDefaultedProps(
-          z.object({
-            foo: z.string().default("bar"),
-          }),
-        ),
         filters: withDefaultedProps(
           z.object({
             questionTypes: z
@@ -50,28 +45,30 @@ const quizRouter = createTRPCRouter({
             const questionType: QuestionType = getRandomElement<QuestionType>(
               questionTypes,
             ) as QuestionType;
-            // ...generate a question of that type by requesting data from PokeAPI...
-            const question = await getQuestionByType(
-              questionType,
-              language,
-              filters,
-            );
-
-            // ...save it to the database...
-            const savedQuestion = await db.question.create({
-              data: question.question,
-            });
-
-            // ...and return the question with the saved ID
-            return {
-              ...savedQuestion,
-              ...question.question,
-              answers: question.answers,
-            };
+            // ...and generate a question of that type by requesting data from PokeAPI
+            return getQuestionByType(questionType, language, filters);
           }),
         );
 
-        return questions;
+        const quiz = await db.quiz.create({
+          data: {
+            questions: {
+              createMany: {
+                data: questions.map((question) => ({
+                  ...question.question,
+                  ...question.answers.map((answer) => ({
+                    answer: answer.value,
+                  })),
+                })),
+              },
+            },
+          },
+          include: {
+            questions: true,
+          },
+        });
+
+        return quiz;
       },
     ),
 });
