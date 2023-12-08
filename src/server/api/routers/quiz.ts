@@ -56,9 +56,7 @@ const quizRouter = createTRPCRouter({
               createMany: {
                 data: questions.map((question) => ({
                   ...question.question,
-                  ...question.answers.map((answer) => ({
-                    answer: answer.value,
-                  })),
+                  answers: question.answers.map((answer) => answer.value),
                 })),
               },
             },
@@ -68,7 +66,20 @@ const quizRouter = createTRPCRouter({
           },
         });
 
-        return quiz;
+        return {
+          ...quiz,
+          questions: [
+            ...quiz.questions.map((question, i) => {
+              const q = questions[i]!;
+
+              return {
+                ...question,
+                ...q.question,
+                answers: q.answers,
+              };
+            }),
+          ],
+        };
       },
     ),
 });

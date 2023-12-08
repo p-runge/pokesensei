@@ -7,14 +7,14 @@ import type { LanguageIso } from "~/server/utils/api";
 export default async function Page() {
   const locale = useLocale();
 
-  const questions = await api.quiz.create.query({
+  const quiz = await api.quiz.create.query({
     questions: 5,
     language: locale as LanguageIso,
   });
 
   return (
     <IntlProvider>
-      <Quiz questions={questions} />
+      <Quiz quiz={quiz} />
     </IntlProvider>
   );
 }

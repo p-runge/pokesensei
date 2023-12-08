@@ -10,7 +10,9 @@ export default function Question({
   question,
   onAnswer,
 }: {
-  question: Awaited<ReturnType<typeof api.quiz.create.query>>[number];
+  question: Awaited<
+    ReturnType<typeof api.quiz.create.query>
+  >["questions"][number];
   onAnswer: (answer: string) => void;
 }) {
   const t = useTranslations();

@@ -8,14 +8,16 @@ import { cn } from "~/server/utils/cn";
 import type { api } from "~/trpc/server";
 
 export default function Quiz({
-  questions,
+  quiz,
 }: {
-  questions: Awaited<ReturnType<typeof api.quiz.getQuestions.query>>;
+  quiz: Awaited<ReturnType<typeof api.quiz.create.query>>;
 }) {
   const t = useTranslations();
   const router = useRouter();
 
   const [activeQuestionId, updateActiveQuestionId] = useState(0);
+
+  const { questions } = quiz;
 
   useEffect(() => {
     if (activeQuestionId >= questions.length) {
