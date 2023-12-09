@@ -24,23 +24,22 @@ export default function Evaluate() {
 
   const { questions } = quiz;
 
+  const correctQuestionsAmount = questions.filter((question) =>
+    question.answers.find((answer) => answer.isChosen && answer.isCorrect),
+  ).length;
+
   return (
     <div className="w-full">
       <p>
         {t("quiz_evaluation_absolute", {
-          // TODO: calculate based no correct answers
-          correct: 1,
+          correct: correctQuestionsAmount,
           max: questions.length,
         })}
       </p>
       <p>
         {t("quiz_evaluation_percentage", {
           percentage: Math.round(
-            (100 / questions.length || 1) *
-              // questions.filter((item) =>
-              //   item.correctAnswers.includes(item.givenAnswer),
-              // ).length,
-              questions.length || 1,
+            (100 / questions.length || 1) * correctQuestionsAmount,
           ),
         })}
       </p>
