@@ -3,6 +3,7 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { unstable_setRequestLocale } from "next-intl/server";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { LOCALES } from "~/i18n";
@@ -26,6 +27,9 @@ export default function RootLayout({
   params: { locale: (typeof LOCALES)[number] };
 }) {
   if (!LOCALES.includes(locale)) notFound();
+
+  unstable_setRequestLocale(locale);
+
   return (
     <html lang={locale}>
       <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
@@ -45,3 +49,11 @@ export default function RootLayout({
     </html>
   );
 }
+
+export function generateStaticParams() {
+  return LOCALES.map((locale) => ({
+    slug: locale,
+  }));
+}
+
+export const dynamic = "force-static";
