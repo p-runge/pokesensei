@@ -11,7 +11,11 @@ await import("./src/env.js");
 /** @type {import("next").NextConfig} */
 const config = {
   images: {
-    domains: ["raw.githubusercontent.com"],
+    remotePatterns: [
+      {
+        hostname: "raw.githubusercontent.com",
+      },
+    ],
   },
 };
 
