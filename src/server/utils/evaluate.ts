@@ -14,7 +14,7 @@ export async function solveQuestion<T extends QuestionWrapper["type"]>(
     {
       TYPE_OF_POKEMON: async (params) => await solveTypeOfPokemon(params.id),
       NAME_OF_POKEMON_BY_IMAGE: async (params) => [
-        await solveNameOfPokemon(params.id),
+        await solveNameOfPokemonByImage(params.id),
       ],
       NATURE_BY_STATS: async (params) => [
         await solveNatureByStats(params.increasedStat, params.decreasedStat),
@@ -33,7 +33,7 @@ export const solveTypeOfPokemon = async (id: number) => {
   return pokemon.types.map((t) => t.type.name);
 };
 
-export const solveNameOfPokemon = async (id: number) => {
+export const solveNameOfPokemonByImage = async (id: number) => {
   const pokemon = await pokeApi.getPokemonById(id);
 
   return pokemon.name;
