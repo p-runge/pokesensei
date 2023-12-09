@@ -17,7 +17,7 @@ const quizRouter = createTRPCRouter({
   create: publicProcedure
     .input(
       z.object({
-        language: z.nativeEnum(LANGUAGES_ISO).default(LANGUAGES_ISO.en),
+        language: z.nativeEnum(LANGUAGES_ISO),
         questions: z.number().min(1),
         filters: withDefaultedProps(
           z.object({
@@ -80,7 +80,7 @@ const quizRouter = createTRPCRouter({
   getById: publicProcedure
     .input(
       z.object({
-        language: z.nativeEnum(LANGUAGES_ISO).default(LANGUAGES_ISO.en),
+        language: z.nativeEnum(LANGUAGES_ISO),
         id: z.string().uuid(),
       }),
     )
@@ -199,7 +199,7 @@ const quizRouter = createTRPCRouter({
   evaluate: publicProcedure
     .input(
       z.object({
-        language: z.nativeEnum(LANGUAGES_ISO).default(LANGUAGES_ISO.en),
+        language: z.nativeEnum(LANGUAGES_ISO),
         id: z.string().uuid(),
       }),
     )
