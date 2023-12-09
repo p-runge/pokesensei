@@ -51,6 +51,9 @@ export default {
 
       width: widths,
       height: heights,
+      minHeight: {
+        screen: responsiveScreenHeight,
+      },
       maxHeight: {
         screen: responsiveScreenHeight,
       },

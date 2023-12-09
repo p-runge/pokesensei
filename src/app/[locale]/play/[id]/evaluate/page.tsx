@@ -3,6 +3,8 @@
 import { useLocale, useTranslations } from "next-intl";
 import EvaluatedQuestion from "./_components/evaluated-question";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Link from "~/components/link";
 import { api } from "~/trpc/react";
 import { type LanguageIso } from "~/server/utils/api";
@@ -33,19 +35,30 @@ export default function Evaluate() {
 
   return (
     <div className="flex flex-col text-center">
-      <p>
-        {t("quiz_evaluation_absolute", {
-          correct: correctQuestionsAmount,
-          max: questions.length,
-        })}
-      </p>
-      <p>
-        {t("quiz_evaluation_percentage", {
-          percentage: Math.round(
-            (100 / questions.length || 1) * correctQuestionsAmount,
-          ),
-        })}
-      </p>
+      {/* initial stats view */}
+      <div className="-my-4 flex h-screen justify-center">
+        <div className="relative flex flex-col justify-center gap-6 self-center">
+          <p className="text-4xl font-bold">
+            {t("quiz_evaluation_absolute", {
+              correct: correctQuestionsAmount,
+              max: questions.length,
+            })}
+          </p>
+          <p className="text-4xl font-bold">
+            {t("quiz_evaluation_percentage", {
+              percentage: Math.round(
+                (100 / questions.length || 1) * correctQuestionsAmount,
+              ),
+            })}
+          </p>
+
+          {/* scroll down icon */}
+          <FontAwesomeIcon
+            icon={faChevronDown}
+            className="absolute -bottom-20 left-1/2 -ml-4 animate-bounce text-xl"
+          />
+        </div>
+      </div>
 
       <div className="pb-6" />
 
