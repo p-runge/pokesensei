@@ -13,8 +13,10 @@ export default async function Page() {
   });
 
   return (
-    <IntlProvider>
-      <Quiz quiz={quiz} />
-    </IntlProvider>
+    <div className="flex grow flex-col justify-center">
+      <IntlProvider>
+        <Quiz quiz={quiz} />
+      </IntlProvider>
+    </div>
   );
 }

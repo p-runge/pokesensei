@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang={locale}>
       <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
         <TRPCReactProvider cookies={cookies().toString()}>
-          <main className="m-auto flex h-full w-boxed max-w-full flex-col p-4">
+          <main className="m-auto flex h-screen w-boxed max-w-full flex-col p-4">
             {children}
           </main>
         </TRPCReactProvider>

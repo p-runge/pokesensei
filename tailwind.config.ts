@@ -1,9 +1,13 @@
 import type { Config } from "tailwindcss";
 import type { PluginCreator } from "tailwindcss/types/config";
 
+// TODO: remove the cast when fix request is implemented: https://github.com/tailwindlabs/tailwindcss/discussions/12552
+const responsiveScreenHeight = ["100vh", "100dvh"] as unknown as string;
+
 const heights = {
   header: "64px",
   footer: "48px",
+  screen: responsiveScreenHeight,
 };
 const widths = {
   boxed: "1200px",
@@ -44,8 +48,13 @@ export default {
         success: "#16a34a",
         error: "#dc2626",
       },
-      height: heights,
+
       width: widths,
+      height: heights,
+      maxHeight: {
+        screen: responsiveScreenHeight,
+      },
+
       padding: {
         ...heights,
         ...widths,

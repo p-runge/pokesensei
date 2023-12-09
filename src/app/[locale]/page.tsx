@@ -7,8 +7,9 @@ export default function Home() {
   const t = useTranslations();
 
   return (
-    <div className="flex flex-col items-center gap-6">
-      <h1 className="relative">
+    <div className="flex grow flex-col items-center justify-center gap-6">
+      {/* add margin to have space for overlapping beta badge */}
+      <h1 className="relative mx-6">
         <Image
           src="/logo-150h.png"
           width={594}
@@ -20,7 +21,7 @@ export default function Home() {
           Beta
         </span>
       </h1>
-      <p className="mt-3">{t("page_home_copy")}</p>
+      <p className="text-center text-xl">{t("page_home_copy")}</p>
       <Link href="/play" variant="primary" className="text-2xl">
         {t("page_home_quick_start_button")}
       </Link>
