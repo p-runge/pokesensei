@@ -39,7 +39,7 @@ export default function RootLayout({
           </main>
 
           <footer className="-mt-6 flex w-full justify-center pb-1 text-sm font-light">
-            <a href="https://p6.gg/">
+            <a href="https://p6.gg/" target="_blank">
               Made with <span className="text-red-500">❤</span> by{" "}
               <span className="font-bold text-[#F79B3A]">P6</span>
             </a>
