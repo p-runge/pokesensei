@@ -19,7 +19,7 @@ export default function Page() {
 
   useEffect(() => {
     if (id) {
-      router.push(`/play/${id}`);
+      router.replace(`/play/${id}`);
     }
   }, [id]);
 

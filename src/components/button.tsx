@@ -5,7 +5,7 @@ export default function Button({
   variant = "primary",
   ...props
 }: React.ComponentProps<"button"> & {
-  variant?: "primary";
+  variant?: "primary" | "secondary";
 }) {
   return (
     <button
@@ -19,6 +19,8 @@ export default function Button({
           "cursor-pointer break-words rounded px-4 py-2 transition hover:no-underline",
           variant === "primary" &&
             "bg-primary text-white hover:bg-primary-dark disabled:bg-primary-light",
+          variant === "secondary" &&
+            "bg-secondary text-white hover:bg-secondary-dark disabled:bg-secondary-light",
           props.disabled && "cursor-not-allowed",
           props.className,
         ),
