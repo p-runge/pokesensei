@@ -31,17 +31,12 @@ export default function Setup() {
     });
   }, [changeQuizFilters, questionTypes, generations]);
 
-  const startHref = qs.stringifyUrl(
-    {
-      url: "/play",
-      query: {
-        ...quizFilters,
-      },
+  const startHref = qs.stringifyUrl({
+    url: "/play",
+    query: {
+      ...quizFilters,
     },
-    {
-      arrayFormat: "index",
-    },
-  );
+  });
 
   return (
     <div className="text-center">
