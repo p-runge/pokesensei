@@ -1,4 +1,5 @@
 {
+  "error_no_data": "Die angefragten Daten existieren nicht.",
   "page_home_copy": "Teste dein Pokémon-Wissen und finde heraus, ob du ein wahrer Pokémon-Meister bist!",
   "page_home_quick_start_button": "Los!",
   "page_home_custom_game_button": "Benutzerdefiniertes Spiel",

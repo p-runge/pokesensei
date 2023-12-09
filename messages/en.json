@@ -1,4 +1,5 @@
 {
+  "error_no_data": "The requested data does not exist.",
   "page_home_copy": "Test your Pokémon knowledge and see if you're a true Pokémon master!",
   "page_home_quick_start_button": "Quick Start!",
   "page_home_custom_game_button": "Create a custom game",

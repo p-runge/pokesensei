@@ -7,19 +7,22 @@ import Link from "~/components/link";
 import { api } from "~/trpc/react";
 import { type LanguageIso } from "~/server/utils/api";
 import { useParams } from "next/navigation";
+import Loader from "~/components/loader";
 
 export default function Evaluate() {
   const t = useTranslations();
   const locale = useLocale();
   const { id } = useParams<{ id: string }>();
 
-  const { data: quiz } = api.quiz.evaluate.useQuery({
+  const { data: quiz, status } = api.quiz.evaluate.useQuery({
     language: locale as LanguageIso,
     id,
   });
 
-  if (!quiz) {
-    return null;
+  if (status === "loading") {
+    return <Loader />;
+  } else if (status === "error") {
+    return <p>{t("error_no_data")}</p>;
   }
 
   const { questions } = quiz;
