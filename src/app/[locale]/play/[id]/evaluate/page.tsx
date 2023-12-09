@@ -1,15 +1,28 @@
-import { useTranslations } from "next-intl";
-import EvaluatedQuestion, {
-  type EvaluatedQuestionData,
-} from "./_components/evaluated-question";
+"use client";
+
+import { useLocale, useTranslations } from "next-intl";
+import EvaluatedQuestion from "./_components/evaluated-question";
 import React from "react";
 import Link from "~/components/link";
+import { api } from "~/trpc/react";
+import { type LanguageIso } from "~/server/utils/api";
+import { useParams } from "next/navigation";
 
 export default function Evaluate() {
   const t = useTranslations();
+  const locale = useLocale();
+  const { id } = useParams<{ id: string }>();
 
-  // TODO: fetch data from api
-  const data = [] as unknown[];
+  const { data: quiz } = api.quiz.evaluate.useQuery({
+    language: locale as LanguageIso,
+    id,
+  });
+
+  if (!quiz) {
+    return null;
+  }
+
+  const { questions } = quiz;
 
   return (
     <div className="w-full">
@@ -17,31 +30,28 @@ export default function Evaluate() {
         {t("quiz_evaluation_absolute", {
           // TODO: calculate based no correct answers
           correct: 1,
-          max: data.length,
+          max: questions.length,
         })}
       </p>
       <p>
         {t("quiz_evaluation_percentage", {
           percentage: Math.round(
-            (100 / data.length || 1) *
-              // data.filter((item) =>
+            (100 / questions.length || 1) *
+              // questions.filter((item) =>
               //   item.correctAnswers.includes(item.givenAnswer),
               // ).length,
-              data.length || 1,
+              questions.length || 1,
           ),
         })}
       </p>
 
       <div className="pb-6" />
 
-      {data.map((evaluatedQuestion, i) => (
-        <React.Fragment key={`evaluation-question-${i}`}>
+      {questions.map((evaluatedQuestion, i) => (
+        <React.Fragment key={`evaluation-question-${evaluatedQuestion.id}`}>
           <p>{t("evaluation_question_title", { id: i + 1 })}</p>
           <div className="pb-2" />
-          <EvaluatedQuestion
-            // TODO: remove cast
-            data={evaluatedQuestion as EvaluatedQuestionData}
-          />
+          <EvaluatedQuestion question={evaluatedQuestion} />
         </React.Fragment>
       ))}
 

@@ -8,12 +8,15 @@ const quizRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string().uuid(),
-        answer: z.string(),
+        value: z.string(),
       }),
     )
-    .mutation(async ({ input: { id, answer } }) => {
+    .mutation(async ({ input: { id, value } }) => {
       const question = await db.question.findUniqueOrThrow({
         where: { id },
+        include: {
+          answers: true,
+        },
       });
 
       const correctAnswers = await solveQuestion(
@@ -21,17 +24,21 @@ const quizRouter = createTRPCRouter({
         question.params as QuestionParams<typeof question.type>,
       );
 
-      const isCorrect = correctAnswers.includes(answer);
+      await Promise.all(
+        question.answers.map(async (answer) => {
+          const isCorrect = correctAnswers.includes(answer.value);
 
-      await db.answer.create({
-        data: {
-          label: answer,
-          isCorrect,
-          questionId: id,
-        },
-      });
-
-      return isCorrect;
+          await db.answer.update({
+            where: {
+              id: answer.id,
+            },
+            data: {
+              isChosen: answer.value === value,
+              isCorrect,
+            },
+          });
+        }),
+      );
     }),
 });
 

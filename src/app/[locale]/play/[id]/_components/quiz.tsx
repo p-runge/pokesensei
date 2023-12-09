@@ -2,18 +2,20 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import Question from "./question";
-import { useRouter } from "~/navigation";
+import { type Prisma } from "@prisma/client";
+import { usePathname, useRouter } from "~/navigation";
 import { cn } from "~/server/utils/cn";
 import type { api } from "~/trpc/server";
+import Question from "./question";
 
 export default function Quiz({
   quiz,
 }: {
-  quiz: Awaited<ReturnType<typeof api.quiz.getById.query>>;
+  quiz: Prisma.PromiseReturnType<typeof api.quiz.getById.query>;
 }) {
   const t = useTranslations();
   const router = useRouter();
+  const pathname = usePathname();
 
   const [activeQuestionId, updateActiveQuestionId] = useState(0);
 
@@ -21,7 +23,7 @@ export default function Quiz({
 
   useEffect(() => {
     if (activeQuestionId >= questions.length) {
-      router.push("/play/evaluate");
+      router.push(`${pathname}/evaluate`);
     }
   }, [activeQuestionId, questions.length]);
 

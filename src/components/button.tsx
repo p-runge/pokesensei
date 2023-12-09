@@ -16,7 +16,7 @@ export default function Button({
         // TODO: migrate this to tailwind
         "text-shadow",
         cn(
-          "inline-block cursor-pointer break-words rounded px-4 py-2 transition hover:no-underline",
+          "cursor-pointer break-words rounded px-4 py-2 transition hover:no-underline",
           variant === "primary" &&
             "bg-primary text-white hover:bg-primary-dark disabled:bg-primary-light",
           props.disabled && "cursor-not-allowed",

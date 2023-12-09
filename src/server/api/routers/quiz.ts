@@ -58,12 +58,14 @@ const quizRouter = createTRPCRouter({
         const quiz = await db.quiz.create({
           data: {
             questions: {
-              createMany: {
-                data: questions.map((question) => ({
-                  ...question.question,
-                  answers: question.answers.map((answer) => answer.value),
-                })),
-              },
+              create: questions.map((question) => ({
+                ...question.question,
+                answers: {
+                  create: question.answers.map((answer) => ({
+                    value: answer.value,
+                  })),
+                },
+              })),
             },
           },
           include: {
@@ -90,7 +92,7 @@ const quizRouter = createTRPCRouter({
         include: {
           questions: {
             include: {
-              answer: true,
+              answers: true,
             },
           },
         },
@@ -117,9 +119,10 @@ const quizRouter = createTRPCRouter({
           if (type === QuestionType.NAME_OF_POKEMON_BY_IMAGE) {
             await Promise.all(
               question.answers.map(async (answer) => {
-                const { names, name } =
-                  await pokeApi.getPokemonSpeciesByName(answer);
-                answers[question.id]![answer] = getLocalizedName(
+                const { names, name } = await pokeApi.getPokemonSpeciesByName(
+                  answer.value,
+                );
+                answers[question.id]![answer.value] = getLocalizedName(
                   {
                     names,
                     name,
@@ -131,8 +134,10 @@ const quizRouter = createTRPCRouter({
           } else if (type === QuestionType.NATURE_BY_STATS) {
             await Promise.all(
               question.answers.map(async (answer) => {
-                const { names, name } = await pokeApi.getNatureByName(answer);
-                answers[question.id]![answer] = getLocalizedName(
+                const { names, name } = await pokeApi.getNatureByName(
+                  answer.value,
+                );
+                answers[question.id]![answer.value] = getLocalizedName(
                   {
                     names,
                     name,
@@ -144,8 +149,142 @@ const quizRouter = createTRPCRouter({
           } else if (type === QuestionType.TYPE_OF_POKEMON) {
             await Promise.all(
               question.answers.map(async (answer) => {
-                const { names, name } = await pokeApi.getTypeByName(answer);
-                answers[question.id]![answer] = getLocalizedName(
+                const { names, name } = await pokeApi.getTypeByName(
+                  answer.value,
+                );
+                answers[question.id]![answer.value] = getLocalizedName(
+                  {
+                    names,
+                    name,
+                  },
+                  language,
+                );
+              }),
+            );
+          }
+        }),
+      );
+
+      // return the quiz with the localized answers and discriminated Json objects
+      return {
+        ...quiz,
+        questions: [
+          ...quiz.questions.map((question) => {
+            const type = question.type as QuestionType;
+            const label =
+              question.label as QuestionWithAnswers["question"]["label"];
+            const params = question.params as QuestionParams<typeof type>;
+
+            const answersToQuestion = answers[question.id]!;
+
+            return {
+              ...question,
+              label,
+              params,
+              answers: Object.entries(answersToQuestion).map(
+                ([value, label]) => ({
+                  value,
+                  label,
+                }),
+              ),
+              // TODO: remove this after resolving discriminated types correctly
+            } as { id: string } & QuestionWithAnswers["question"] & {
+                answers: QuestionWithAnswers["answers"];
+              };
+          }),
+        ],
+      };
+    }),
+
+  evaluate: publicProcedure
+    .input(
+      z.object({
+        language: z.nativeEnum(LANGUAGES_ISO).default(LANGUAGES_ISO.en),
+        id: z.string().uuid(),
+      }),
+    )
+    .query(async ({ input: { language, id } }) => {
+      const quiz = await db.quiz.findUniqueOrThrow({
+        where: {
+          id,
+        },
+        include: {
+          questions: {
+            include: {
+              answers: {
+                orderBy: {
+                  id: "asc",
+                },
+              },
+            },
+          },
+        },
+      });
+
+      // check if all questions have been answered
+      if (
+        quiz.questions.some(
+          (question) => !question.answers.some((answer) => answer.isChosen),
+        )
+      ) {
+        throw new Error("Quiz is not completed");
+      }
+
+      const answers: Record<
+        // question id
+        string,
+        Record<
+          // answer value
+          string,
+          // answer label
+          string
+        >
+      > = {};
+
+      // fetch localized answers from PokeAPI
+      await Promise.all(
+        quiz.questions.map(async (question) => {
+          const type = question.type as QuestionType;
+          answers[question.id] = {};
+
+          // each question type has a different resource in their answer and needs a different request
+          if (type === QuestionType.NAME_OF_POKEMON_BY_IMAGE) {
+            await Promise.all(
+              question.answers.map(async (answer) => {
+                const { names, name } = await pokeApi.getPokemonSpeciesByName(
+                  answer.value,
+                );
+                answers[question.id]![answer.value] = getLocalizedName(
+                  {
+                    names,
+                    name,
+                  },
+                  language,
+                );
+              }),
+            );
+          } else if (type === QuestionType.NATURE_BY_STATS) {
+            await Promise.all(
+              question.answers.map(async (answer) => {
+                const { names, name } = await pokeApi.getNatureByName(
+                  answer.value,
+                );
+                answers[question.id]![answer.value] = getLocalizedName(
+                  {
+                    names,
+                    name,
+                  },
+                  language,
+                );
+              }),
+            );
+          } else if (type === QuestionType.TYPE_OF_POKEMON) {
+            await Promise.all(
+              question.answers.map(async (answer) => {
+                const { names, name } = await pokeApi.getTypeByName(
+                  answer.value,
+                );
+                answers[question.id]![answer.value] = getLocalizedName(
                   {
                     names,
                     name,
@@ -179,10 +318,19 @@ const quizRouter = createTRPCRouter({
                 ([value, label]) => ({
                   value,
                   label,
+                  isChosen: question.answers.find(
+                    (answer) => answer.value === value,
+                  )!.isChosen,
+                  isCorrect: question.answers.find(
+                    (answer) => answer.value === value,
+                  )!.isCorrect,
                 }),
               ),
             } as { id: string } & QuestionWithAnswers["question"] & {
-                answers: QuestionWithAnswers["answers"];
+                answers: (QuestionWithAnswers["answers"][number] & {
+                  isChosen: boolean;
+                  isCorrect: boolean;
+                })[];
               };
           }),
         ],
