@@ -48,14 +48,14 @@ export default function Select({
     );
   }
 
-  const allOptions = (hasAllOption ? [allOption] : []).concat(options);
+  const allOptions = [...(hasAllOption ? [allOption] : []), ...options];
 
   const [selectedValues, changeSelectedValues] = useState(
     defaultValues.includes(allOption.value) ? [allOption.value] : [],
   );
 
   const onOptionClick = (value: string) => {
-    let newValues: string[] = selectedValues;
+    let newValues: string[] = [...selectedValues];
     if (multi) {
       if (value === allOption.value) {
         // single select all option
@@ -98,10 +98,8 @@ export default function Select({
             key={`select-${title}-option-${value}`}
             className={cn(
               "m-2",
-              selectedValues.includes(value) ??
-                (!selectedValues.length && value === allOption.value)
-                ? "selected"
-                : "",
+              selectedValues.includes(value) && "selected",
+              !selectedValues.length && value === allOption.value && "selected",
             )}
             onClick={() => onOptionClick(value)}
           >

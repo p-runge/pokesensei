@@ -44,7 +44,7 @@ export default function Setup() {
   );
 
   return (
-    <div>
+    <div className="text-center">
       <h2 className="mb-6 text-6xl">{t("page_setup_title")}</h2>
       <p>{t("page_setup_instruction")}</p>
       <Select
