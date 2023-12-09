@@ -51,7 +51,7 @@ export default function Evaluate() {
 
       <div className="flex flex-col gap-12">
         {questions.map((evaluatedQuestion, i) => (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2" key={evaluatedQuestion.id}>
             <p>{t("evaluation_question_title", { id: i + 1 })}</p>
             <EvaluatedQuestion question={evaluatedQuestion} />
           </div>

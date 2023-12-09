@@ -37,6 +37,7 @@ export default function EvaluatedQuestion({
       <div className="grid grid-cols-2 gap-4">
         {question.answers.map((answer) => (
           <div
+            key={answer.value}
             className={clsx(
               "text-shadow",
               cn(
