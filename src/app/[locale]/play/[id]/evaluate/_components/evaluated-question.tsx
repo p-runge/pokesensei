@@ -15,7 +15,7 @@ export default function EvaluatedQuestion({
   const t = useTranslations();
 
   return (
-    <div className="m-auto mb-12 grid max-w-full gap-4">
+    <div className="grid max-w-full gap-4">
       {/* question */}
       <div className="flex flex-col items-center justify-center rounded-lg bg-gray-700 p-4">
         <span className="text-xl">

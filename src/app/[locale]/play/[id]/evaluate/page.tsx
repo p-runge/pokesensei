@@ -32,7 +32,7 @@ export default function Evaluate() {
   ).length;
 
   return (
-    <div className="w-full">
+    <div className="flex flex-col text-center">
       <p>
         {t("quiz_evaluation_absolute", {
           correct: correctQuestionsAmount,
@@ -49,20 +49,19 @@ export default function Evaluate() {
 
       <div className="pb-6" />
 
-      {questions.map((evaluatedQuestion, i) => (
-        <React.Fragment key={`evaluation-question-${evaluatedQuestion.id}`}>
-          <p>{t("evaluation_question_title", { id: i + 1 })}</p>
-          <div className="pb-2" />
-          <EvaluatedQuestion question={evaluatedQuestion} />
-        </React.Fragment>
-      ))}
+      <div className="flex flex-col gap-12">
+        {questions.map((evaluatedQuestion, i) => (
+          <div className="flex flex-col gap-2">
+            <p>{t("evaluation_question_title", { id: i + 1 })}</p>
+            <EvaluatedQuestion question={evaluatedQuestion} />
+          </div>
+        ))}
+      </div>
 
-      <div className="pb-6" />
+      <div className="pb-12" />
 
-      <div className="flex gap-2">
-        <Link href="/setup" variant="primary">
-          {t("quiz_change_setup_button")}
-        </Link>
+      <div className="flex items-center justify-center gap-4">
+        <Link href="/setup">{t("quiz_change_setup_button")}</Link>
 
         <Link href="/play" variant="primary">
           {t("quiz_replay_button")}
