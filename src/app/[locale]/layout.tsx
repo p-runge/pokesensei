@@ -30,9 +30,16 @@ export default function RootLayout({
     <html lang={locale}>
       <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
         <TRPCReactProvider cookies={cookies().toString()}>
-          <main className="m-auto flex min-h-screen w-boxed max-w-full flex-col p-4">
+          <main className="m-auto flex min-h-screen w-boxed max-w-full flex-col p-4 pb-10">
             {children}
           </main>
+
+          <footer className="-mt-6 flex w-full justify-center pb-1 text-sm font-light">
+            <a href="https://p6.gg/">
+              Made with <span className="text-red-500">❤</span> by{" "}
+              <span className="font-bold text-[#F79B3A]">P6</span>
+            </a>
+          </footer>
         </TRPCReactProvider>
       </body>
     </html>

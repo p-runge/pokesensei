@@ -24,7 +24,7 @@ export default function Page() {
   }, [id]);
 
   return (
-    <div className="flex h-screen items-center justify-center">
+    <div className="flex grow items-center justify-center">
       <Loader />
     </div>
   );
