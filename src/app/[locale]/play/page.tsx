@@ -1,22 +1,31 @@
-import { api } from "~/trpc/server";
-import Quiz from "./_components/quiz";
-import IntlProvider from "~/components/intl-provider";
+"use client";
+
+import { api } from "~/trpc/react";
 import { useLocale } from "next-intl";
 import type { LanguageIso } from "~/server/utils/api";
+import { useEffect } from "react";
+import { useRouter } from "~/navigation";
+import Loader from "~/components/loader";
 
-export default async function Page() {
+//! This page is only used to create a quiz and redirect to the new quiz's play page.
+export default function Page() {
   const locale = useLocale();
+  const router = useRouter();
 
-  const quiz = await api.quiz.create.query({
+  const { data: id } = api.quiz.create.useQuery({
     questions: 5,
     language: locale as LanguageIso,
   });
 
+  useEffect(() => {
+    if (id) {
+      router.push(`/play/${id}`);
+    }
+  }, [id]);
+
   return (
-    <div className="flex grow flex-col justify-center">
-      <IntlProvider>
-        <Quiz quiz={quiz} />
-      </IntlProvider>
+    <div className="flex h-screen items-center justify-center">
+      <Loader />
     </div>
   );
 }

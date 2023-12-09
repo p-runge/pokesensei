@@ -11,7 +11,7 @@ export default function Question({
   onAnswer,
 }: {
   question: Awaited<
-    ReturnType<typeof api.quiz.create.query>
+    ReturnType<typeof api.quiz.getById.query>
   >["questions"][number];
   onAnswer: (answer: string) => void;
 }) {

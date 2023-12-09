@@ -23,8 +23,8 @@ model Quiz {
 
 enum QuestionType {
     NAME_OF_POKEMON_BY_IMAGE
-    TYPE_OF_POKEMON
     NATURE_BY_STATS
+    TYPE_OF_POKEMON
 }
 
 model Question {

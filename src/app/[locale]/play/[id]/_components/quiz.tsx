@@ -10,7 +10,7 @@ import type { api } from "~/trpc/server";
 export default function Quiz({
   quiz,
 }: {
-  quiz: Awaited<ReturnType<typeof api.quiz.create.query>>;
+  quiz: Awaited<ReturnType<typeof api.quiz.getById.query>>;
 }) {
   const t = useTranslations();
   const router = useRouter();

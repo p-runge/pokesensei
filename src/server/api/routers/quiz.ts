@@ -2,11 +2,16 @@ import { z } from "zod";
 import { GENERATIONS } from "pokenode-ts";
 import { QuestionType } from "@prisma/client";
 import { getRandomElement } from "~/server/utils/random";
-import { getQuestionByType } from "~/server/utils/question";
-import { LANGUAGES_ISO } from "~/server/utils/api";
+import {
+  type QuestionWithAnswers,
+  getQuestionByType,
+} from "~/server/utils/question";
+import { LANGUAGES_ISO, pokeApi } from "~/server/utils/api";
 import { withDefaultedProps } from "~/server/utils/zod";
 import { db } from "~/server/db";
 import { createTRPCRouter, publicProcedure } from "../trpc";
+import { type QuestionParams } from "~/server/utils/evaluate";
+import { getLocalizedName } from "~/server/utils/common";
 
 const quizRouter = createTRPCRouter({
   create: publicProcedure
@@ -66,22 +71,123 @@ const quizRouter = createTRPCRouter({
           },
         });
 
-        return {
-          ...quiz,
-          questions: [
-            ...quiz.questions.map((question, i) => {
-              const q = questions[i]!;
-
-              return {
-                ...question,
-                ...q.question,
-                answers: q.answers,
-              };
-            }),
-          ],
-        };
+        return quiz.id;
       },
     ),
+
+  getById: publicProcedure
+    .input(
+      z.object({
+        language: z.nativeEnum(LANGUAGES_ISO).default(LANGUAGES_ISO.en),
+        id: z.string().uuid(),
+      }),
+    )
+    .query(async ({ input: { language, id } }) => {
+      const quiz = await db.quiz.findUniqueOrThrow({
+        where: {
+          id,
+        },
+        include: {
+          questions: {
+            include: {
+              answer: true,
+            },
+          },
+        },
+      });
+
+      const answers: Record<
+        // question id
+        string,
+        Record<
+          // answer value
+          string,
+          // answer label
+          string
+        >
+      > = {};
+
+      // fetch localized answers from PokeAPI
+      await Promise.all(
+        quiz.questions.map(async (question) => {
+          const type = question.type as QuestionType;
+          answers[question.id] = {};
+
+          // each question type has a different resource in their answer and needs a different request
+          if (type === QuestionType.NAME_OF_POKEMON_BY_IMAGE) {
+            await Promise.all(
+              question.answers.map(async (answer) => {
+                const { names, name } =
+                  await pokeApi.getPokemonSpeciesByName(answer);
+                answers[question.id]![answer] = getLocalizedName(
+                  {
+                    names,
+                    name,
+                  },
+                  language,
+                );
+              }),
+            );
+          } else if (type === QuestionType.NATURE_BY_STATS) {
+            await Promise.all(
+              question.answers.map(async (answer) => {
+                const { names, name } = await pokeApi.getNatureByName(answer);
+                answers[question.id]![answer] = getLocalizedName(
+                  {
+                    names,
+                    name,
+                  },
+                  language,
+                );
+              }),
+            );
+          } else if (type === QuestionType.TYPE_OF_POKEMON) {
+            await Promise.all(
+              question.answers.map(async (answer) => {
+                const { names, name } = await pokeApi.getTypeByName(answer);
+                answers[question.id]![answer] = getLocalizedName(
+                  {
+                    names,
+                    name,
+                  },
+                  language,
+                );
+              }),
+            );
+          }
+        }),
+      );
+
+      // return the quiz with the localized answers and discriminated Json objects
+      return {
+        ...quiz,
+        questions: [
+          ...quiz.questions.map((question) => {
+            const type = question.type as QuestionType;
+            const label =
+              question.label as QuestionWithAnswers["question"]["label"];
+            const params = question.params as QuestionParams<typeof type>;
+
+            const answersToQuestion = answers[question.id]!;
+
+            return {
+              ...question,
+              type,
+              label,
+              params,
+              answers: Object.entries(answersToQuestion).map(
+                ([value, label]) => ({
+                  value,
+                  label,
+                }),
+              ),
+            } as { id: string } & QuestionWithAnswers["question"] & {
+                answers: QuestionWithAnswers["answers"];
+              };
+          }),
+        ],
+      };
+    }),
 });
 
 export default quizRouter;
