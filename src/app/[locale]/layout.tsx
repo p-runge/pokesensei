@@ -3,10 +3,9 @@ import "~/styles/globals.css";
 import { Inter } from "next/font/google";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { unstable_setRequestLocale } from "next-intl/server";
 
 import { TRPCReactProvider } from "~/trpc/react";
-import { LOCALES } from "~/i18n";
+import { LOCALES, type Locale } from "~/i18n";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -24,11 +23,9 @@ export default function RootLayout({
   params: { locale },
 }: {
   children: React.ReactNode;
-  params: { locale: (typeof LOCALES)[number] };
+  params: { locale: Locale };
 }) {
   if (!LOCALES.includes(locale)) notFound();
-
-  unstable_setRequestLocale(locale);
 
   return (
     <html lang={locale}>
@@ -48,10 +45,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
-
-export function generateStaticParams() {
-  return LOCALES.map((locale) => ({
-    slug: locale,
-  }));
 }

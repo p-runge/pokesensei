@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { type LinkProps } from "next/link";
-import type { LOCALES } from "~/i18n";
+import type { Locale } from "~/i18n";
 import { Link as NextLink } from "~/navigation";
 import { cn } from "~/server/utils/cn";
 
@@ -12,7 +12,7 @@ export default function Link({
   Omit<LinkProps, "locale"> & {
     children: React.ReactNode;
     variant?: "a" | "primary";
-    locale?: (typeof LOCALES)[number];
+    locale?: Locale;
   }) {
   return (
     <NextLink
