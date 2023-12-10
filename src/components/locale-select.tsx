@@ -15,6 +15,7 @@ const LocaleSelect = () => {
     <div className="grid grid-flow-col grid-rows-1 gap-2">
       {LOCALES.map((locale) => (
         <Link
+          key={locale}
           href={pathname}
           locale={locale}
           className={cn(
