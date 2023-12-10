@@ -23,9 +23,15 @@ const quizRouter = createTRPCRouter({
           z.object({
             questionTypes: z
               .array(z.nativeEnum(QuestionType))
+              .transform((value) =>
+                value.length > 0 ? value : Object.values(QuestionType),
+              )
               .default(Object.values(QuestionType)),
             generations: z
               .array(z.number().min(1).max(Object.values(GENERATIONS).length))
+              .transform((value) =>
+                value.length > 0 ? value : Object.values(GENERATIONS),
+              )
               .default(
                 [...Array<void>(Object.values(GENERATIONS).length)].map(
                   (_, i) => i + 1,
