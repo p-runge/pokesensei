@@ -1,23 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { i18n } = require("./next-i18next.config");
+import NextIntlPlugin from "next-intl/plugin";
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  // reactStrictMode: true,
+const withNextIntl = NextIntlPlugin();
 
+/**
+ * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially useful
+ * for Docker builds.
+ */
+await import("./src/env.js");
+
+/** @type {import("next").NextConfig} */
+const config = {
   images: {
-    domains: ["raw.githubusercontent.com"],
+    remotePatterns: [
+      {
+        hostname: "raw.githubusercontent.com",
+      },
+    ],
   },
-
-  env: { VERCEL_URL: process.env.VERCEL_URL },
-
-  experimental: {
-    images: {
-      allowFutureImage: true,
-    },
-  },
-
-  i18n,
 };
 
-module.exports = nextConfig;
+export default withNextIntl(config);

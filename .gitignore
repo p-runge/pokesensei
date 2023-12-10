@@ -1,8 +1,5 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# ide folders
-/.vscode
-
 # dependencies
 /node_modules
 /.pnp
@@ -11,12 +8,14 @@
 # testing
 /coverage
 
+# database
+/prisma/db.sqlite
+/prisma/db.sqlite-journal
+
 # next.js
 /.next/
 /out/
-
-# env files
-.env
+next-env.d.ts
 
 # production
 /build
@@ -32,6 +31,8 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+# do not commit any .env files to git, except for the .env.example file. https://create.t3.gg/en/usage/env-variables#using-environment-variables
+.env
 .env*.local
 
 # vercel
@@ -39,6 +40,3 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-
-# yarn (please use npm to prevent multiple lock files)
-yarn.lock
