@@ -23,9 +23,17 @@ export default function Evaluate() {
   });
 
   if (status === "loading") {
-    return <Loader />;
+    return (
+      <div className="flex grow items-center justify-center">
+        <Loader />
+      </div>
+    );
   } else if (status === "error") {
-    return <p>{t("error_no_data")}</p>;
+    return (
+      <div className="flex grow items-center justify-center">
+        <p className="text-2xl">{t("error_no_data")}</p>
+      </div>
+    );
   }
 
   const { questions } = quiz;
