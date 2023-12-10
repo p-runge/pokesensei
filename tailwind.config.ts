@@ -6,7 +6,6 @@ const responsiveScreenHeight = ["100vh", "100dvh"] as unknown as string;
 
 const heights = {
   header: "64px",
-  footer: "48px",
   screen: responsiveScreenHeight,
 };
 const widths = {
