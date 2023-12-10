@@ -98,7 +98,11 @@ const quizRouter = createTRPCRouter({
         include: {
           questions: {
             include: {
-              answers: true,
+              answers: {
+                orderBy: {
+                  id: "asc",
+                },
+              },
             },
           },
         },
@@ -306,40 +310,38 @@ const quizRouter = createTRPCRouter({
       // return the quiz with the localized answers and discriminated Json objects
       return {
         ...quiz,
-        questions: [
-          ...quiz.questions.map((question) => {
-            const type = question.type as QuestionType;
-            const label =
-              question.label as QuestionWithAnswers["question"]["label"];
-            const params = question.params as QuestionParams<typeof type>;
+        questions: quiz.questions.map((question) => {
+          const type = question.type as QuestionType;
+          const label =
+            question.label as QuestionWithAnswers["question"]["label"];
+          const params = question.params as QuestionParams<typeof type>;
 
-            const answersToQuestion = answers[question.id]!;
+          const answersToQuestion = answers[question.id]!;
 
-            return {
-              ...question,
-              type,
-              label,
-              params,
-              answers: Object.entries(answersToQuestion).map(
-                ([value, label]) => ({
-                  value,
-                  label,
-                  isChosen: question.answers.find(
-                    (answer) => answer.value === value,
-                  )!.isChosen,
-                  isCorrect: question.answers.find(
-                    (answer) => answer.value === value,
-                  )!.isCorrect,
-                }),
-              ),
-            } as { id: string } & QuestionWithAnswers["question"] & {
-                answers: (QuestionWithAnswers["answers"][number] & {
-                  isChosen: boolean;
-                  isCorrect: boolean;
-                })[];
-              };
-          }),
-        ],
+          return {
+            ...question,
+            type,
+            label,
+            params,
+            answers: Object.entries(answersToQuestion).map(
+              ([value, label]) => ({
+                value,
+                label,
+                isChosen: question.answers.find(
+                  (answer) => answer.value === value,
+                )!.isChosen,
+                isCorrect: question.answers.find(
+                  (answer) => answer.value === value,
+                )!.isCorrect,
+              }),
+            ),
+          } as { id: string } & QuestionWithAnswers["question"] & {
+              answers: (QuestionWithAnswers["answers"][number] & {
+                isChosen: boolean;
+                isCorrect: boolean;
+              })[];
+            };
+        }),
       };
     }),
 });
