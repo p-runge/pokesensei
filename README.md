@@ -1,28 +1,26 @@
-# Create T3 App
+# PokéSensei
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+With this app you can test and improve your knowledge about Pokémon.
 
-## What's next? How do I make an app with this?
+## Contribution
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+I'm always happy to see contribution of any kind.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+You can't develop? No problem! Your creativity is still greatly appreciated. So do you have an idea on how to improve PokéSensei? Found a bug, have an idea for new questions, better UI / UX, or anything else? Go to the [issue page](https://github.com/p-runge/pokesensei/issues) and check if there is already an existing issue regarding your change. If there isn't, create a new one!
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Can you develop yourself? Do the same thing. Then – if your idea got approved – feel free to open up a pull request.
 
-## Learn More
+I'm pretty picky about what actually goes into the project, so please avoid immediately creating a PR for your ideas to prevent having done all of that work for nothing.
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Also please double check to not commit any lint errors, console.logs, or any other leftover things from your development process.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+I'm not using conventional commits in this project, but please still use fitting and self-explaining commit messages regarding your changes. `Fixed some bugs` is NOT a good commit message :)
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Getting Started
 
-## How do I deploy this?
+```bash
+npm i
+npm run dev
+```
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
