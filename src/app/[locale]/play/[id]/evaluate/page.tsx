@@ -44,7 +44,6 @@ export default function Evaluate() {
 
   return (
     <>
-      <Navbar />
       <div className="flex flex-col text-center">
         {/* initial stats view */}
         <div className="-my-4 flex h-screen justify-center">
@@ -86,6 +85,7 @@ export default function Evaluate() {
           </Link>
         </div>
       </div>
+      <Navbar />
     </>
   );
 }
