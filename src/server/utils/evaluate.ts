@@ -34,7 +34,7 @@ export const solveTypeOfPokemon = async (id: number) => {
 };
 
 export const solveNameOfPokemonByImage = async (id: number) => {
-  const pokemon = await pokeApi.getPokemonById(id);
+  const pokemon = await pokeApi.getPokemonSpeciesById(id);
 
   return pokemon.name;
 };
