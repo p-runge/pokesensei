@@ -55,5 +55,3 @@ export function generateStaticParams() {
     slug: locale,
   }));
 }
-
-export const dynamic = "force-static";

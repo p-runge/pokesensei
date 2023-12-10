@@ -13,7 +13,6 @@ export default async function Page({
     language: locale as LanguageIso,
     id,
   });
-  console.log({ quiz });
 
   return (
     <div className="flex grow flex-col justify-center">

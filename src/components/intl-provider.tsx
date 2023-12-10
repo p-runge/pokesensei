@@ -1,31 +1,16 @@
-"use client";
-
-import {
-  type AbstractIntlMessages,
-  NextIntlClientProvider,
-  useLocale,
-} from "next-intl";
-import { useEffect, useState } from "react";
+import { NextIntlClientProvider, useLocale } from "next-intl";
 import i18n from "~/i18n";
 
-export default function IntlProvider({
+export default async function IntlProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const locale = useLocale();
 
-  const [messages, setMessages] = useState({} as AbstractIntlMessages);
-  useEffect(() => {
-    void (async function () {
-      const { messages } = await i18n({ locale });
-      if (!messages) throw new Error("no messages");
+  const { messages } = await i18n({ locale });
 
-      setMessages(messages);
-    })();
-  }, [locale]);
-
-  if (Object.values(messages).length === 0) {
+  if (!messages || Object.values(messages).length === 0) {
     return null;
   }
 
