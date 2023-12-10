@@ -7,6 +7,7 @@ import { QuestionType } from "@prisma/client";
 import { POKEMON_BY_GEN } from "~/server/utils/pokemon";
 import Link from "~/components/link";
 import Select from "./_components/select";
+import Navbar from "~/components/navbar";
 
 export interface QuizFilter {
   questionTypes: QuestionType[];
@@ -39,37 +40,41 @@ export default function Setup() {
   });
 
   return (
-    <div className="text-center">
-      <h2 className="mb-6 text-6xl">{t("page_setup_title")}</h2>
-      <p className="text-xl">{t("page_setup_instruction")}</p>
-      <Select
-        title={t("page_setup_select_title_question_type")}
-        hasAllOption
-        multi
-        defaultValues={questionTypes}
-        options={Object.values(QuestionType).map((questionType) => ({
-          value: questionType,
-          label: t(`question_type_${questionType.toLowerCase()}`),
-        }))}
-        onSelect={(values) => setQuestionTypes(values as QuestionType[])}
-      />
-      <Select
-        title={t("page_setup_select_title_generation")}
-        hasAllOption
-        multi
-        defaultValues={questionTypes}
-        options={POKEMON_BY_GEN.map((_, i) => ({
-          value: `${i + 1}`,
-          label: `${i + 1}`,
-        }))}
-        onSelect={(values) =>
-          setGenerations(values.map((value) => parseInt(value)))
-        }
-      />
-      <div className="pb-12" />
-      <Link href={startHref} variant="primary">
-        {t("page_setup_start_button")}
-      </Link>
-    </div>
+    <>
+      <div className="text-center">
+        <div className="h-header" />
+        <h2 className="mb-6 text-6xl">{t("page_setup_title")}</h2>
+        <p className="text-xl">{t("page_setup_instruction")}</p>
+        <Select
+          title={t("page_setup_select_title_question_type")}
+          hasAllOption
+          multi
+          defaultValues={questionTypes}
+          options={Object.values(QuestionType).map((questionType) => ({
+            value: questionType,
+            label: t(`question_type_${questionType.toLowerCase()}`),
+          }))}
+          onSelect={(values) => setQuestionTypes(values as QuestionType[])}
+        />
+        <Select
+          title={t("page_setup_select_title_generation")}
+          hasAllOption
+          multi
+          defaultValues={questionTypes}
+          options={POKEMON_BY_GEN.map((_, i) => ({
+            value: `${i + 1}`,
+            label: `${i + 1}`,
+          }))}
+          onSelect={(values) =>
+            setGenerations(values.map((value) => parseInt(value)))
+          }
+        />
+        <div className="pb-12" />
+        <Link href={startHref} variant="primary">
+          {t("page_setup_start_button")}
+        </Link>
+      </div>
+      <Navbar />
+    </>
   );
 }
