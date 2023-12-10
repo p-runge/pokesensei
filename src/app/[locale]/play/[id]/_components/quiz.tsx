@@ -35,7 +35,7 @@ export default function Quiz({
   return (
     <>
       {/* progress bar */}
-      <p className="mb-2 text-center">
+      <p className="mb-2 text-center text-xl">
         {t("quiz_question_counter", {
           current: activeQuestionId + 1,
           max: questions.length,
@@ -69,4 +69,4 @@ export default function Quiz({
       />
     </>
   );
-};
+}

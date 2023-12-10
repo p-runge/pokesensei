@@ -90,7 +90,7 @@ export default function Select({
 
   return (
     <div className="mt-6 flex w-full flex-col">
-      <p className="text-3xl">{title}</p>
+      <p className="text-2xl">{title}</p>
       <div className="pb-4" />
       <div className="-my-2 w-full">
         {allOptions.map(({ value, label }) => (

@@ -16,20 +16,20 @@ export interface QuizFilter {
 export default function Setup() {
   const t = useTranslations();
 
-  const [questionTypes, changeQuestionTypes] = useState([] as QuestionType[]);
-  const [generations, changeGenerations] = useState([] as number[]);
+  const [questionTypes, setQuestionTypes] = useState([] as QuestionType[]);
+  const [generations, setGenerations] = useState([] as number[]);
 
-  const [quizFilters, changeQuizFilters] = useState({
+  const [quizFilters, setQuizFilters] = useState({
     questionTypes,
     generations,
   } as QuizFilter);
 
   useEffect(() => {
-    changeQuizFilters({
+    setQuizFilters({
       questionTypes,
       generations,
     });
-  }, [changeQuizFilters, questionTypes, generations]);
+  }, [setQuizFilters, questionTypes, generations]);
 
   const startHref = qs.stringifyUrl({
     url: "/play",
@@ -41,7 +41,7 @@ export default function Setup() {
   return (
     <div className="text-center">
       <h2 className="mb-6 text-6xl">{t("page_setup_title")}</h2>
-      <p>{t("page_setup_instruction")}</p>
+      <p className="text-xl">{t("page_setup_instruction")}</p>
       <Select
         title={t("page_setup_select_title_question_type")}
         hasAllOption
@@ -51,7 +51,7 @@ export default function Setup() {
           value: questionType,
           label: t(`question_type_${questionType.toLowerCase()}`),
         }))}
-        onSelect={(values) => changeQuestionTypes(values as QuestionType[])}
+        onSelect={(values) => setQuestionTypes(values as QuestionType[])}
       />
       <Select
         title={t("page_setup_select_title_generation")}
@@ -63,7 +63,7 @@ export default function Setup() {
           label: `${i + 1}`,
         }))}
         onSelect={(values) =>
-          changeGenerations(values.map((value) => parseInt(value)))
+          setGenerations(values.map((value) => parseInt(value)))
         }
       />
       <div className="pb-12" />

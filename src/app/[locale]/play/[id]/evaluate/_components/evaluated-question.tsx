@@ -18,7 +18,7 @@ export default function EvaluatedQuestion({
     <div className="grid max-w-full gap-4">
       {/* question */}
       <div className="flex flex-col items-center justify-center rounded-lg bg-gray-700 p-4">
-        <span className="text-xl">
+        <span className="text-lg">
           {t(question.label.string, question.label.params)}
         </span>
         {question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
