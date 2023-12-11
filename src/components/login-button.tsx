@@ -1,14 +1,17 @@
 "use client";
 
 import { signIn } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 const LoginButton = () => {
+  const t = useTranslations();
+
   return (
     <button
       className="rounded-[3px] bg-[#5865F2] px-4 py-2 text-[14px] text-white hover:bg-[#515DDF]"
       onClick={() => signIn("discord")}
     >
-      Sign in with Discord
+      {t("action_sign_in_discord")}
     </button>
   );
 };
