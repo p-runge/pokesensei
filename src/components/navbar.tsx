@@ -4,7 +4,6 @@ import LocaleSelect from "./locale-select";
 import { type Session } from "next-auth";
 import { getServerAuthSession } from "~/server/auth";
 import IntlProvider from "./intl-provider";
-import LogoutButton from "./logout-button";
 import LoginButton from "./login-button";
 import UserDropdown from "./user-dropdown";
 
@@ -35,8 +34,7 @@ function Content({ session }: { session: Session | null }) {
         </div>
 
         <IntlProvider>
-          {session ? <LogoutButton /> : <LoginButton />}
-          <UserDropdown />
+          {session ? <UserDropdown /> : <LoginButton />}
         </IntlProvider>
       </div>
     </nav>

@@ -6,8 +6,6 @@ import { notFound } from "next/navigation";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { LOCALES, type Locale } from "~/i18n";
-import { SessionProvider } from "next-auth/react";
-import { getServerAuthSession } from "~/server/auth";
 import { NextAuthProvider } from "~/components/next-auth-provider";
 
 const inter = Inter({
