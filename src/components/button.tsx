@@ -1,16 +1,21 @@
 import clsx from "clsx";
+import { forwardRef } from "react";
 import { cn } from "~/server/utils/cn";
 
-export default function Button({
-  variant = "primary",
-  noTextShadow = false,
-  ...props
-}: React.ComponentProps<"button"> & {
-  variant?: "primary" | "secondary";
-  noTextShadow?: boolean;
-}) {
+export default forwardRef(function Button(
+  {
+    variant = "primary",
+    noTextShadow = false,
+    ...props
+  }: React.ComponentProps<"button"> & {
+    variant?: "primary" | "secondary";
+    noTextShadow?: boolean;
+  },
+  ref: React.ForwardedRef<HTMLButtonElement>,
+) {
   return (
     <button
+      ref={ref}
       {...props}
       type="button"
       className={clsx(
@@ -29,4 +34,4 @@ export default function Button({
       )}
     ></button>
   );
-}
+});

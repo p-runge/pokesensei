@@ -1,11 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { cn } from "~/server/utils/cn";
-import Button from "./button";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { useClickOutside } from "@mantine/hooks";
+import { cn } from "~/server/utils/cn";
+import Button from "./button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 export default function Dropdown() {
   const t = useTranslations();
@@ -13,13 +16,17 @@ export default function Dropdown() {
 
   const session = useSession();
 
+  const [button, setButton] = useState<HTMLButtonElement | null>(null);
+
+  useClickOutside(() => isOpen && setIsOpen(false), undefined, [button]);
+
   return (
     <div className="relative inline-block text-left">
       <div>
         <Button
+          ref={setButton}
           type="button"
           className="inline-flex items-center gap-2"
-          id="menu-button"
           aria-expanded="true"
           aria-haspopup="true"
           onClick={() => setIsOpen(!isOpen)}
@@ -58,17 +65,16 @@ export default function Dropdown() {
       <div
         className={cn(
           !isOpen ? "scale-95 opacity-0 ease-out" : "ease-in",
-          "absolute right-0 z-10 mt-2 w-56 origin-top-right transform rounded bg-gray-700 shadow-lg ring-1 ring-gray-500 duration-100 focus:outline-none",
+          "absolute right-0 z-10 mt-2 origin-top-right transform rounded bg-gray-700 shadow-lg ring-1 ring-gray-500 duration-100 focus:outline-none",
         )}
         role="menu"
         aria-orientation="vertical"
-        aria-labelledby="menu-button"
         tabIndex={-1}
       >
         <div className="py-1" role="none">
           {/* <Link
             href="#"
-            className="block w-full rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800 hover:no-underline"
+            className="block w-full whitespace-nowrap rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800 hover:no-underline"
             role="menuitem"
             tabIndex={-1}
           >
@@ -76,12 +82,13 @@ export default function Dropdown() {
           </Link> */}
           <button
             type="button"
-            className="block w-full rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800"
+            className="block w-full whitespace-nowrap rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800"
             role="menuitem"
             tabIndex={-1}
             onClick={() => signOut()}
           >
             {t("action_sign_out")}
+            <FontAwesomeIcon icon={faRightFromBracket} className="ml-3" />
           </button>
         </div>
       </div>
