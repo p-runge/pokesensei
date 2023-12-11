@@ -3,6 +3,7 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
+  type DefaultUser,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
@@ -17,17 +18,11 @@ import { db } from "~/server/db";
  */
 declare module "next-auth" {
   interface Session extends DefaultSession {
-    user: {
-      id: string;
-      // ...other properties
-      // role: UserRole;
-    } & DefaultSession["user"];
+    user: PSUser;
   }
 
-  // interface User {
-  //   // ...other properties
-  //   // role: UserRole;
-  // }
+  // don't need email
+  type PSUser = Omit<DefaultUser, "email">;
 }
 
 /**
@@ -50,6 +45,11 @@ export const authOptions: NextAuthOptions = {
     DiscordProvider({
       clientId: env.DISCORD_CLIENT_ID,
       clientSecret: env.DISCORD_CLIENT_SECRET,
+      authorization: {
+        params: {
+          scope: "identify",
+        },
+      },
     }),
   ],
   jwt: {
