@@ -3,11 +3,13 @@ import {
   getServerSession,
   type DefaultSession,
   type NextAuthOptions,
+  type Session,
 } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "~/env";
 import { db } from "~/server/db";
+import { decrypt, encrypt } from "~/utils/crypto";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -44,6 +46,14 @@ export const authOptions: NextAuthOptions = {
         id: user.id,
       },
     }),
+    signIn({ user }) {
+      // Encrypt sensitive user data before saving
+      user.email = user.email && encrypt(user.email);
+      user.name = user.name && encrypt(user.name);
+      user.image = user.image && encrypt(user.image);
+
+      return true;
+    },
   },
   adapter: PrismaAdapter(db),
   providers: [
@@ -62,4 +72,20 @@ export const authOptions: NextAuthOptions = {
  *
  * @see https://next-auth.js.org/configuration/nextjs
  */
-export const getServerAuthSession = () => getServerSession(authOptions);
+export async function getServerAuthSession() {
+  const session = await getServerSession(authOptions);
+  return (session && {
+    ...session,
+    user: {
+      id: session?.user?.id,
+      // Decrypt sensitive user data
+      email: session?.user?.email && decrypt(session.user.email),
+      name: session?.user?.name && decrypt(session.user.name),
+      image: session?.user?.image && decrypt(session.user.image),
+    } satisfies Record<
+      // check if all user properties are defined
+      keyof Session["user"],
+      Session["user"][keyof Session["user"]]
+    >,
+  }) as typeof session;
+}

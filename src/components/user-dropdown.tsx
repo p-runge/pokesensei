@@ -2,19 +2,20 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { signOut, useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useClickOutside } from "@mantine/hooks";
 import { cn } from "~/server/utils/cn";
 import Button from "./button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { useDecryptedSession } from "./decrypted-session-provider";
 
 export default function Dropdown() {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
 
-  const session = useSession();
+  const session = useDecryptedSession();
 
   const [button, setButton] = useState<HTMLButtonElement | null>(null);
 
@@ -31,10 +32,10 @@ export default function Dropdown() {
           aria-haspopup="true"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {session.data?.user && (
+          {session?.user && (
             <>
               <Image
-                src={session.data.user.image ?? ""}
+                src={session.user.image ?? ""}
                 alt=""
                 width={24}
                 height={24}
@@ -42,7 +43,7 @@ export default function Dropdown() {
                 priority
               />
               <span className="hidden sm:inline-block">
-                {session.data.user.name}
+                {session.user.name}
               </span>
             </>
           )}

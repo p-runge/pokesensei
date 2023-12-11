@@ -1,19 +1,14 @@
 import Image from "next/image";
 import { Link } from "~/navigation";
 import LocaleSelect from "./locale-select";
-import { type Session } from "next-auth";
-import { getServerAuthSession } from "~/server/auth";
 import IntlProvider from "./intl-provider";
 import LoginButton from "./login-button";
 import UserDropdown from "./user-dropdown";
+import { getServerAuthSession } from "~/server/auth";
 
 export default async function Navbar() {
   const session = await getServerAuthSession();
 
-  return <Content session={session} />;
-}
-
-function Content({ session }: { session: Session | null }) {
   return (
     <nav className="fixed left-0 top-0 flex h-header w-full items-center bg-gray-700 shadow-lg">
       <div className="flex w-full items-center justify-between px-6">

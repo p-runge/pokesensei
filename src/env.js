@@ -29,6 +29,7 @@ export const env = createEnv({
       process.env.VERCEL ? z.string() : z.string().url(),
     ),
     JWT_SECRET: z.string(),
+    CRYPTO_SECRET: z.string(),
     // Add ` on ID and SECRET if you want to make sure they're not empty
     DISCORD_CLIENT_ID: z.string(),
     DISCORD_CLIENT_SECRET: z.string(),
@@ -53,6 +54,7 @@ export const env = createEnv({
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     JWT_SECRET: process.env.JWT_SECRET,
+    CRYPTO_SECRET: process.env.CRYPTO_SECRET,
     DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
   },

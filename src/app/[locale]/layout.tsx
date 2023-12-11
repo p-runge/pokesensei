@@ -6,7 +6,8 @@ import { notFound } from "next/navigation";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { LOCALES, type Locale } from "~/i18n";
-import { NextAuthProvider } from "~/components/next-auth-provider";
+import { getServerAuthSession } from "~/server/auth";
+import { DecryptedSessionProvider } from "~/components/decrypted-session-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,10 +29,12 @@ export default async function RootLayout({
 }) {
   if (!LOCALES.includes(locale)) notFound();
 
+  const session = await getServerAuthSession();
+
   return (
-    <NextAuthProvider>
-      <html lang={locale}>
-        <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
+    <html lang={locale}>
+      <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
+        <DecryptedSessionProvider session={session}>
           <TRPCReactProvider cookies={cookies().toString()}>
             <main className="m-auto flex min-h-screen w-boxed max-w-full flex-col p-4 pb-10">
               {children}
@@ -44,8 +47,8 @@ export default async function RootLayout({
               </a>
             </footer>
           </TRPCReactProvider>
-        </body>
-      </html>
-    </NextAuthProvider>
+        </DecryptedSessionProvider>
+      </body>
+    </html>
   );
 }
