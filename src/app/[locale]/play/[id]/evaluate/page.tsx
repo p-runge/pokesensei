@@ -1,40 +1,25 @@
-"use client";
-
-import { useLocale, useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 import EvaluatedQuestion from "./_components/evaluated-question";
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import Link from "~/components/link";
-import { api } from "~/trpc/react";
+import { api } from "~/trpc/server";
 import { type LanguageIso } from "~/server/utils/api";
-import { useParams } from "next/navigation";
-import Loader from "~/components/loader";
 import Navbar from "~/components/navbar";
 
-export default function Evaluate() {
-  const t = useTranslations();
-  const locale = useLocale();
-  const { id } = useParams<{ id: string }>();
+export default async function Page({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
+  const t = await getTranslations();
+  const locale = await getLocale();
 
-  const { data: quiz, status } = api.quiz.evaluate.useQuery({
+  const quiz = await api.quiz.evaluate.query({
     language: locale as LanguageIso,
     id,
   });
-
-  if (status === "loading") {
-    return (
-      <div className="flex grow items-center justify-center">
-        <Loader />
-      </div>
-    );
-  } else if (status === "error") {
-    return (
-      <div className="flex grow items-center justify-center">
-        <p className="text-2xl">{t("error_no_data")}</p>
-      </div>
-    );
-  }
 
   const { questions } = quiz;
 
@@ -64,7 +49,7 @@ export default function Evaluate() {
             {/* scroll down icon */}
             <FontAwesomeIcon
               icon={faChevronDown}
-              className="absolute -bottom-20 left-1/2 -ml-4 animate-bounce text-xl"
+              className="absolute -bottom-20 left-1/2 -ml-4 h-4 w-4 animate-bounce text-xl"
             />
           </div>
         </div>

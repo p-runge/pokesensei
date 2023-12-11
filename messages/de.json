@@ -1,4 +1,6 @@
 {
+  "action_sign_in_discord": "Mit Discord anmelden",
+  "action_sign_out": "Abmelden",
   "error_no_data": "Die angefragten Daten existieren nicht.",
   "page_home_copy": "Teste dein Pokémon-Wissen und finde heraus, ob du ein wahrer Pokémon-Meister bist!",
   "page_home_quick_start_button": "Los!",

@@ -48,6 +48,7 @@ const quizRouter = createTRPCRouter({
           language,
           filters: { questionTypes, ...filters },
         },
+        ctx: { session },
       }) => {
         const questions = await Promise.all(
           // for whatever amount of times...
@@ -73,6 +74,7 @@ const quizRouter = createTRPCRouter({
                 },
               })),
             },
+            userId: session?.user.id,
           },
           include: {
             questions: true,

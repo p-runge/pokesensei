@@ -1,4 +1,6 @@
 {
+  "action_sign_in_discord": "Sign in with Discord",
+  "action_sign_out": "Sign Out",
   "error_no_data": "The requested data does not exist.",
   "page_home_copy": "Test your Pokémon knowledge and see if you're a true Pokémon master!",
   "page_home_quick_start_button": "Quick Start!",

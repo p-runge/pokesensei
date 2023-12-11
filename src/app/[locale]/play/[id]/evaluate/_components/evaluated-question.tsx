@@ -1,18 +1,18 @@
 import { type Prisma } from "@prisma/client";
 import clsx from "clsx";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { cn } from "~/server/utils/cn";
 import { type api } from "~/trpc/server";
 
-export default function EvaluatedQuestion({
+export default async function EvaluatedQuestion({
   question,
 }: {
   question: Prisma.PromiseReturnType<
     typeof api.quiz.evaluate.query
   >["questions"][number];
 }) {
-  const t = useTranslations();
+  const t = await getTranslations();
 
   return (
     <div className="grid max-w-full gap-4">

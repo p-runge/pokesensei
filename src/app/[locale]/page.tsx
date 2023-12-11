@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "~/components/link";
-import { useTranslations } from "next-intl";
-import LocaleSelect from "~/components/locale-select";
+import { getTranslations } from "next-intl/server";
+import Navbar from "~/components/navbar";
 
-export default function Home() {
-  const t = useTranslations();
+export default async function Page() {
+  const t = await getTranslations();
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-6">
@@ -26,7 +26,7 @@ export default function Home() {
         {t("page_home_quick_start_button")}
       </Link>
       <Link href="/setup">{t("page_home_custom_game_button")}</Link>
-      <LocaleSelect />
+      <Navbar />
     </div>
   );
 }

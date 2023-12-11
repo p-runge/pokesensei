@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { LOCALES, type Locale } from "~/i18n";
+import { getServerAuthSession } from "~/server/auth";
+import { DecryptedSessionProvider } from "~/components/decrypted-session-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -18,7 +20,7 @@ export const metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params: { locale },
 }: {
@@ -27,21 +29,25 @@ export default function RootLayout({
 }) {
   if (!LOCALES.includes(locale)) notFound();
 
+  const session = await getServerAuthSession();
+
   return (
     <html lang={locale}>
       <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
-        <TRPCReactProvider cookies={cookies().toString()}>
-          <main className="m-auto flex min-h-screen w-boxed max-w-full flex-col p-4 pb-10">
-            {children}
-          </main>
+        <DecryptedSessionProvider session={session}>
+          <TRPCReactProvider cookies={cookies().toString()}>
+            <main className="m-auto flex min-h-screen w-boxed max-w-full flex-col p-4 pb-10">
+              {children}
+            </main>
 
-          <footer className="-mt-6 flex w-full justify-center pb-1 text-sm font-light">
-            <a href="https://p6.gg/" target="_blank">
-              Made with <span className="text-red-500">❤</span> by{" "}
-              <span className="font-bold text-[#F79B3A]">P6</span>
-            </a>
-          </footer>
-        </TRPCReactProvider>
+            <footer className="-mt-6 flex w-full justify-center pb-1 text-sm font-light">
+              <a href="https://p6.gg/" target="_blank">
+                Made with <span className="text-red-500">❤</span> by{" "}
+                <span className="font-bold text-[#F79B3A]">P6</span>
+              </a>
+            </footer>
+          </TRPCReactProvider>
+        </DecryptedSessionProvider>
       </body>
     </html>
   );
