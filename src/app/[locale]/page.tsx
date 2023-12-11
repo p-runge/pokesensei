@@ -1,10 +1,21 @@
 import Image from "next/image";
+import { getServerSession } from "next-auth/next";
 import Link from "~/components/link";
 import { useTranslations } from "next-intl";
 import LocaleSelect from "~/components/locale-select";
+import LoginButton from "~/components/login-button";
+import { type Session } from "next-auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession();
+
+  return <Content session={session} />;
+}
+
+function Content({ session }: { session: Session | null }) {
   const t = useTranslations();
+
+  console.log({ session });
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-6">
@@ -27,6 +38,7 @@ export default function Home() {
       </Link>
       <Link href="/setup">{t("page_home_custom_game_button")}</Link>
       <LocaleSelect />
+      {!session && <LoginButton />}
     </div>
   );
 }

@@ -61,6 +61,9 @@ export const authOptions: NextAuthOptions = {
      * @see https://next-auth.js.org/providers/github
      */
   ],
+  jwt: {
+    secret: process.env.JWT_SECRET, // Ensure this is a long, random string!
+  },
 };
 
 /**
