@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "~/components/link";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Navbar from "~/components/navbar";
 
-export default function Page() {
-  const t = useTranslations();
+export default async function Page() {
+  const t = await getTranslations();
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-6">
