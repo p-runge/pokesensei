@@ -6,6 +6,7 @@ import { getServerAuthSession } from "~/server/auth";
 import IntlProvider from "./intl-provider";
 import LogoutButton from "./logout-button";
 import LoginButton from "./login-button";
+import UserDropdown from "./user-dropdown";
 
 export default async function Navbar() {
   const session = await getServerAuthSession();
@@ -32,17 +33,11 @@ function Content({ session }: { session: Session | null }) {
           </Link>
           <LocaleSelect />
         </div>
-        <div>
-          {session ? (
-            <IntlProvider>
-              <LogoutButton />
-            </IntlProvider>
-          ) : (
-            <IntlProvider>
-              <LoginButton />
-            </IntlProvider>
-          )}
-        </div>
+
+        <IntlProvider>
+          {session ? <LogoutButton /> : <LoginButton />}
+          <UserDropdown />
+        </IntlProvider>
       </div>
     </nav>
   );

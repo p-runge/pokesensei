@@ -12,8 +12,13 @@ await import("./src/env.js");
 const config = {
   images: {
     remotePatterns: [
+      // PokeAPI sprites
       {
         hostname: "raw.githubusercontent.com",
+      },
+      // Discord profile pictures
+      {
+        hostname: "cdn.discordapp.com",
       },
     ],
   },
