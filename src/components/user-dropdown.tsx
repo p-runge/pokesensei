@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { cn } from "~/server/utils/cn";
 import Button from "./button";
-import Link from "./link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
@@ -55,10 +54,11 @@ export default function Dropdown() {
         </Button>
       </div>
 
+      {/* overlay */}
       <div
         className={cn(
           !isOpen ? "scale-95 opacity-0 ease-out" : "ease-in",
-          "absolute right-0 z-10 mt-2 w-56 origin-top-right transform rounded-md bg-gray-700 shadow-lg ring-1 ring-gray-500 duration-100 focus:outline-none",
+          "absolute right-0 z-10 mt-2 w-56 origin-top-right transform rounded bg-gray-700 shadow-lg ring-1 ring-gray-500 duration-100 focus:outline-none",
         )}
         role="menu"
         aria-orientation="vertical"
@@ -66,14 +66,14 @@ export default function Dropdown() {
         tabIndex={-1}
       >
         <div className="py-1" role="none">
-          <Link
+          {/* <Link
             href="#"
             className="block w-full rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800 hover:no-underline"
             role="menuitem"
             tabIndex={-1}
           >
             Profile
-          </Link>
+          </Link> */}
           <button
             type="button"
             className="block w-full rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800"
