@@ -1,14 +1,14 @@
 import Image from "next/image";
 import { Link } from "~/navigation";
 import LocaleSelect from "./locale-select";
-import { type Session, getServerSession } from "next-auth";
-import { authOptions } from "~/server/auth";
+import { type Session } from "next-auth";
+import { getServerAuthSession } from "~/server/auth";
 import IntlProvider from "./intl-provider";
 import LogoutButton from "./logout-button";
 import LoginButton from "./login-button";
 
 export default async function Navbar() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerAuthSession();
 
   return <Content session={session} />;
 }

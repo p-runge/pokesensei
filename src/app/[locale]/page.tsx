@@ -1,21 +1,10 @@
 import Image from "next/image";
-import { getServerSession } from "next-auth/next";
 import Link from "~/components/link";
 import { useTranslations } from "next-intl";
-import { type Session } from "next-auth";
-import { authOptions } from "~/server/auth";
 import Navbar from "~/components/navbar";
 
-export default async function Page() {
-  const session = await getServerSession(authOptions);
-
-  return <Content session={session} />;
-}
-
-function Content({ session }: { session: Session | null }) {
+export default function Page() {
   const t = useTranslations();
-
-  console.log({ session });
 
   return (
     <div className="flex grow flex-col items-center justify-center gap-6">
