@@ -31,6 +31,7 @@ const customImageRenderingPlugin: PluginCreator = ({ addUtilities, theme }) => {
 export default {
   mode: "jit",
   content: ["./src/{app,components}/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {

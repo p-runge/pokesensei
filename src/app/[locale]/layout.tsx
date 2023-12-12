@@ -8,6 +8,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { LOCALES, type Locale } from "~/i18n";
 import { getServerAuthSession } from "~/server/auth";
 import { DecryptedSessionProvider } from "~/components/decrypted-session-provider";
+import ThemeProvider from "~/components/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -38,7 +39,7 @@ export default async function RootLayout({
       >
         <DecryptedSessionProvider session={session}>
           <TRPCReactProvider cookies={cookies().toString()}>
-            {children}
+            <ThemeProvider>{children}</ThemeProvider>
           </TRPCReactProvider>
         </DecryptedSessionProvider>
       </body>
