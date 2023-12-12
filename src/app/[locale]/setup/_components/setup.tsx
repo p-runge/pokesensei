@@ -40,32 +40,34 @@ export default function Setup() {
 
   return (
     <>
-      <Select
-        title={t("page_setup_select_title_question_type")}
-        hasAllOption
-        multi
-        defaultValues={questionTypes}
-        options={Object.values(QuestionType).map((questionType) => ({
-          value: questionType,
-          label: t(`question_type_${questionType.toLowerCase()}`),
-        }))}
-        onSelect={(values) => setQuestionTypes(values as QuestionType[])}
-      />
-      <Select
-        title={t("page_setup_select_title_generation")}
-        hasAllOption
-        multi
-        defaultValues={questionTypes}
-        options={POKEMON_BY_GEN.map((_, i) => ({
-          value: `${i + 1}`,
-          label: `${i + 1}`,
-        }))}
-        onSelect={(values) =>
-          setGenerations(values.map((value) => parseInt(value)))
-        }
-      />
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <Select
+          title={t("page_setup_select_title_question_type")}
+          hasAllOption
+          multi
+          defaultValues={questionTypes}
+          options={Object.values(QuestionType).map((questionType) => ({
+            value: questionType,
+            label: t(`question_type_${questionType.toLowerCase()}`),
+          }))}
+          onSelect={(values) => setQuestionTypes(values as QuestionType[])}
+        />
+        <Select
+          title={t("page_setup_select_title_generation")}
+          hasAllOption
+          multi
+          defaultValues={questionTypes}
+          options={POKEMON_BY_GEN.map((_, i) => ({
+            value: `${i + 1}`,
+            label: `${i + 1}`,
+          }))}
+          onSelect={(values) =>
+            setGenerations(values.map((value) => parseInt(value)))
+          }
+        />
+      </div>
       <div className="pb-12" />
-      <Link href={startHref} variant="primary">
+      <Link href={startHref} variant="primary" className="self-center">
         {t("page_setup_start_button")}
       </Link>
     </>

@@ -2,6 +2,7 @@ import IntlProvider from "~/components/intl-provider";
 import { api } from "~/trpc/server";
 import { type LanguageIso } from "~/server/utils/api";
 import Quiz from "./_components/quiz";
+import MainLayout from "~/components/main-layout";
 
 export default async function Page({
   params,
@@ -15,10 +16,12 @@ export default async function Page({
   });
 
   return (
-    <div className="flex grow flex-col justify-center">
-      <IntlProvider>
-        <Quiz quiz={quiz} />
-      </IntlProvider>
-    </div>
+    <MainLayout center fullScreen>
+      <div className="flex w-full flex-col">
+        <IntlProvider>
+          <Quiz quiz={quiz} />
+        </IntlProvider>
+      </div>
+    </MainLayout>
   );
 }
