@@ -1,51 +1,59 @@
 "use client";
 
-import { useColorScheme } from "@mantine/hooks";
-import { createContext, useContext, useEffect, useState } from "react";
+import { useColorScheme, useLocalStorage } from "@mantine/hooks";
+import { createContext, useContext, useEffect } from "react";
+
+type Scheme = "light" | "dark";
 
 type ThemeContextValue = {
-  scheme: "light" | "dark";
-  setScheme: (value: "light" | "dark") => void;
+  scheme: Scheme;
+  setScheme: (value: Scheme) => void;
 };
 
-const defaultThemeContextValue: ThemeContextValue = {
+const ThemeContext = createContext<ThemeContextValue>({
   scheme: "dark",
   setScheme: () => void null,
-};
-
-const ThemeContext = createContext<ThemeContextValue>(defaultThemeContextValue);
+});
 
 export default function ThemeProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const initialScheme = useColorScheme(defaultThemeContextValue.scheme);
-  const [scheme, setScheme] = useState(initialScheme);
+  const preferredScheme = useColorScheme("dark");
+  const [scheme, setScheme] = useLocalStorage<Scheme>({
+    key: "theme",
+    defaultValue: preferredScheme,
+  });
 
   useEffect(() => {
-    /**
-     * If the user changes their system theme, we want to update the theme
-     * context value to match.
-     */
-    setScheme(initialScheme);
-  }, [initialScheme]);
+    // Update the body class whenever the scheme changes
+    document.documentElement.classList.toggle("dark", scheme === "dark");
 
-  useEffect(() => {
-    if (scheme === "light") {
-      document.documentElement.classList.remove("dark");
-    } else {
-      document.documentElement.classList.add("dark");
-    }
+    // Watch for changes to the OS theme
+    const handleSchemeChange = () => {
+      const newPreferredScheme = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches
+        ? "dark"
+        : "light";
+
+      if (newPreferredScheme !== scheme) {
+        setScheme(newPreferredScheme);
+      }
+    };
+
+    window
+      .matchMedia("(prefers-color-scheme: dark)")
+      .addEventListener("change", handleSchemeChange);
+    return () =>
+      window
+        .matchMedia("(prefers-color-scheme: dark)")
+        .removeEventListener("change", handleSchemeChange);
   }, [scheme]);
 
   return (
-    <ThemeContext.Provider
-      value={{
-        scheme,
-        setScheme,
-      }}
-    >
+    <ThemeContext.Provider value={{ scheme, setScheme }}>
       {children}
     </ThemeContext.Provider>
   );
