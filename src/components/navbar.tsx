@@ -10,7 +10,7 @@ export default async function Navbar() {
   const session = await getServerAuthSession();
 
   return (
-    <nav className="bg-primary-600 fixed left-0 top-0 flex h-header w-full items-center shadow-lg dark:bg-slate-700">
+    <nav className="bg-primary-600 fixed left-0 top-0 flex h-header w-full items-center shadow-lg dark:bg-gray-700">
       <div className="flex w-full items-center justify-between px-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="relative mr-3">
@@ -21,7 +21,7 @@ export default async function Navbar() {
               alt="logo"
               priority
             />
-            <div className="bg-primary-500 absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 px-[6px] text-xs text-red-500 dark:bg-gray-800">
+            <div className="absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 bg-gray-200 px-[6px] text-xs text-red-500 dark:bg-gray-800">
               Beta
             </div>
           </Link>
