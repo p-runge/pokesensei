@@ -18,7 +18,7 @@ export default async function Page() {
             alt="PokéSensei"
             priority
           />
-          <span className="absolute -right-6 bottom-0 -rotate-12 rounded-full border-4 border-red-500 bg-gray-200 px-3 text-3xl text-red-500 dark:bg-gray-800">
+          <span className="absolute -right-6 bottom-0 -rotate-12 rounded-full border-4 border-red-500 bg-gray-100 px-3 text-3xl text-red-500 dark:bg-gray-800">
             Beta
           </span>
         </h1>
