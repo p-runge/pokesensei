@@ -2,16 +2,15 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import { type Prisma } from "@prisma/client";
 import { usePathname, useRouter } from "~/navigation";
 import { cn } from "~/server/utils/cn";
-import type { api } from "~/trpc/server";
+import { type QueryReturnType } from "~/server/api/root";
 import Question from "./question";
 
 export default function Quiz({
   quiz,
 }: {
-  quiz: Prisma.PromiseReturnType<typeof api.quiz.getById.query>;
+  quiz: QueryReturnType["quiz"]["getById"];
 }) {
   const t = useTranslations();
   const router = useRouter();

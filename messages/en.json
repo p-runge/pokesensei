@@ -1,10 +1,12 @@
 {
+  "page_profile_section_quiz_history": "Quiz History",
   "action_sign_in_discord": "Sign in with Discord",
   "action_sign_out": "Sign Out",
   "error_no_data": "The requested data does not exist.",
   "page_home_copy": "Test your Pokémon knowledge and see if you're a true Pokémon master!",
   "page_home_quick_start_button": "Quick Start!",
   "page_home_custom_game_button": "Create a custom game",
+  "page_profile_title": "User Profile",
   "page_setup_title": "Setup",
   "page_setup_instruction": "Here you can define what kind of questions you'd like to be asked",
   "page_setup_select_title_question_type": "Question Type",

@@ -10,6 +10,7 @@ import Button from "./button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 import { useDecryptedSession } from "./decrypted-session-provider";
+import Link from "./link";
 
 export default function Dropdown() {
   const t = useTranslations();
@@ -73,14 +74,14 @@ export default function Dropdown() {
         tabIndex={-1}
       >
         <div className="py-1" role="none">
-          {/* <Link
-            href="#"
+          <Link
+            href="/profile"
             className="block w-full whitespace-nowrap rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800 hover:no-underline"
             role="menuitem"
             tabIndex={-1}
           >
             Profile
-          </Link> */}
+          </Link>
           <button
             type="button"
             className="block w-full whitespace-nowrap rounded-none bg-gray-700 px-4 py-2 text-left text-sm text-white hover:bg-gray-800"

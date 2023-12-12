@@ -1,16 +1,13 @@
-import { type Prisma } from "@prisma/client";
 import clsx from "clsx";
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { cn } from "~/server/utils/cn";
-import { type api } from "~/trpc/server";
+import { type QueryReturnType } from "~/server/api/root";
 
 export default async function EvaluatedQuestion({
   question,
 }: {
-  question: Prisma.PromiseReturnType<
-    typeof api.quiz.evaluate.query
-  >["questions"][number];
+  question: QueryReturnType["quiz"]["evaluate"]["questions"][number];
 }) {
   const t = await getTranslations();
 

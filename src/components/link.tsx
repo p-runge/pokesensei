@@ -11,7 +11,7 @@ export default function Link({
 }: Omit<React.ComponentProps<"a">, "ref"> &
   Omit<LinkProps, "locale"> & {
     children: React.ReactNode;
-    variant?: "a" | "primary";
+    variant?: "a" | "primary" | "blank";
     locale?: Locale;
   }) {
   return (
