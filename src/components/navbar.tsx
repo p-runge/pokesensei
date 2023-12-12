@@ -5,6 +5,7 @@ import IntlProvider from "./intl-provider";
 import LoginButton from "./login-button";
 import UserDropdown from "./user-dropdown";
 import { getServerAuthSession } from "~/server/auth";
+import DarkModeToggle from "./dark-mode-toggle";
 
 export default async function Navbar() {
   const session = await getServerAuthSession();
@@ -28,9 +29,12 @@ export default async function Navbar() {
           <LocaleSelect />
         </div>
 
-        <IntlProvider>
-          {session ? <UserDropdown /> : <LoginButton />}
-        </IntlProvider>
+        <div className="flex items-center gap-3">
+          <DarkModeToggle />
+          <IntlProvider>
+            {session ? <UserDropdown /> : <LoginButton />}
+          </IntlProvider>
+        </div>
       </div>
     </nav>
   );
