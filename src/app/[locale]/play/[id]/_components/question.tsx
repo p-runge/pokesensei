@@ -50,7 +50,7 @@ export default function Question({
         {question.answers.map((answer, i) => (
           <Button
             key={`${answer.value}-${i}`}
-            className="rounded-lg bg-primary p-4 text-2xl"
+            className="bg-primary-500 rounded-lg p-4 text-2xl"
             onClick={() => onAnswerClicked(answer.value)}
           >
             {answer.label}

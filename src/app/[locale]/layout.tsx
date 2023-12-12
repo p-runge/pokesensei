@@ -33,7 +33,9 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
+      <body
+        className={`bg-slate-200 font-sans text-slate-800 dark:bg-gray-800 dark:text-white ${inter.variable}`}
+      >
         <DecryptedSessionProvider session={session}>
           <TRPCReactProvider cookies={cookies().toString()}>
             {children}

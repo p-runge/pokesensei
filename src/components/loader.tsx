@@ -16,7 +16,7 @@ function LoaderBase({ animate }: { animate?: boolean }) {
   return (
     <div
       className={cn(
-        "absolute left-5 top-5 inline-block h-10 w-10 rounded-full bg-primary",
+        "bg-primary-500 absolute left-5 top-5 inline-block h-10 w-10 rounded-full",
         animate && "animate-ping",
       )}
     />

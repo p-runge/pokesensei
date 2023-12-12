@@ -23,9 +23,9 @@ export default function Link({
         variant === "primary" && "text-shadow",
         cn(
           "text-lg",
-          variant === "a" && "text-primary hover:underline",
+          variant === "a" && "text-primary-500 hover:underline",
           variant === "primary" &&
-            "inline-block cursor-pointer break-words rounded bg-primary px-4 py-2 text-white drop-shadow transition hover:bg-primary-dark hover:no-underline disabled:bg-primary-light",
+            "disabled:bg-primary-300 hover:bg-primary-600 bg-primary-500 inline-block cursor-pointer break-words rounded px-4 py-2 text-white drop-shadow transition hover:no-underline",
           props.className,
         ),
       )}

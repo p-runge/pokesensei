@@ -10,7 +10,7 @@ export default async function Navbar() {
   const session = await getServerAuthSession();
 
   return (
-    <nav className="fixed left-0 top-0 flex h-header w-full items-center bg-gray-700 shadow-lg">
+    <nav className="bg-primary-600 fixed left-0 top-0 flex h-header w-full items-center shadow-lg dark:bg-slate-700">
       <div className="flex w-full items-center justify-between px-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="relative mr-3">

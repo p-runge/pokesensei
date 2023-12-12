@@ -42,7 +42,7 @@ export default async function EvaluatedQuestion({
                 answer.isChosen ? "border-secondary" : "border-transparent",
                 answer.isCorrect && "bg-success",
                 !answer.isCorrect && answer.isChosen && "bg-error",
-                !answer.isCorrect && !answer.isChosen && "bg-primary",
+                !answer.isCorrect && !answer.isChosen && "bg-primary-500",
               ),
             )}
           >
