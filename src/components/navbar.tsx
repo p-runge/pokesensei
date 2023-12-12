@@ -21,7 +21,7 @@ export default async function Navbar() {
               alt="logo"
               priority
             />
-            <div className="absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 bg-gray-800 px-2 text-xs text-red-500">
+            <div className="bg-primary-500 absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 px-[6px] text-xs text-red-500 dark:bg-gray-800">
               Beta
             </div>
           </Link>
