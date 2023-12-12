@@ -29,8 +29,8 @@ export default function Question({
   return (
     <div className="mb-12 grid gap-4">
       {/* question */}
-      <div className="flex h-64 flex-col items-center justify-center rounded-lg bg-gray-700 p-4">
-        <span className="text-lg">
+      <div className="flex h-64 flex-col items-center justify-center rounded-lg bg-gray-500 p-4 shadow-lg shadow-gray-500 dark:bg-gray-700 dark:shadow-none">
+        <span className="text-shadow text-lg text-white">
           {t(question.label.string, question.label.params)}
         </span>
         {question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
@@ -50,7 +50,7 @@ export default function Question({
         {question.answers.map((answer, i) => (
           <Button
             key={`${answer.value}-${i}`}
-            className="bg-primary-500 rounded-lg p-4 text-2xl"
+            className="bg-primary-500 rounded-lg px-8 py-4 text-2xl shadow-lg shadow-gray-500 dark:shadow-none"
             onClick={() => onAnswerClicked(answer.value)}
           >
             {answer.label}

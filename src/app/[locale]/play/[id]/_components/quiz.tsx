@@ -51,7 +51,7 @@ export default function Quiz({
                 ? "bg-secondary-500"
                 : i < activeQuestionId
                   ? "bg-primary-500"
-                  : "bg-gray-400",
+                  : "bg-gray-300 dark:bg-gray-400",
             )}
           />
         ))}

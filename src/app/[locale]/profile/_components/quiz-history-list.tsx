@@ -57,11 +57,14 @@ function QuizItem({
     <Link
       href={`/play/${quiz.id}/evaluate`}
       variant="blank"
-      className="flex h-full w-full cursor-pointer items-start justify-between rounded-md bg-white px-3 py-[20px] shadow-white transition-all duration-100 dark:bg-gray-800 dark:hover:bg-gray-500 dark:hover:shadow-md"
+      className="flex h-full w-full cursor-pointer items-start justify-between rounded-md bg-white px-3 py-[20px] shadow-white transition-all duration-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-500"
     >
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center">
-          <FontAwesomeIcon icon={faQuestion} className="h-10 w-10" />
+          <FontAwesomeIcon
+            icon={faQuestion}
+            className="h-10 w-10 text-gray-500 dark:text-white"
+          />
         </div>
         <div className="flex flex-col">
           <h5 className="font-bold text-gray-500 dark:text-white">
@@ -69,7 +72,7 @@ function QuizItem({
               timeStyle: "short",
             })}
           </h5>
-          <p className="mt-1 text-sm font-normal text-gray-600">
+          <p className="mt-1 text-sm font-light text-gray-400 dark:text-gray-600">
             {dateTime(quiz.createdAt, {
               dateStyle: "medium",
             })}
