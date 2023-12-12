@@ -2,24 +2,20 @@
 
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { type Prisma } from "@prisma/client";
 import Button from "~/components/button";
-import { type api } from "~/trpc/server";
-import { api as clientApi } from "~/trpc/react";
+import { type QueryReturnType } from "~/server/api/root";
+import { api } from "~/trpc/react";
 
 export default function Question({
   question,
   onAnswer,
 }: {
-  question: Prisma.PromiseReturnType<
-    typeof api.quiz.getById.query
-  >["questions"][number];
+  question: QueryReturnType["quiz"]["getById"]["questions"][number];
   onAnswer: (value: string) => void;
 }) {
   const t = useTranslations();
 
-  const { mutateAsync: answerQuestion } =
-    clientApi.question.answer.useMutation();
+  const { mutateAsync: answerQuestion } = api.question.answer.useMutation();
 
   async function onAnswerClicked(value: string) {
     void answerQuestion({

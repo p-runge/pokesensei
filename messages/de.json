@@ -1,10 +1,12 @@
 {
+  "page_profile_section_quiz_history": "Quiz-Verlauf",
   "action_sign_in_discord": "Mit Discord anmelden",
   "action_sign_out": "Abmelden",
   "error_no_data": "Die angefragten Daten existieren nicht.",
   "page_home_copy": "Teste dein Pokémon-Wissen und finde heraus, ob du ein wahrer Pokémon-Meister bist!",
   "page_home_quick_start_button": "Los!",
   "page_home_custom_game_button": "Benutzerdefiniertes Spiel",
+  "page_profile_title": "Benutzerprofil",
   "page_setup_title": "Einrichtung",
   "page_setup_instruction": "Hier kannst du einstellen, welche Fragen dir gestellt werden sollen",
   "page_setup_select_title_question_type": "Fragetyp",
