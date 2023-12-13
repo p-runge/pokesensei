@@ -1,6 +1,6 @@
 "use client";
 
-import { useColorScheme, useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage } from "@mantine/hooks";
 import { createContext, useContext, useEffect } from "react";
 
 type Scheme = "light" | "dark";
@@ -20,10 +20,9 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const preferredScheme = useColorScheme("dark");
   const [scheme, setScheme] = useLocalStorage<Scheme>({
-    key: "theme",
-    defaultValue: preferredScheme,
+    key: "scheme",
+    defaultValue: "dark",
   });
 
   useEffect(() => {
@@ -54,6 +53,18 @@ export default function ThemeProvider({
 
   return (
     <ThemeContext.Provider value={{ scheme, setScheme }}>
+      {/* This is needed to prevent a flash of unstyled content on the client */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            (function() {
+              const scheme = localStorage.getItem("scheme") || (window.matchMedia("(prefers-color-scheme: dark)").matches && "dark");
+              scheme.toString().replaceAll("\\"", "") === "dark" && document.documentElement.classList.add("dark");
+            })();
+          `,
+        }}
+      />
+
       {children}
     </ThemeContext.Provider>
   );
