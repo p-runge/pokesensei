@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useTheme } from "./theme-provider";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "~/server/utils/cn";
 
 type Particle = {
@@ -15,6 +15,7 @@ export default function DarkModeToggle() {
   const { scheme, setScheme } = useTheme();
 
   const [particles, setParticles] = useState<Particle[]>([]);
+  const prevSchemeRef = useRef(scheme);
 
   function addParticles() {
     setParticles(
@@ -22,18 +23,24 @@ export default function DarkModeToggle() {
         angle: Math.random() * 360,
       })),
     );
+
+    prevSchemeRef.current = scheme;
   }
 
   useEffect(() => {
-    // shoot particles when scheme changes
-    addParticles();
+    // Only trigger particles if scheme has changed
+    if (prevSchemeRef.current !== scheme) {
+      addParticles();
 
-    // clean up particles after animation
-    const timeout = setTimeout(() => {
-      setParticles([]);
-    }, 1000);
+      // clean up particles after animation
+      const timeout = setTimeout(() => {
+        setParticles([]);
+      }, 1000);
 
-    return () => clearTimeout(timeout);
+      return () => clearTimeout(timeout);
+    }
+
+    prevSchemeRef.current = scheme;
   }, [scheme]);
 
   return (
