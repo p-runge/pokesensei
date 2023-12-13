@@ -84,6 +84,17 @@ export default {
         "crisp-edges": { imageRendering: "crisp-edges" },
         smooth: { imageRendering: "smooth" }, // custom utility for smooth rendering
       },
+
+      keyframes: {
+        particle: {
+          "0%": { transform: "translateX(0)", opacity: "0" },
+          "25%": { opacity: "1" },
+          "100%": { transform: "translateX(50px)", opacity: "0" },
+        },
+      },
+      animation: {
+        particle: "particle 1s ease-out forwards",
+      },
     },
   },
   plugins: [customImageRenderingPlugin],
