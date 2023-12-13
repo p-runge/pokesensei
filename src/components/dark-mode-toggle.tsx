@@ -14,6 +14,7 @@ export default function DarkModeToggle() {
           alt="light"
           width={20}
           height={20}
+          priority
           className="absolute left-[2px] top-[2px] rounded-l-full bg-[#e5c600] p-1 font-medium text-white"
         />
         <Image
@@ -21,6 +22,7 @@ export default function DarkModeToggle() {
           alt="light"
           width={20}
           height={20}
+          priority
           className="absolute right-[2px] top-[2px] rounded-r-full bg-[#463e3e] p-1 font-medium text-white"
         />
         <input

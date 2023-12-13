@@ -29,7 +29,7 @@ export default function ThemeProvider({
     // Update the body class whenever the scheme changes
     document.documentElement.classList.toggle("dark", scheme === "dark");
 
-    // Watch for changes to the OS theme
+    // Watch for changes to the OS scheme
     const handleSchemeChange = () => {
       const newPreferredScheme = window.matchMedia(
         "(prefers-color-scheme: dark)",
