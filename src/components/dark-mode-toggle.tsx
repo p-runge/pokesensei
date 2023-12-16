@@ -70,7 +70,14 @@ export default function DarkModeToggle() {
         onChange={() => void null}
         className="peer sr-only"
       />
-      <span className="peer relative flex h-6 w-11 rounded-full border-2 border-gray-400 outline-none after:absolute after:-left-[2.25px] after:-top-[2px] after:start-0 after:h-6 after:w-6 after:rounded-full after:bg-gray-300 after:ring-2 after:ring-gray-400 after:transition-transform after:content-[''] peer-checked:after:translate-x-5">
+      <span
+        className={cn(
+          "peer relative flex outline-none",
+          "after:absolute after:-left-[2px] after:-top-[2px] after:h-6 after:w-6 after:content-['']",
+          "after:transition-transform peer-checked:after:translate-x-5",
+          "rounded-full border-2 border-gray-400 after:rounded-full after:bg-gray-300 after:ring-2 after:ring-gray-400",
+        )}
+      >
         <Icon type="electric" />
 
         {/* explosion center */}
