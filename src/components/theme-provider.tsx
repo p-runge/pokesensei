@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 type Scheme = "light" | "dark";
 
@@ -19,7 +19,18 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [scheme, setScheme] = useState("dark" as Scheme);
+  // Initialize scheme from localStorage
+  const valueFromLocalStorage = localStorage?.getItem("scheme");
+  const schemeFromLocalStorage: Scheme =
+    valueFromLocalStorage === "light" || valueFromLocalStorage === "dark"
+      ? valueFromLocalStorage
+      : "dark";
+  const [scheme, setScheme] = useState(schemeFromLocalStorage);
+
+  // Keep localStorage in sync with the current scheme
+  useEffect(() => {
+    localStorage.setItem("scheme", scheme);
+  }, [scheme]);
 
   return (
     <ThemeContext.Provider value={{ scheme, setScheme }}>
