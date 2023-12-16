@@ -31,18 +31,33 @@ const customImageRenderingPlugin: PluginCreator = ({ addUtilities, theme }) => {
 export default {
   mode: "jit",
   content: ["./src/{app,components}/**/*.{js,ts,jsx,tsx}"],
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#3f69ad",
-          light: "#6587bd",
-          dark: "#32548a",
+          50: "#e6ebf5",
+          100: "#cdd7eb",
+          200: "#9bb2db",
+          300: "#699dcb",
+          400: "#4d8ac0",
+          500: "#3f69ad", // DEFAULT
+          600: "#33528a",
+          700: "#283c67",
+          800: "#1d2944",
+          900: "#141c2e",
         },
         secondary: {
-          DEFAULT: "#f7cb46",
-          light: "#f8d56a",
-          dark: "#c5a238",
+          50: "#fef9e6",
+          100: "#fdf3cd",
+          200: "#fbe89b",
+          300: "#f9dd69",
+          400: "#f7d237",
+          500: "#f7cb46", // DEFAULT
+          600: "#d5a92e",
+          700: "#b38823",
+          800: "#916818",
+          900: "#7a5510",
         },
         success: "#16a34a",
         error: "#dc2626",
@@ -68,6 +83,22 @@ export default {
         auto: { imageRendering: "auto" },
         "crisp-edges": { imageRendering: "crisp-edges" },
         smooth: { imageRendering: "smooth" }, // custom utility for smooth rendering
+      },
+
+      keyframes: {
+        shoot: {
+          "0%": { transform: "translateX(0)", opacity: "0" },
+          "25%": { opacity: "1" },
+          "100%": { transform: "translateX(50px)", opacity: "0" },
+        },
+        ["fade-in"]: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        shoot: "shoot 1s ease-out forwards",
+        ["fade-in"]: "fade-in 0.2s ease-out forwards",
       },
     },
   },

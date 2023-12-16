@@ -8,6 +8,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { LOCALES, type Locale } from "~/i18n";
 import { getServerAuthSession } from "~/server/auth";
 import { DecryptedSessionProvider } from "~/components/decrypted-session-provider";
+import ThemeProvider from "~/components/theme-provider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -32,11 +33,13 @@ export default async function RootLayout({
   const session = await getServerAuthSession();
 
   return (
-    <html lang={locale}>
-      <body className={`bg-gray-800 font-sans text-white ${inter.variable}`}>
+    <html lang={locale} suppressHydrationWarning>
+      <body
+        className={`bg-gray-100 font-sans text-gray-800 dark:bg-gray-800 dark:text-white ${inter.variable} transition-colors`}
+      >
         <DecryptedSessionProvider session={session}>
           <TRPCReactProvider cookies={cookies().toString()}>
-            {children}
+            <ThemeProvider>{children}</ThemeProvider>
           </TRPCReactProvider>
         </DecryptedSessionProvider>
       </body>

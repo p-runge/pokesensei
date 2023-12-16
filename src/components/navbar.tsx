@@ -5,12 +5,13 @@ import IntlProvider from "./intl-provider";
 import LoginButton from "./login-button";
 import UserDropdown from "./user-dropdown";
 import { getServerAuthSession } from "~/server/auth";
+import DarkModeToggle from "./dark-mode-toggle";
 
 export default async function Navbar() {
   const session = await getServerAuthSession();
 
   return (
-    <nav className="fixed left-0 top-0 flex h-header w-full items-center bg-gray-700 shadow-lg">
+    <nav className="bg-primary-600 fixed left-0 top-0 flex h-header w-full items-center shadow-lg shadow-black/40 dark:bg-gray-700 dark:shadow-none">
       <div className="flex w-full items-center justify-between px-6">
         <div className="flex items-center gap-3">
           <Link href="/" className="relative mr-3">
@@ -21,16 +22,19 @@ export default async function Navbar() {
               alt="logo"
               priority
             />
-            <div className="absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 bg-gray-800 px-2 text-xs text-red-500">
+            <div className="absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 bg-gray-100 px-[6px] text-xs text-red-500 dark:bg-gray-800">
               Beta
             </div>
           </Link>
           <LocaleSelect />
         </div>
 
-        <IntlProvider>
-          {session ? <UserDropdown /> : <LoginButton />}
-        </IntlProvider>
+        <div className="flex items-center gap-3">
+          <DarkModeToggle />
+          <IntlProvider>
+            {session ? <UserDropdown /> : <LoginButton />}
+          </IntlProvider>
+        </div>
       </div>
     </nav>
   );

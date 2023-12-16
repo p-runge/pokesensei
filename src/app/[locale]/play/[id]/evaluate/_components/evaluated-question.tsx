@@ -14,8 +14,8 @@ export default async function EvaluatedQuestion({
   return (
     <div className="grid max-w-full gap-4">
       {/* question */}
-      <div className="flex flex-col items-center justify-center rounded-lg bg-gray-700 p-4">
-        <span className="text-lg">
+      <div className="flex flex-col items-center justify-center rounded-lg bg-gray-500 p-4 shadow-lg shadow-gray-500 dark:bg-gray-700 dark:shadow-none">
+        <span className="text-shadow text-lg text-white">
           {t(question.label.string, question.label.params)}
         </span>
         {question.type === "NAME_OF_POKEMON_BY_IMAGE" && (
@@ -38,11 +38,11 @@ export default async function EvaluatedQuestion({
             className={clsx(
               "text-shadow",
               cn(
-                "rounded-lg border-4 p-4 text-center text-2xl",
-                answer.isChosen ? "border-secondary" : "border-transparent",
+                "rounded-lg border-8 px-6 py-2 text-center text-2xl text-white shadow-lg shadow-gray-500 dark:shadow-none",
+                answer.isChosen ? "border-secondary-500" : "border-transparent",
                 answer.isCorrect && "bg-success",
                 !answer.isCorrect && answer.isChosen && "bg-error",
-                !answer.isCorrect && !answer.isChosen && "bg-primary",
+                !answer.isCorrect && !answer.isChosen && "bg-primary-500",
               ),
             )}
           >

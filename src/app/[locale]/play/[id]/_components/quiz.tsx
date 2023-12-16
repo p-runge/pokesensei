@@ -48,10 +48,10 @@ export default function Quiz({
             className={cn(
               "flex-grow border-r-2 border-gray-800 first:rounded-l-lg last:rounded-r-lg last:border-r-0",
               i === activeQuestionId
-                ? "bg-secondary"
+                ? "bg-secondary-500"
                 : i < activeQuestionId
-                  ? "bg-primary"
-                  : "bg-gray-400",
+                  ? "bg-primary-500"
+                  : "bg-gray-300 dark:bg-gray-400",
             )}
           />
         ))}
