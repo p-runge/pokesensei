@@ -33,7 +33,7 @@ export default async function RootLayout({
   const session = await getServerAuthSession();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body
         className={`bg-gray-100 font-sans text-gray-800 dark:bg-gray-800 dark:text-white ${inter.variable} transition-colors`}
       >
