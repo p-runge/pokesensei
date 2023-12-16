@@ -19,14 +19,24 @@ export default function ThemeProvider({
 }: {
   children: React.ReactNode;
 }) {
-  // Initialize scheme from localStorage
+  // Read scheme from localStorage
   const valueFromLocalStorage =
     typeof window !== "undefined" && localStorage.getItem("scheme");
-  const schemeFromLocalStorage: Scheme =
+  const schemeFromLocalStorage: Scheme | null =
     valueFromLocalStorage === "light" || valueFromLocalStorage === "dark"
       ? valueFromLocalStorage
-      : "dark";
-  const [scheme, setScheme] = useState(schemeFromLocalStorage);
+      : null;
+
+  // Read scheme from OS
+  const schemeFromOS: Scheme =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+
+  const initialScheme = schemeFromLocalStorage ?? schemeFromOS;
+
+  const [scheme, setScheme] = useState(initialScheme);
 
   // Keep localStorage in sync with the current scheme
   useEffect(() => {
