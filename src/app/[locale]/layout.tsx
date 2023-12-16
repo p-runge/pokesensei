@@ -33,9 +33,9 @@ export default async function RootLayout({
   const session = await getServerAuthSession();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale}>
       <body
-        className={`bg-gray-100 font-sans text-gray-800 dark:bg-gray-800 dark:text-white ${inter.variable}`}
+        className={`bg-gray-100 font-sans text-gray-800 dark:bg-gray-800 dark:text-white ${inter.variable} transition-colors`}
       >
         <DecryptedSessionProvider session={session}>
           <TRPCReactProvider cookies={cookies().toString()}>

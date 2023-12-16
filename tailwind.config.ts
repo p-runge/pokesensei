@@ -86,14 +86,19 @@ export default {
       },
 
       keyframes: {
-        particle: {
+        shoot: {
           "0%": { transform: "translateX(0)", opacity: "0" },
           "25%": { opacity: "1" },
           "100%": { transform: "translateX(50px)", opacity: "0" },
         },
+        ["fade-in"]: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
       },
       animation: {
-        particle: "particle 1s ease-out forwards",
+        shoot: "shoot 1s ease-out forwards",
+        ["fade-in"]: "fade-in 0.2s ease-out forwards",
       },
     },
   },

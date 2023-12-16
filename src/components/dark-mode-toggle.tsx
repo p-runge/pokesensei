@@ -5,7 +5,7 @@ import { useTheme } from "./theme-provider";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "~/server/utils/cn";
 
-type Particle = {
+type Icon = {
   angle: number;
 };
 
@@ -14,7 +14,7 @@ const PARTICLE_AMOUNT = 10;
 export default function DarkModeToggle() {
   const { scheme, setScheme } = useTheme();
 
-  const [particles, setParticles] = useState<Particle[]>([]);
+  const [particles, setParticles] = useState<Icon[]>([]);
   const prevSchemeRef = useRef(scheme);
 
   function addParticles() {
@@ -43,8 +43,18 @@ export default function DarkModeToggle() {
     prevSchemeRef.current = scheme;
   }, [scheme]);
 
+  /**
+   * Only render the toggle once the component has mounted since we need to wait for
+   * the `useTheme` hook to be initialized.
+   */
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  });
+  if (!isMounted) return null;
+
   return (
-    <label className="flex cursor-pointer items-center gap-3">
+    <label className="animate-fade-in flex cursor-pointer items-center gap-3">
       <input
         type="checkbox"
         /**
@@ -60,15 +70,8 @@ export default function DarkModeToggle() {
         onChange={() => void null}
         className="peer sr-only"
       />
-      <span className="peer relative flex h-6 w-11 rounded-full border-2 border-gray-400 outline-none after:absolute after:-left-[2.25px] after:-top-[2px] after:start-0 after:h-6 after:w-6 after:rounded-full after:bg-gray-300 after:ring-2 after:ring-gray-400 after:transition-all after:content-[''] peer-checked:after:translate-x-5">
-        <Image
-          src="/images/electric.png"
-          alt="light"
-          width={20}
-          height={20}
-          priority
-          className="rounded-l-full bg-[#e5c600] p-1 font-medium text-white"
-        />
+      <span className="peer relative flex h-6 w-11 rounded-full border-2 border-gray-400 outline-none after:absolute after:-left-[2.25px] after:-top-[2px] after:start-0 after:h-6 after:w-6 after:rounded-full after:bg-gray-300 after:ring-2 after:ring-gray-400 after:transition-transform after:content-[''] peer-checked:after:translate-x-5">
+        <Icon type="electric" />
 
         {/* explosion center */}
         <div
@@ -84,34 +87,47 @@ export default function DarkModeToggle() {
               }}
               className="absolute -left-2.5 h-5 w-5 origin-center"
             >
-              <Image
-                src={
-                  scheme === "light"
-                    ? "/images/electric.png"
-                    : "/images/dark.png"
-                }
-                alt=""
-                width={20}
-                height={20}
-                priority
-                className={cn(
-                  "animate-particle rounded-full p-1",
-                  scheme === "light" ? "bg-[#e5c600]" : "bg-[#463e3e]",
-                )}
+              <Icon
+                type={scheme === "light" ? "electric" : "dark"}
+                isParticle
               />
             </div>
           ))}
         </div>
 
-        <Image
-          src="/images/dark.png"
-          alt="light"
-          width={20}
-          height={20}
-          priority
-          className="rounded-r-full bg-[#463e3e] p-1 font-medium text-white"
-        />
+        <Icon type="dark" />
       </span>
     </label>
+  );
+}
+
+function Icon({
+  type,
+  isParticle = false,
+}: {
+  type: "electric" | "dark";
+  isParticle?: boolean;
+}) {
+  return (
+    <Image
+      src={
+        type === "electric"
+          ? "/images/electric.png"
+          : type === "dark"
+            ? "/images/dark.png"
+            : ""
+      }
+      alt="light"
+      width={20}
+      height={20}
+      priority
+      className={cn(
+        "p-1 font-medium text-white",
+        type === "electric"
+          ? "rounded-l-full bg-[#e5c600]"
+          : "rounded-r-full bg-[#463e3e]",
+        isParticle && "animate-shoot rounded-full",
+      )}
+    />
   );
 }
