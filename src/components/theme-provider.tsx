@@ -28,11 +28,9 @@ export default function ThemeProvider({
       : null;
 
   // Read scheme from OS
+  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
   const schemeFromOS: Scheme =
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    typeof window !== "undefined" && mediaQuery.matches ? "dark" : "light";
 
   const initialScheme = schemeFromLocalStorage ?? schemeFromOS;
 
@@ -48,6 +46,18 @@ export default function ThemeProvider({
       document.documentElement.classList.add("dark");
     }
   }, [scheme]);
+
+  // Update scheme when OS scheme changes
+  useEffect(() => {
+    function handleMediaQueryChange(e: MediaQueryListEvent) {
+      setScheme(e.matches ? "dark" : "light");
+    }
+
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
+    return () =>
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ scheme, setScheme }}>
