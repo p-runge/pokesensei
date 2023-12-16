@@ -20,7 +20,8 @@ export default function ThemeProvider({
   children: React.ReactNode;
 }) {
   // Initialize scheme from localStorage
-  const valueFromLocalStorage = localStorage?.getItem("scheme");
+  const valueFromLocalStorage =
+    typeof window !== "undefined" && localStorage.getItem("scheme");
   const schemeFromLocalStorage: Scheme =
     valueFromLocalStorage === "light" || valueFromLocalStorage === "dark"
       ? valueFromLocalStorage
