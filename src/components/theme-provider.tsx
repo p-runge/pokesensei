@@ -21,16 +21,18 @@ export default function ThemeProvider({
 }) {
   // Read scheme from localStorage
   const valueFromLocalStorage =
-    typeof window !== "undefined" && localStorage.getItem("scheme");
+    typeof window !== "undefined" ? localStorage.getItem("scheme") : null;
   const schemeFromLocalStorage: Scheme | null =
     valueFromLocalStorage === "light" || valueFromLocalStorage === "dark"
       ? valueFromLocalStorage
       : null;
 
   // Read scheme from OS
-  const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  const schemeFromOS: Scheme =
-    typeof window !== "undefined" && mediaQuery.matches ? "dark" : "light";
+  const mediaQuery =
+    typeof window !== "undefined"
+      ? matchMedia("(prefers-color-scheme: dark)")
+      : null;
+  const schemeFromOS: Scheme = mediaQuery?.matches ? "dark" : "light";
 
   const initialScheme = schemeFromLocalStorage ?? schemeFromOS;
 
@@ -53,10 +55,10 @@ export default function ThemeProvider({
       setScheme(e.matches ? "dark" : "light");
     }
 
-    mediaQuery.addEventListener("change", handleMediaQueryChange);
+    mediaQuery?.addEventListener("change", handleMediaQueryChange);
 
     return () =>
-      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+      mediaQuery?.removeEventListener("change", handleMediaQueryChange);
   }, []);
 
   return (
