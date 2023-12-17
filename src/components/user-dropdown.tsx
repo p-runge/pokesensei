@@ -67,7 +67,7 @@ export default function Dropdown() {
       <div
         className={cn(
           !isOpen ? "scale-95 opacity-0 ease-out" : "ease-in",
-          "bg-primary-500 ring-primary-600 absolute right-0 z-10 mt-2 origin-top-right transform rounded shadow-lg ring-1 duration-100 focus:outline-none dark:bg-gray-700 dark:ring-gray-500",
+          "absolute right-0 z-10 mt-2 origin-top-right transform rounded bg-primary-500 shadow-lg ring-1 ring-primary-600 duration-100 focus:outline-none dark:bg-gray-700 dark:ring-gray-500",
         )}
         role="menu"
         aria-orientation="vertical"
@@ -76,7 +76,7 @@ export default function Dropdown() {
         <div className="py-1" role="none">
           <Link
             href="/profile"
-            className="hover:bg-primary-600 bg-primary-500 block w-full whitespace-nowrap rounded-none px-4 py-2 text-left text-sm text-white hover:no-underline dark:bg-gray-700 dark:hover:bg-gray-800"
+            className="block w-full whitespace-nowrap rounded-none bg-primary-500 px-4 py-2 text-left text-sm text-white hover:bg-primary-600 hover:no-underline dark:bg-gray-700 dark:hover:bg-gray-800"
             role="menuitem"
             tabIndex={-1}
           >
@@ -84,7 +84,7 @@ export default function Dropdown() {
           </Link>
           <button
             type="button"
-            className="hover:bg-primary-600 bg-primary-500 block w-full whitespace-nowrap rounded-none px-4 py-2 text-left text-sm text-white dark:bg-gray-700 dark:hover:bg-gray-800"
+            className="block w-full whitespace-nowrap rounded-none bg-primary-500 px-4 py-2 text-left text-sm text-white hover:bg-primary-600 dark:bg-gray-700 dark:hover:bg-gray-800"
             role="menuitem"
             tabIndex={-1}
             onClick={() => signOut()}

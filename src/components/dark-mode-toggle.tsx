@@ -54,7 +54,7 @@ export default function DarkModeToggle() {
   if (!isMounted) return null;
 
   return (
-    <label className="animate-fade-in flex cursor-pointer items-center gap-3">
+    <label className="flex animate-fade-in cursor-pointer items-center gap-3">
       <input
         type="checkbox"
         /**
@@ -72,7 +72,7 @@ export default function DarkModeToggle() {
       />
       <span
         className={cn(
-          "peer relative flex outline-none",
+          "peer relative flex w-11 outline-none",
           "after:absolute after:-left-[2px] after:-top-[2px] after:h-6 after:w-6 after:content-['']",
           "after:transition-transform peer-checked:after:translate-x-5",
           "rounded-full border-2 border-gray-400 after:rounded-full after:bg-gray-300 after:ring-2 after:ring-gray-400",

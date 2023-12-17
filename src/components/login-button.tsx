@@ -8,7 +8,7 @@ const LoginButton = () => {
 
   return (
     <button
-      className="rounded-[3px] bg-[#5865F2] px-4 py-2 text-[14px] text-white hover:bg-[#515DDF]"
+      className="rounded-[3px] bg-[#5865F2] px-4 py-2 text-xs text-white hover:bg-[#515DDF] sm:text-[14px]"
       onClick={() => signIn("discord")}
     >
       {t("action_sign_in_discord")}
