@@ -11,8 +11,8 @@ export default async function Navbar() {
   const session = await getServerAuthSession();
 
   return (
-    <nav className="bg-primary-600 fixed left-0 top-0 flex h-header w-full items-center shadow-lg shadow-black/40 dark:bg-gray-700 dark:shadow-none">
-      <div className="flex w-full items-center justify-between px-6">
+    <nav className="fixed left-0 top-0 flex h-header w-full items-center bg-primary-600 shadow-lg shadow-black/40 dark:bg-gray-700 dark:shadow-none">
+      <div className="flex w-full items-center justify-between gap-3 px-4">
         <div className="flex items-center gap-3">
           <Link href="/" className="relative mr-3">
             <Image
@@ -21,8 +21,17 @@ export default async function Navbar() {
               height={50}
               alt="logo"
               priority
+              className="hidden sm:inline-block"
             />
-            <div className="absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 bg-gray-100 px-[6px] text-xs text-red-500 dark:bg-gray-800">
+            <Image
+              src="/favicon.ico"
+              width={50}
+              height={50}
+              alt="logo"
+              priority
+              className="sm:hidden"
+            />
+            <div className="absolute -right-3 bottom-0 -rotate-12 rounded-full border-2 border-red-500 bg-gray-100 px-[6px] text-[8px] text-red-500 dark:bg-gray-700 sm:text-xs">
               Beta
             </div>
           </Link>
