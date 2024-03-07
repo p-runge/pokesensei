@@ -50,7 +50,7 @@ function QuizItem({
   const { dateTime } = useFormatter();
 
   const questionsAnswered = quiz.questions.filter((question) =>
-    question.answers.some((answer) => answer.isChosen),
+    question.answers.find((answer) => answer.isChosen && answer.isCorrect),
   ).length;
 
   return (
