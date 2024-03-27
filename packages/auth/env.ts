@@ -9,6 +9,7 @@ export const env = createEnv({
       process.env.NODE_ENV === "production"
         ? z.string().min(1)
         : z.string().min(1).optional(),
+    CRYPTO_SECRET: z.string().min(1),
   },
   client: {},
   experimental__runtimeEnv: {},

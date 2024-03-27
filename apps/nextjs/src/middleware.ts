@@ -1,11 +1,20 @@
-export { auth as middleware } from "@acme/auth";
+import createMiddleware from "next-intl/middleware";
 
-// Or like this if you need to do something here.
-// export default auth((req) => {
-//   console.log(req.auth) //  { session: { user: { ... } } }
-// })
+import { LOCALES } from "./i18n";
 
-// Read more: https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
+export default createMiddleware({
+  locales: LOCALES,
+  defaultLocale: "en",
+
+  // TODO: somehow crashes the app
+  // localePrefix: "as-needed",
+});
+
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  // Match only internationalized pathnames
+  //! The dynamic approach does not work because the matcher expects a literal
+  //! string, but the literal has to be kept in sync with the LOCALES array for
+  //! the routing to work properly.
+  // matcher: ["/", `/(${LOCALES.join("|")})/:path*`],
+  matcher: ["/", "/(de|en)/:path*"],
 };

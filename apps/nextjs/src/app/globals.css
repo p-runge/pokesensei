@@ -48,3 +48,17 @@
     --ring: 240 4.9% 83.9%;
   }
 }
+
+.text-shadow {
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+}
+
+@layer components {
+  button.selected {
+    @apply hover:bg-secondary-600 bg-secondary-500;
+  }
+}
