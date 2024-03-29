@@ -13,6 +13,7 @@ const {
   signOut,
 } = NextAuth(authConfig);
 
+// TODO: fix this
 async function auth() {
   const session = await defaultAuth();
   return (
