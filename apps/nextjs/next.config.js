@@ -23,6 +23,19 @@ const config = {
   /** We already do linting and typechecking as separate tasks in CI */
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+
+  images: {
+    remotePatterns: [
+      // PokeAPI sprites
+      {
+        hostname: "raw.githubusercontent.com",
+      },
+      // Discord profile pictures
+      {
+        hostname: "cdn.discordapp.com",
+      },
+    ],
+  },
 };
 
 export default withNextIntl(config);
