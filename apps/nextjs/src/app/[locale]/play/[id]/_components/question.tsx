@@ -20,7 +20,7 @@ export default function Question({
   const { mutateAsync: answerQuestion } = api.question.answer.useMutation();
 
   async function onAnswerClicked(value: string) {
-    void answerQuestion({
+    await answerQuestion({
       id: question.id,
       value,
     });
