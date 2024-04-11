@@ -4,15 +4,16 @@ import {
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { type inferRouterOutputs } from "@trpc/server";
 import { useFormatter, useTranslations } from "next-intl";
+
+import type { QueryReturnType } from "@acme/api";
+
 import Link from "~/components/link";
-import { type AppRouter } from "~/server/api/root";
 import { cn } from "~/server/utils/cn";
 import { api } from "~/trpc/server";
 
 export default async function QuizHistoryList() {
-  const quizzes = await api.user.getQuizzes.query();
+  const quizzes = await api.user.getQuizzes();
 
   return <Content quizzes={quizzes} />;
 }
@@ -20,7 +21,7 @@ export default async function QuizHistoryList() {
 function Content({
   quizzes,
 }: {
-  quizzes: inferRouterOutputs<AppRouter>["user"]["getQuizzes"];
+  quizzes: QueryReturnType["user"]["getQuizzes"];
 }) {
   const t = useTranslations();
 
@@ -45,7 +46,7 @@ function Content({
 function QuizItem({
   quiz,
 }: {
-  quiz: inferRouterOutputs<AppRouter>["user"]["getQuizzes"][number];
+  quiz: QueryReturnType["user"]["getQuizzes"][number];
 }) {
   const { dateTime } = useFormatter();
 
