@@ -1,42 +1,9 @@
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link, Stack } from "expo-router";
-import { FlashList } from "@shopify/flash-list";
+import { Stack } from "expo-router";
 
-import type { RouterOutputs } from "~/utils/api";
 import { api } from "~/utils/api";
-
-function PostCard(props: {
-  quiz: RouterOutputs["quiz"]["getById"];
-  onDelete: () => void;
-}) {
-  return (
-    <View className="flex flex-row rounded-lg bg-muted p-4">
-      <View className="flex-grow">
-        <Link
-          asChild
-          href={{
-            pathname: "/post/[id]",
-            params: { id: props.quiz.id },
-          }}
-        >
-          <Pressable className="">
-            <Text className=" text-xl font-semibold text-primary">
-              {props.quiz.id}
-            </Text>
-            <Text className="mt-2 text-foreground">
-              {props.quiz.questions.map((q) => q.label).join()}
-            </Text>
-          </Pressable>
-        </Link>
-      </View>
-      <Pressable onPress={props.onDelete}>
-        <Text className="font-bold uppercase text-primary">Delete</Text>
-      </Pressable>
-    </View>
-  );
-}
 
 function CreatePost() {
   const [title, setTitle] = useState("");
