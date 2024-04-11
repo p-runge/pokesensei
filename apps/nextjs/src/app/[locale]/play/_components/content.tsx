@@ -1,12 +1,12 @@
 "use client";
 
+import { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { QuestionType } from "@prisma/client";
 import { useLocale } from "next-intl";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+
 import Loader from "~/components/loader";
 import { useRouter } from "~/navigation";
-import { type LanguageIso } from "~/server/utils/api";
 import { POKEMON_BY_GEN } from "~/server/utils/pokemon";
 import { api } from "~/trpc/react";
 
@@ -17,7 +17,8 @@ export default function Content() {
 
   const { data: id } = api.quiz.create.useQuery({
     questions: 5,
-    language: locale as LanguageIso,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    language: locale as any,
     filters: {
       generations: searchParams
         .getAll("generations")
@@ -35,7 +36,7 @@ export default function Content() {
     if (id) {
       router.replace(`/play/${id}`);
     }
-  }, [id]);
+  }, [id, router]);
 
   return (
     <div className="flex grow items-center justify-center">

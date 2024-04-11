@@ -1,12 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { type QuestionType } from "@prisma/client";
-import Setup from "./_components/setup";
-import MainLayout from "~/components/main-layout";
 
-export interface QuizFilter {
-  questionTypes: QuestionType[];
-  generations: number[];
-}
+import MainLayout from "~/components/main-layout";
+import Setup from "./_components/setup";
 
 export default async function Page() {
   const t = await getTranslations();

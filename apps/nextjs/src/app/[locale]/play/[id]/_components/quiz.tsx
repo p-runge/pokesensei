@@ -1,10 +1,12 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+
+import type { QueryReturnType } from "@acme/api";
+
 import { usePathname, useRouter } from "~/navigation";
 import { cn } from "~/server/utils/cn";
-import { type QueryReturnType } from "~/server/api/root";
 import Question from "./question";
 
 export default function Quiz({
@@ -24,7 +26,7 @@ export default function Quiz({
     if (activeQuestionId >= questions.length) {
       router.push(`${pathname}/evaluate`);
     }
-  }, [activeQuestionId, questions.length]);
+  }, [activeQuestionId, pathname, questions.length, router]);
 
   const activeQuestion = questions[activeQuestionId];
   if (!activeQuestion) {

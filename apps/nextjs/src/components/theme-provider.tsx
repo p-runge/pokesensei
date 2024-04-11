@@ -59,7 +59,7 @@ export default function ThemeProvider({
 
     return () =>
       mediaQuery?.removeEventListener("change", handleMediaQueryChange);
-  }, []);
+  }, [mediaQuery]);
 
   return (
     <ThemeContext.Provider value={{ scheme, setScheme }}>

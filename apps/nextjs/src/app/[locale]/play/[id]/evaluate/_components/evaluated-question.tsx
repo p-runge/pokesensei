@@ -1,8 +1,10 @@
+import Image from "next/image";
 import clsx from "clsx";
 import { getTranslations } from "next-intl/server";
-import Image from "next/image";
+
+import type { QueryReturnType } from "@acme/api";
+
 import { cn } from "~/server/utils/cn";
-import { type QueryReturnType } from "~/server/api/root";
 
 export default async function EvaluatedQuestion({
   question,

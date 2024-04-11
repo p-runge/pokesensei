@@ -42,6 +42,7 @@ export default function DarkModeToggle() {
     }
 
     prevSchemeRef.current = scheme;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheme]);
 
   /**
@@ -51,11 +52,11 @@ export default function DarkModeToggle() {
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
-  });
+  }, []);
   if (!isMounted) return null;
 
   return (
-    <label className="animate-fade-in flex cursor-pointer items-center gap-3">
+    <label className="flex animate-fade-in cursor-pointer items-center gap-3">
       <input
         type="checkbox"
         /**
