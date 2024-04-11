@@ -1,11 +1,10 @@
-import { getLocale, getTranslations } from "next-intl/server";
-import EvaluatedQuestion from "./_components/evaluated-question";
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getLocale, getTranslations } from "next-intl/server";
+
 import Link from "~/components/link";
 import { api } from "~/trpc/server";
-import { type LanguageIso } from "~/server/utils/api";
+import EvaluatedQuestion from "./_components/evaluated-question";
 
 export default async function Page({
   params: { id },
@@ -15,8 +14,9 @@ export default async function Page({
   const t = await getTranslations();
   const locale = await getLocale();
 
-  const quiz = await api.quiz.evaluate.query({
-    language: locale as LanguageIso,
+  const quiz = await api.quiz.evaluate({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    language: locale as any,
     id,
   });
 
