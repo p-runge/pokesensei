@@ -18,6 +18,7 @@ export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
   const session = useDecryptedSession();
+  console.log(session?.user.image);
 
   const [button, setButton] = useState<HTMLButtonElement | null>(null);
 
@@ -37,7 +38,9 @@ export default function Dropdown() {
           {session?.user && (
             <>
               <Image
-                src={session.user.image ?? ""}
+                // TODO: uncomment this after decrypting session data
+                // src={session.user.image ?? ""}
+                src={""}
                 alt=""
                 width={24}
                 height={24}
@@ -68,7 +71,7 @@ export default function Dropdown() {
       <div
         className={cn(
           !isOpen ? "scale-95 opacity-0 ease-out" : "ease-in",
-          "bg-primary-500 ring-primary-600 absolute right-0 z-10 mt-2 origin-top-right transform rounded shadow-lg ring-1 duration-100 focus:outline-none dark:bg-gray-700 dark:ring-gray-500",
+          "absolute right-0 z-10 mt-2 origin-top-right transform rounded bg-primary-500 shadow-lg ring-1 ring-primary-600 duration-100 focus:outline-none dark:bg-gray-700 dark:ring-gray-500",
         )}
         role="menu"
         aria-orientation="vertical"
@@ -77,7 +80,7 @@ export default function Dropdown() {
         <div className="py-1" role="none">
           <Link
             href="/profile"
-            className="bg-primary-500 hover:bg-primary-600 block w-full whitespace-nowrap rounded-none px-4 py-2 text-left text-sm text-white hover:no-underline dark:bg-gray-700 dark:hover:bg-gray-800"
+            className="block w-full whitespace-nowrap rounded-none bg-primary-500 px-4 py-2 text-left text-sm text-white hover:bg-primary-600 hover:no-underline dark:bg-gray-700 dark:hover:bg-gray-800"
             role="menuitem"
             tabIndex={-1}
           >
@@ -85,7 +88,7 @@ export default function Dropdown() {
           </Link>
           <button
             type="button"
-            className="bg-primary-500 hover:bg-primary-600 block w-full whitespace-nowrap rounded-none px-4 py-2 text-left text-sm text-white dark:bg-gray-700 dark:hover:bg-gray-800"
+            className="block w-full whitespace-nowrap rounded-none bg-primary-500 px-4 py-2 text-left text-sm text-white hover:bg-primary-600 dark:bg-gray-700 dark:hover:bg-gray-800"
             role="menuitem"
             tabIndex={-1}
             onClick={() => signOut()}

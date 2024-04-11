@@ -1,6 +1,3 @@
-import { auth } from "@acme/auth";
+import { GET, POST } from "@acme/auth";
 
-export const runtime = "edge";
-
-const handler = auth();
-export { handler as GET, handler as POST };
+export { GET, POST };

@@ -1,8 +1,7 @@
 import IntlProvider from "~/components/intl-provider";
-import { api } from "~/trpc/server";
-import { type LanguageIso } from "~/server/utils/api";
-import Quiz from "./_components/quiz";
 import MainLayout from "~/components/main-layout";
+import { api } from "~/trpc/server";
+import Quiz from "./_components/quiz";
 
 export default async function Page({
   params,
@@ -10,8 +9,9 @@ export default async function Page({
   params: { locale: string; id: string };
 }) {
   const { locale, id } = params;
-  const quiz = await api.quiz.getById.query({
-    language: locale as LanguageIso,
+  const quiz = await api.quiz.getById({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    language: locale as any,
     id,
   });
 

@@ -1,9 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+
+import type { QueryReturnType } from "@acme/api";
+
 import Button from "~/components/button";
-import { type QueryReturnType } from "~/server/api/root";
 import { api } from "~/trpc/react";
 
 export default function Question({
@@ -50,7 +52,7 @@ export default function Question({
         {question.answers.map((answer, i) => (
           <Button
             key={`${answer.value}-${i}`}
-            className="bg-primary-500 rounded-lg px-8 py-4 text-2xl shadow-lg shadow-gray-500 dark:shadow-none"
+            className="rounded-lg bg-primary-500 px-8 py-4 text-2xl shadow-lg shadow-gray-500 dark:shadow-none"
             onClick={() => onAnswerClicked(answer.value)}
           >
             {answer.label}
