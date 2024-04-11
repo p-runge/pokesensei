@@ -11,9 +11,8 @@ const LoginButton = () => {
         className="rounded-[3px] bg-[#5865F2] px-4 py-2 text-xs text-white hover:bg-[#515DDF] sm:text-[14px]"
         formAction={async () => {
           "use server";
-          console.log("before signin");
+
           await signIn("discord");
-          console.log("after signin");
         }}
       >
         {t("action_sign_in_discord")}

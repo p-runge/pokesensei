@@ -1,10 +1,15 @@
-import type { DefaultSession, NextAuthConfig } from "next-auth";
+import type {
+  DefaultSession,
+  NextAuthConfig,
+  NextAuthResult,
+  Session,
+} from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import Discord from "next-auth/providers/discord";
 
 import { db } from "@acme/db";
 
-import { encrypt } from "./utils";
+import { decrypt, encrypt } from "./utils";
 
 declare module "next-auth" {
   interface Session {
@@ -39,3 +44,27 @@ export const authConfig = {
     },
   },
 } satisfies NextAuthConfig;
+
+export function createAuthWithDecryptedUser(
+  defaultAuth: NextAuthResult["auth"],
+) {
+  return async () => {
+    const session = await defaultAuth();
+    return (
+      session && {
+        ...session,
+        user: {
+          id: session?.user?.id,
+          // Decrypt sensitive user data
+          email: session?.user?.email && decrypt(session.user.email),
+          name: session?.user?.name && decrypt(session.user.name),
+          image: session?.user?.image && decrypt(session.user.image),
+        } satisfies Record<
+          // check if all user properties are defined
+          keyof Session["user"],
+          Session["user"][keyof Session["user"]]
+        >,
+      }
+    );
+  };
+}

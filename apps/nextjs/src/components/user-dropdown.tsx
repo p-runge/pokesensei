@@ -18,7 +18,6 @@ export default function Dropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
   const session = useDecryptedSession();
-  console.log(session?.user.image);
 
   const [button, setButton] = useState<HTMLButtonElement | null>(null);
 
@@ -38,9 +37,7 @@ export default function Dropdown() {
           {session?.user && (
             <>
               <Image
-                // TODO: uncomment this after decrypting session data
-                // src={session.user.image ?? ""}
-                src={""}
+                src={session.user.image ?? ""}
                 alt=""
                 width={24}
                 height={24}
