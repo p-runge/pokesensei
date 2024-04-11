@@ -1,7 +1,8 @@
 import { cache } from "react";
 import NextAuth from "next-auth";
 
-import { authConfig, createAuthWithDecryptedUser } from "./config";
+import { authConfig } from "./config";
+import { createAuthWithDecryptedUser } from "./utils";
 
 export type { Session } from "next-auth";
 
