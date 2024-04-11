@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import qs from "query-string";
-import { useTranslations } from "next-intl";
 import { QuestionType } from "@prisma/client";
-import { POKEMON_BY_GEN } from "~/server/utils/pokemon";
+import { useTranslations } from "next-intl";
+import qs from "query-string";
+
 import Link from "~/components/link";
+import { POKEMON_BY_GEN } from "~/server/utils/pokemon";
 import Select from "./select";
 
 export interface QuizFilter {

@@ -26,9 +26,9 @@ export default forwardRef(function Button(
         cn(
           "cursor-pointer break-words rounded px-4 py-2 transition hover:no-underline",
           variant === "primary" &&
-            "disabled:bg-primary-300 hover:bg-primary-600 bg-primary-500 text-white",
+            "bg-primary-500 text-white hover:bg-primary-600 disabled:bg-primary-300",
           variant === "secondary" &&
-            "disabled:bg-secondary-300 hover:bg-secondary-600 bg-secondary-500 text-white",
+            "bg-secondary-500 text-white hover:bg-secondary-600 disabled:bg-secondary-300",
           props.disabled && "cursor-not-allowed",
           props.className,
         ),

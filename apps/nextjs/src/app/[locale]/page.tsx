@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Link from "~/components/link";
 import { getTranslations } from "next-intl/server";
+
+import Link from "~/components/link";
 import MainLayout from "~/components/main-layout";
 
 export default async function Page() {

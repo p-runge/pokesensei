@@ -59,6 +59,6 @@
 
 @layer components {
   button.selected {
-    @apply hover:bg-secondary-600 bg-secondary-500;
+    @apply bg-secondary-500 hover:bg-secondary-600;
   }
 }

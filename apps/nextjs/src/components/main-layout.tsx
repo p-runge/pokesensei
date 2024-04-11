@@ -14,7 +14,7 @@ export default function MainLayout({
     <div className="flex min-h-screen flex-col">
       <div
         className={cn(
-          "w-boxed m-auto flex min-h-screen max-w-full justify-center px-4",
+          "m-auto flex min-h-screen w-boxed max-w-full justify-center px-4",
           fullScreen ? "py-4" : "pb-10 pt-20",
         )}
       >

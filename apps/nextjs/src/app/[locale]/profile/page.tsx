@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+
 import MainLayout from "~/components/main-layout";
 import NeedsAuth from "~/components/needs-auth";
 import QuizHistoryList from "./_components/quiz-history-list";

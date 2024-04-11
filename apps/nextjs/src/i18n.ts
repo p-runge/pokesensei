@@ -1,6 +1,7 @@
 import { getRequestConfig } from "next-intl/server";
-import enMessages from "../messages/en.json";
+
 import deMessages from "../messages/de.json";
+import enMessages from "../messages/en.json";
 
 export const LOCALES = ["en", "de"] as const;
 export type Locale = (typeof LOCALES)[number];
