@@ -19,7 +19,7 @@ const BlurredText = ({ text }: { text: string }) => {
       </span>
       {/* overlay */}
       <span
-        className={`absolute inset-0 text-center ${isBlurred ? "" : "hidden"}`}
+        className={`absolute inset-0 flex items-center justify-center ${isBlurred ? "" : "hidden"}`}
       >
         <FontAwesomeIcon icon={faEye} className="h-4 w-4" />
       </span>
