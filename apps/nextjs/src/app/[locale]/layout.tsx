@@ -1,7 +1,7 @@
 import "../globals.css";
 
 import { Inter } from "next/font/google";
-import { notFound } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import { auth } from "@acme/auth";
 
@@ -29,7 +29,9 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: Locale };
 }) {
-  if (!LOCALES.includes(locale)) notFound();
+  if (!LOCALES.includes(locale)) {
+    redirect("/");
+  }
 
   const session = await auth();
 
