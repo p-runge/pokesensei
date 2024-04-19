@@ -8,7 +8,7 @@
   "page_home_copy": "Test your Pokémon knowledge and see if you're a true Pokémon master!",
   "page_home_quick_start_button": "Quick Start!",
   "page_home_custom_game_button": "Create a custom game",
-  "page_profile_title": "User Profile",
+  "page_profile_title": "{username}'s Profile",
   "page_setup_title": "Setup",
   "page_setup_instruction": "Here you can define what kind of questions you'd like to be asked",
   "page_setup_select_title_question_type": "Question Type",
@@ -33,5 +33,7 @@
   "question_name_of_pokemon": "Who's that Pokémon?",
   "question_type_of_pokemon": "Select a type of {name}?",
   "question_nature_by_stats": "What nature affects the stats as follows: +{increasedStat}, -{decreasedStat}?",
+  "user_email": "Email",
+  "user_providers": "Registered with",
   "error_no_quiz_history": "You haven't played any quizzes yet"
 }
