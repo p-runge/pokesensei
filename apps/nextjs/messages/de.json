@@ -1,4 +1,6 @@
 {
+  "page_not_found_title": "Seite nicht gefunden",
+  "page_not_found_copy": "Die Seite, nach der du suchst, existiert nicht.",
   "page_profile_section_quiz_history": "Quiz-Verlauf",
   "action_sign_in_discord": "Mit Discord anmelden",
   "action_sign_out": "Abmelden",
