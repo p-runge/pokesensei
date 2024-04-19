@@ -11,10 +11,10 @@ const BlurredText = ({ text }: { text: string }) => {
 
   return (
     <button className="relative" onClick={() => setIsBlurred(!isBlurred)}>
-      <span className={cn(isBlurred && "font-bold blur-sm")}>
+      <span className={cn(isBlurred && "blur-sm")}>
         {isBlurred
           ? // censor text with asterisks if blurred
-            [...new Array(text.length)].map(() => "*").join("")
+            [...new Array(text.length)].map(() => "x").join("")
           : text}
       </span>
       {/* overlay */}
