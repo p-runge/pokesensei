@@ -35,9 +35,11 @@ function Content({
           </div>
         </div>
         <div className="my-4 self-stretch border-b border-gray-500"></div>
-        {quizzes.map((quiz) => (
-          <QuizItem quiz={quiz} key={quiz.id} />
-        ))}
+        {quizzes.length === 0 ? (
+          <span className="italic">{t("error_no_quiz_history")}</span>
+        ) : (
+          quizzes.map((quiz) => <QuizItem quiz={quiz} key={quiz.id} />)
+        )}
       </div>
     </div>
   );

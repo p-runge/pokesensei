@@ -32,5 +32,6 @@
   "evaluation_question_title": "Question {id}",
   "question_name_of_pokemon": "Who's that Pokémon?",
   "question_type_of_pokemon": "Select a type of {name}?",
-  "question_nature_by_stats": "What nature affects the stats as follows: +{increasedStat}, -{decreasedStat}?"
+  "question_nature_by_stats": "What nature affects the stats as follows: +{increasedStat}, -{decreasedStat}?",
+  "error_no_quiz_history": "You haven't played any quizzes yet"
 }

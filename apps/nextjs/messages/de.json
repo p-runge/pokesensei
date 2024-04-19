@@ -32,5 +32,6 @@
   "evaluation_question_title": "Frage {id}",
   "question_name_of_pokemon": "Wie heißt dieses Pokémon?",
   "question_type_of_pokemon": "Welchen dieser Typen hat {name}?",
-  "question_nature_by_stats": "Welches Wesen beeinflusst die Statuswerte wie folgt: +{increasedStat}, -{decreasedStat}?"
+  "question_nature_by_stats": "Welches Wesen beeinflusst die Statuswerte wie folgt: +{increasedStat}, -{decreasedStat}?",
+  "error_no_quiz_history": "Du hast noch keine Quizze gespielt"
 }
