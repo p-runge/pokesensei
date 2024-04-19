@@ -33,7 +33,8 @@
   "question_name_of_pokemon": "Who's that Pokémon?",
   "question_type_of_pokemon": "Select a type of {name}?",
   "question_nature_by_stats": "What nature affects the stats as follows: +{increasedStat}, -{decreasedStat}?",
-  "user_email": "Email",
+  "user_created_at": "Registered since",
   "user_providers": "Registered with",
+  "user_email": "Email",
   "error_no_quiz_history": "You haven't played any quizzes yet"
 }

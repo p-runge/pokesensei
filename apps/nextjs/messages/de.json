@@ -33,7 +33,8 @@
   "question_name_of_pokemon": "Wie heißt dieses Pokémon?",
   "question_type_of_pokemon": "Welchen dieser Typen hat {name}?",
   "question_nature_by_stats": "Welches Wesen beeinflusst die Statuswerte wie folgt: +{increasedStat}, -{decreasedStat}?",
-  "user_email": "E-Mail",
+  "user_created_at": "Registriert seit",
   "user_providers": "Registriert mit",
+  "user_email": "E-Mail",
   "error_no_quiz_history": "Du hast noch keine Quizze gespielt"
 }
