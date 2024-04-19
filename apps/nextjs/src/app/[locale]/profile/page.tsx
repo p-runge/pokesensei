@@ -5,6 +5,7 @@ import { getTranslations } from "next-intl/server";
 import { auth } from "@acme/auth";
 import { db } from "@acme/db";
 
+import BlurredText from "~/components/blurred-text";
 import MainLayout from "~/components/main-layout";
 import NeedsAuth from "~/components/needs-auth";
 import QuizHistoryList from "./_components/quiz-history-list";
@@ -58,7 +59,9 @@ export default async function ProfilePage() {
               <span className="text-sm font-light italic text-gray-400">
                 {t("user_email")}:
               </span>
-              <span className="text-lg">{user.email}</span>
+              <span className="text-lg">
+                <BlurredText text={user.email ?? ""} />
+              </span>
             </div>
           </div>
         </div>
