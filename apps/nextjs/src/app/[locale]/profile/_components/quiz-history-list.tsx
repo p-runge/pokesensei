@@ -24,6 +24,7 @@ async function Content({
   quizzes: QueryReturnType["user"]["getQuizzes"];
 }) {
   const t = await getTranslations();
+  const { number } = await getFormatter();
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -31,7 +32,7 @@ async function Content({
         <div className="flex w-full items-center justify-between rounded-t-3xl p-3">
           <div className="flex items-center gap-3 text-lg font-bold text-gray-500 dark:text-white">
             <FontAwesomeIcon icon={faClockRotateLeft} className="h-8 w-8" />
-            {t("page_profile_section_quiz_history")}
+            {`${t("page_profile_section_quiz_history")} (${number(quizzes.length)})`}
           </div>
         </div>
         <div className="my-4 self-stretch border-b border-gray-500"></div>
