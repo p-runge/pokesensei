@@ -26,7 +26,7 @@ function Content({
   const t = useTranslations();
 
   return (
-    <div className="flex flex-col items-center justify-center pt-4">
+    <div className="flex flex-col items-center justify-center">
       <div className="relative mx-auto flex w-full flex-col items-center rounded-xl border-[1px] border-gray-200 bg-white bg-clip-border p-4 shadow-md shadow-[#F3F3F3] dark:border-gray-500 dark:bg-gray-800 dark:text-white dark:shadow-none">
         <div className="flex w-full items-center justify-between rounded-t-3xl p-3">
           <div className="flex items-center gap-3 text-lg font-bold text-gray-500 dark:text-white">

@@ -46,55 +46,58 @@ export default async function ProfilePage() {
   return (
     <NeedsAuth>
       <MainLayout>
-        {/* meta infos about user */}
-        <div className="mb-6">
-          <span className="mb-2 flex items-center gap-2">
-            {/* user image */}
-            {user.image && (
-              <Image
-                src={user.image}
-                alt="user profile image"
-                width={48}
-                height={48}
-                className="rounded-full"
-              />
-            )}
-            <h1 className="text-6xl">
-              {t("page_profile_title", {
-                username: user.name,
-              })}
-            </h1>
-          </span>
-          <div className="flex gap-16">
-            <Detail label={t("user_created_at")}>
-              {user.createdAt.toLocaleDateString(locale, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </Detail>
-            <Detail label={t("user_providers")}>
-              {/* capitalize */}
-              {providers
-                .map(
-                  (provider) =>
-                    provider.charAt(0).toUpperCase() + provider.slice(1),
-                )
-                .join(", ")}
-            </Detail>
-            <Detail label={t("user_email")}>
-              <BlurredText text={user.email ?? ""} />
-            </Detail>
-          </div>
-        </div>
+        <div className="grid grid-cols-1 gap-6">
+          {/* meta infos about user */}
+          <section>
+            <span className="mb-2 flex items-center gap-2">
+              {/* user image */}
+              {user.image && (
+                <Image
+                  src={user.image}
+                  alt="user profile image"
+                  width={48}
+                  height={48}
+                  className="rounded-full"
+                />
+              )}
+              <h1 className="text-6xl">
+                {t("page_profile_title", {
+                  username: user.name,
+                })}
+              </h1>
+            </span>
+            <div className="flex gap-16">
+              <Detail label={t("user_created_at")}>
+                {user.createdAt.toLocaleDateString(locale, {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </Detail>
+              <Detail label={t("user_providers")}>
+                {/* capitalize */}
+                {providers
+                  .map(
+                    (provider) =>
+                      provider.charAt(0).toUpperCase() + provider.slice(1),
+                  )
+                  .join(", ")}
+              </Detail>
+              <Detail label={t("user_email")}>
+                <BlurredText text={user.email ?? ""} />
+              </Detail>
+            </div>
+          </section>
 
-        {/* stats and co */}
-        <div className="grid grid-cols-4 text-center">
-          {/* placeholder col */}
-          <div />
-          <div className="col-span-2">
-            <QuizHistoryList />
-          </div>
+          {/* stats and co */}
+          <section>
+            <h2 className="mb-3 text-3xl">{t("page_profile_section_stats")}</h2>
+            <div className="grid grid-cols-4 text-center">
+              <div className="col-span-2">
+                <QuizHistoryList />
+              </div>
+            </div>
+          </section>
         </div>
       </MainLayout>
     </NeedsAuth>
