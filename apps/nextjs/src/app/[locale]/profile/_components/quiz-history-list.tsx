@@ -4,7 +4,7 @@ import {
   faQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFormatter, useTranslations } from "next-intl";
+import { getFormatter, getTranslations } from "next-intl/server";
 
 import type { QueryReturnType } from "@acme/api";
 
@@ -18,12 +18,12 @@ export default async function QuizHistoryList() {
   return <Content quizzes={quizzes} />;
 }
 
-function Content({
+async function Content({
   quizzes,
 }: {
   quizzes: QueryReturnType["user"]["getQuizzes"];
 }) {
-  const t = useTranslations();
+  const t = await getTranslations();
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -45,12 +45,12 @@ function Content({
   );
 }
 
-function QuizItem({
+async function QuizItem({
   quiz,
 }: {
   quiz: QueryReturnType["user"]["getQuizzes"][number];
 }) {
-  const { dateTime } = useFormatter();
+  const { dateTime, number } = await getFormatter();
 
   const questionsAnswered = quiz.questions.filter((question) =>
     question.answers.find((answer) => answer.isChosen && answer.isCorrect),
@@ -90,7 +90,7 @@ function QuizItem({
               ? "text-green-500 dark:text-green-500"
               : "text-red-500 dark:text-red-500",
           )}
-        >{`${questionsAnswered}/${quiz.questions.length}`}</span>
+        >{`${number(questionsAnswered)}/${number(quiz.questions.length)}`}</span>
         <FontAwesomeIcon icon={faComment} className="h-5 w-5" />
       </div>
     </Link>

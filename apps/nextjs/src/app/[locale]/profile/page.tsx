@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getFormatter, getLocale, getTranslations } from "next-intl/server";
 
 import type { QuestionType, User } from "@acme/db";
 import { auth } from "@acme/auth";
@@ -16,6 +16,7 @@ export default async function ProfilePage() {
   const t = await getTranslations();
 
   const locale = await getLocale();
+  const { number } = await getFormatter();
 
   const session = await auth();
   if (!session) {
@@ -132,11 +133,11 @@ export default async function ProfilePage() {
             {/* general stats */}
             <div className="mb-3 flex gap-16">
               <Detail label={t("page_profile_stats_total_questions_answered")}>
-                {allQuestionsAnswered.length}
+                {number(allQuestionsAnswered.length)}
               </Detail>
               {typeWithHighestAmount && (
                 <Detail label={t("page_profile_stats_favorite_question_type")}>
-                  {`${t(`question_type_${typeWithHighestAmount.toLowerCase()}`)} (${typeAmounts[typeWithHighestAmount]})`}
+                  {`${t(`question_type_${typeWithHighestAmount.toLowerCase()}`)} (${number(typeAmounts[typeWithHighestAmount])})`}
                 </Detail>
               )}
             </div>
