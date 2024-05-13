@@ -2,7 +2,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 
-import type { User } from "@acme/db";
+import type { QuestionType, User } from "@acme/db";
 import { auth } from "@acme/auth";
 import { db } from "@acme/db";
 
@@ -43,10 +43,46 @@ export default async function ProfilePage() {
   });
   const providers = accounts.map((account) => account.provider);
 
+  // find the question type that the user answered the most
+  const allQuestionsAnswered = await db.question.findMany({
+    where: {
+      answers: {
+        some: {
+          isChosen: true,
+        },
+      },
+      quiz: {
+        userId,
+      },
+    },
+    select: {
+      type: true,
+    },
+  });
+
+  const typeAmounts = allQuestionsAnswered.reduce(
+    (acc, question) => {
+      // increment the amount of the question type
+      acc[question.type] = (acc[question.type] ?? 0) + 1;
+      return acc;
+    },
+    {} as Record<QuestionType, number>,
+  );
+
+  const typeWithHighestAmount = Object.entries(typeAmounts).reduce(
+    (acc, [type, amount]) => {
+      if (amount > acc.amount) {
+        return { type, amount };
+      }
+      return acc;
+    },
+    { type: "", amount: 0 },
+  ).type as QuestionType | "";
+
   return (
     <NeedsAuth>
       <MainLayout>
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-8">
           {/* meta infos about user */}
           <section>
             <span className="mb-2 flex items-center gap-2">
@@ -92,7 +128,21 @@ export default async function ProfilePage() {
           {/* stats and co */}
           <section>
             <h2 className="mb-3 text-3xl">{t("page_profile_section_stats")}</h2>
-            <div className="grid grid-cols-4 text-center">
+
+            {/* general stats */}
+            <div className="mb-3 flex gap-16">
+              <Detail label={t("page_profile_stats_total_questions_answered")}>
+                {allQuestionsAnswered.length}
+              </Detail>
+              {typeWithHighestAmount && (
+                <Detail label={t("page_profile_stats_favorite_question_type")}>
+                  {`${t(`question_type_${typeWithHighestAmount.toLowerCase()}`)} (${typeAmounts[typeWithHighestAmount]})`}
+                </Detail>
+              )}
+            </div>
+
+            {/* more detailed stats */}
+            <div className="grid grid-cols-4 gap-3 text-center">
               <div className="col-span-2">
                 <QuizHistoryList />
               </div>
