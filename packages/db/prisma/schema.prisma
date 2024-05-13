@@ -25,7 +25,7 @@ model Question {
     label     Json
     quizId    String
     answers   Answer[]
-    Quiz      Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+    quiz      Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
 }
 
 model Answer {
