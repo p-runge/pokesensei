@@ -66,34 +66,29 @@ export default async function ProfilePage() {
             </h1>
           </span>
           <div className="flex gap-16">
-            <div className="flex flex-col">
-              <span className="text-sm font-light italic text-gray-400">
-                {t("user_created_at")}:
-              </span>
-              <span className="text-lg">
-                {user.createdAt.toLocaleDateString(locale, {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-light italic text-gray-400">
-                {t("user_providers")}:
-              </span>
-              <span className="text-lg capitalize">{providers.join(", ")}</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-light italic text-gray-400">
-                {t("user_email")}:
-              </span>
-              <span className="text-lg">
-                <BlurredText text={user.email ?? ""} />
-              </span>
-            </div>
+            <Detail label={t("user_created_at")}>
+              {user.createdAt.toLocaleDateString(locale, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </Detail>
+            <Detail label={t("user_providers")}>
+              {/* capitalize */}
+              {providers
+                .map(
+                  (provider) =>
+                    provider.charAt(0).toUpperCase() + provider.slice(1),
+                )
+                .join(", ")}
+            </Detail>
+            <Detail label={t("user_email")}>
+              <BlurredText text={user.email ?? ""} />
+            </Detail>
           </div>
         </div>
+
+        {/* stats and co */}
         <div className="grid grid-cols-4 text-center">
           {/* placeholder col */}
           <div />
@@ -103,5 +98,20 @@ export default async function ProfilePage() {
         </div>
       </MainLayout>
     </NeedsAuth>
+  );
+}
+
+function Detail({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col">
+      <span className="text-sm font-light italic text-gray-400">{label}:</span>
+      <span className="text-lg">{children}</span>
+    </div>
   );
 }
