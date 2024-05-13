@@ -8,7 +8,7 @@
   "page_home_copy": "Test your Pokémon knowledge and see if you're a true Pokémon master!",
   "page_home_quick_start_button": "Quick Start!",
   "page_home_custom_game_button": "Create a custom game",
-  "page_profile_title": "User Profile",
+  "page_profile_title": "{username}'s Profile",
   "page_setup_title": "Setup",
   "page_setup_instruction": "Here you can define what kind of questions you'd like to be asked",
   "page_setup_select_title_question_type": "Question Type",
@@ -19,6 +19,9 @@
   "page_credits_copy": "Special thanks to the following sources",
   "page_credits_credits_data": "Data",
   "page_credits_credits_logos": "Logos",
+  "page_profile_section_stats": "Stats",
+  "page_profile_stats_favorite_question_type": "Favorite question type",
+  "page_profile_stats_total_questions_answered": "Questions answered",
   "select_all_option": "All",
   "question_type_name_of_pokemon_by_image": "Name of Pokémon by Image",
   "question_type_type_of_pokemon": "Type of Pokémon",
@@ -33,5 +36,8 @@
   "question_name_of_pokemon": "Who's that Pokémon?",
   "question_type_of_pokemon": "Select a type of {name}?",
   "question_nature_by_stats": "What nature affects the stats as follows: +{increasedStat}, -{decreasedStat}?",
+  "user_created_at": "Registered since",
+  "user_providers": "Registered with",
+  "user_email": "Email",
   "error_no_quiz_history": "You haven't played any quizzes yet"
 }

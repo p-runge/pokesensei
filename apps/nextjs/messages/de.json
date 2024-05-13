@@ -8,7 +8,7 @@
   "page_home_copy": "Teste dein Pokémon-Wissen und finde heraus, ob du ein wahrer Pokémon-Meister bist!",
   "page_home_quick_start_button": "Los!",
   "page_home_custom_game_button": "Benutzerdefiniertes Spiel",
-  "page_profile_title": "Benutzerprofil",
+  "page_profile_title": "{username}'s Profil",
   "page_setup_title": "Einrichtung",
   "page_setup_instruction": "Hier kannst du einstellen, welche Fragen dir gestellt werden sollen",
   "page_setup_select_title_question_type": "Fragetyp",
@@ -19,6 +19,9 @@
   "page_credits_copy": "Vielen Dank an die folgenden Quellen",
   "page_credits_credits_data": "Daten",
   "page_credits_credits_logos": "Logos",
+  "page_profile_section_stats": "Statistiken",
+  "page_profile_stats_favorite_question_type": "Beliebtester Fragetyp",
+  "page_profile_stats_total_questions_answered": "Beantwortete Fragen",
   "select_all_option": "Alle",
   "question_type_name_of_pokemon_by_image": "Name eines Pokémon durch Bild",
   "question_type_type_of_pokemon": "Typ eines Pokémon",
@@ -33,5 +36,8 @@
   "question_name_of_pokemon": "Wie heißt dieses Pokémon?",
   "question_type_of_pokemon": "Welchen dieser Typen hat {name}?",
   "question_nature_by_stats": "Welches Wesen beeinflusst die Statuswerte wie folgt: +{increasedStat}, -{decreasedStat}?",
+  "user_created_at": "Registriert seit",
+  "user_providers": "Registriert mit",
+  "user_email": "E-Mail",
   "error_no_quiz_history": "Du hast noch keine Quizze gespielt"
 }
