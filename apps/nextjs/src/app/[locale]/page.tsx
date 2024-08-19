@@ -7,6 +7,13 @@ import MainLayout from "~/components/main-layout";
 export default async function Page() {
   const t = await getTranslations();
 
+  // define casual friendly settings for quick play
+  const qs = new URLSearchParams();
+  qs.append("generations", "1");
+  qs.append("questionTypes", "NAME_OF_POKEMON_BY_IMAGE");
+  qs.append("questionTypes", "TYPE_OF_POKEMON");
+  const quickStartHref = `/play?${qs.toString()}`;
+
   return (
     <MainLayout center>
       <div className="flex flex-col items-center justify-center gap-6">
@@ -24,7 +31,7 @@ export default async function Page() {
           </span>
         </h1>
         <p className="text-center text-xl">{t("page_home_copy")}</p>
-        <Link href="/play" variant="primary" className="text-2xl">
+        <Link href={quickStartHref} variant="primary" className="text-2xl">
           {t("page_home_quick_start_button")}
         </Link>
         <Link href="/setup">{t("page_home_custom_game_button")}</Link>
