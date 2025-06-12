@@ -46,7 +46,7 @@
     "@acme/tsconfig": "workspace:*",
     "@babel/core": "^7.24.3",
     "@babel/preset-env": "^7.24.3",
-    "@babel/runtime": "^7.24.1",
+    "@babel/runtime": "^7.26.10",
     "@types/babel__core": "^7.20.5",
     "@types/react": "^18.2.69",
     "eslint": "^8.57.0",
