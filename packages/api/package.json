@@ -24,7 +24,7 @@
     "@acme/validators": "workspace:*",
     "@trpc/server": "11.0.0-next.320",
     "axios": "^1.6.8",
-    "axios-cache-interceptor": "^1.5.1",
+    "axios-cache-interceptor": "^1.11.1",
     "pokenode-ts": "^1.20.0",
     "superjson": "2.2.1",
     "zod": "^3.22.4"
