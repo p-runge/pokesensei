@@ -20,7 +20,7 @@
     "@acme/tsconfig": "workspace:*",
     "@types/node": "^20.11.30",
     "eslint": "^8.57.0",
-    "h3": "^1.11.1",
+    "h3": "^1.15.5",
     "nitropack": "^2.9.4",
     "prettier": "^3.2.5",
     "typescript": "^5.4.3"
