@@ -49,7 +49,7 @@
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",
     "dotenv-cli": "^7.4.1",
-    "eslint": "^8.57.0",
+    "eslint": "^9.26.0",
     "jiti": "^1.21.0",
     "prettier": "^3.2.5",
     "tailwindcss": "^3.4.1",
